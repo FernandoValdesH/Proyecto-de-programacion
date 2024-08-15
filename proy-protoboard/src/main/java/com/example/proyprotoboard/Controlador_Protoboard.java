@@ -146,6 +146,7 @@ public class Controlador_Protoboard implements Initializable {
     movible = true;
     GraphicsContext gc = tablero.getGraphicsContext2D();
     gc.setStroke(Color.RED);
+    gc.setLineWidth(5); // cambiar el tamaño del cable
     contador_cables++;
 
 
