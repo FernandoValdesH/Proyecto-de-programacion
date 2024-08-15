@@ -15,21 +15,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Controlador_Protoboard implements Initializable {
-    @FXML
-    private Label welcomeText;
-
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
-    }
 
     private double startX;
     private double startY;
 
-    @FXML
-    private Rectangle rect;
+    private Boolean movible = false;
 
-    private Boolean movible = true;
+    
 
     @FXML
     private Canvas tablero;
@@ -116,38 +108,90 @@ public class Controlador_Protoboard implements Initializable {
             y += 15;
         }
     }
+    
+    private void dibujarBateria(GraphicsContext gc){
+    int x = 660;
+
+
+    // bucle para hacer el rectangulo solo con lineas
+
+    gc.setStroke(Color.BLACK);
+    int k=0;
+    for( k = 130 ; k < 220 ; k++){        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
+        gc.strokeLine(x, k,x+70, k);
+    } gc.setStroke(Color.BROWN);
+    for ( k=k ; k < 250 ; k++){
+        gc.strokeLine(x, k,x+70, k);
+    }
+    // posiblemente agregar + y - de la bateria
+
+    gc.setStroke(Color.GRAY);
+    for ( k=k ; k < 260 ; k++){
+        gc.strokeLine(x+10, k,x+25, k);
+        gc.strokeLine(x+45, k,x+60, k);
+    }
+
+
+    }
+
+    public void dibujarCable(ActionEvent event){
+
+    if (contador_cables < 2){
+        JOptionPane.showMessageDialog(null,"Seleccione la posicion inicial ( Bateria )");
+
+    } // comprobar donde empieza la posicion x e y para ver si empieza con un cable " azul " o " rojo " ( esto es nuestra implementacion, no un requisito )
+
+
+
+    movible = true;
+    GraphicsContext gc = tablero.getGraphicsContext2D();
+    gc.setStroke(Color.RED);
+    contador_cables++;
+
+
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        rect.setOnMousePressed(this::handleMousePressed);
-        rect.setOnMouseDragged(this::handleMouseDragged);
-        rect.setOnMouseReleased(this::handleMouseReleased);
+        tablero.setOnMousePressed(this::click);
+        tablero.setOnMouseDragged(this::arrastrarMouse);
+        tablero.setOnMouseReleased(this::soltarMouse);
 
         dibujarProtoboard(tablero.getGraphicsContext2D());
+        dibujarBateria(tablero.getGraphicsContext2D());
 
 
     }
 
-    private void handleMouseReleased(MouseEvent mouseEvent) {
+    private void soltarMouse(MouseEvent event) {
         if (movible){
+            GraphicsContext gc = tablero.getGraphicsContext2D();
+            gc.strokeLine(startX, startY, event.getX(), event.getY());
+            contador_cables++;
             movible = false;
-            System.out.println("Rectángulo soltado en: (" + rect.getTranslateX() + ", " + rect.getTranslateY() + ")");
+
+        }
+
+    }
+    private void click(MouseEvent event) {
+
+        if (movible){
+            startX = event.getX();
+            startY = event.getY();
+            /*
+            startX = event.getSceneX() - cable.getTranslateX();
+            startY = event.getSceneY() - cable.getTranslateY();
+
+             */
         }
 
     }
 
-    private void handleMousePressed(MouseEvent event) {
-
+    private void arrastrarMouse(MouseEvent event) {
         if (movible){
-            startX = event.getSceneX() - rect.getTranslateX();
-            startY = event.getSceneY() - rect.getTranslateY();
-        }
-
-    }
-
-    private void handleMouseDragged(MouseEvent event) {
-        if (movible){
-            rect.setTranslateX(event.getSceneX() - startX);
-            rect.setTranslateY(event.getSceneY() - startY);
+            /*
+            GraphicsContext gc = tablero.getGraphicsContext2D();
+            gc.strokeLine(startX, startY, event.getX(), event.getY()); */
         }
 
     }
