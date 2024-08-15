@@ -178,11 +178,7 @@ public class Controlador_Protoboard implements Initializable {
         if (movible){
             startX = event.getX();
             startY = event.getY();
-            /*
-            startX = event.getSceneX() - cable.getTranslateX();
-            startY = event.getSceneY() - cable.getTranslateY();
 
-             */
         }
 
     }
