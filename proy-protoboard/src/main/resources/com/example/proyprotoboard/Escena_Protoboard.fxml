@@ -10,7 +10,7 @@
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
-    <Rectangle fx:id="rect" fill="BLUE" height="100" width="100" x="50" y="50" />
+  
    <Canvas fx:id="tablero" height="320.0" width="800.0" />
 
     <Button onAction="#dibujarCable"  text="Agregar cable" />
