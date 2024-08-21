@@ -1,3 +1,3 @@
 public class protoboard{
-    Indicador[][] protoboard = new Indicador[30][10];
+    logicalProtoboard[][] protoboard = new logicalProtoboard[30][10];
 }

@@ -1,8 +1,5 @@
 public class Indicador{
-    String color;
+    Posicion coordenada;
     Boolean corriente;
     Boolean polaridad;
-    Posicion posicion1;
-    Posicion posicion2;
-    
 }
