@@ -1,5 +1,6 @@
 package com.example.proyprotoboard;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.VPos;
@@ -8,23 +9,37 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 
+import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Controlador_Protoboard implements Initializable {
 
+
+
     private double startX;
     private double startY;
 
-    private Boolean movible = false;
 
-    
+
+    private Boolean movible_cable = false;
+    private Boolean agrega_led=false;
+    private Boolean led_puesto=false;
+    private Boolean patita_led_1=false;
+    private Boolean patita_led_2=false;
+    private int cantidad_patitas=0;
+    int x_led=0; // inicializacion posicion x del led
+    int y_led=0; // inicializacion posicion y del led
 
     @FXML
     private Canvas tablero;
+
+
+    int contador_cables;
 
     private void dibujarProtoboard(GraphicsContext gc){
         int x= 10;
@@ -108,75 +123,126 @@ public class Controlador_Protoboard implements Initializable {
             y += 15;
         }
     }
-    
     private void dibujarBateria(GraphicsContext gc){
-    int x = 660;
+        int x = 660;
 
 
-    // bucle para hacer el rectangulo solo con lineas
+        // bucle para hacer el rectangulo solo con lineas
 
-    gc.setStroke(Color.BLACK);
-    int k=0;
-    for( k = 130 ; k < 220 ; k++){        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
-        gc.strokeLine(x, k,x+70, k);
-    } gc.setStroke(Color.BROWN);
-    for ( k=k ; k < 250 ; k++){
-        gc.strokeLine(x, k,x+70, k);
-    }
-    // posiblemente agregar + y - de la bateria
+        gc.setStroke(Color.BLACK);
+        int k=0;
+        for( k = 130 ; k < 220 ; k++){        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
+            gc.strokeLine(x, k,x+70, k);
+        } gc.setStroke(Color.BROWN);
+        for ( k=k ; k < 250 ; k++){
+            gc.strokeLine(x, k,x+70, k);
+        }
+        // posiblemente agregar + y - de la bateria
 
-    gc.setStroke(Color.GRAY);
-    for ( k=k ; k < 260 ; k++){
-        gc.strokeLine(x+10, k,x+25, k);
-        gc.strokeLine(x+45, k,x+60, k);
-    }
+        gc.setStroke(Color.GRAY);
+        for ( k=k ; k < 260 ; k++){ // hjacer las puntitas de la bateria
+            gc.strokeLine(x+10, k,x+25, k);
+            gc.strokeLine(x+45, k,x+60, k);
+        }
 
 
     }
 
     public void dibujarCable(ActionEvent event){
 
-    if (contador_cables < 2){
-        JOptionPane.showMessageDialog(null,"Seleccione la posicion inicial ( Bateria )");
+        if (contador_cables < 2){
+            JOptionPane.showMessageDialog(null,"Seleccione la posicion inicial ( Bateria )");
 
-    } // comprobar donde empieza la posicion x e y para ver si empieza con un cable " azul " o " rojo " ( esto es nuestra implementacion, no un requisito )
+        } // comprobar donde empieza la posicion x e y para ver si empieza con un cable " azul " o " rojo " ( esto es nuestra implementacion, no un requisito )
 
 
 
-    movible = true;
-    GraphicsContext gc = tablero.getGraphicsContext2D();
-    gc.setStroke(Color.RED);
-    gc.setLineWidth(5); // cambiar el tamaño del cable
-    contador_cables++;
+        movible_cable = true;
+        GraphicsContext gc = tablero.getGraphicsContext2D();
+        gc.setStroke(Color.RED);
+        gc.setLineWidth(5);
+        contador_cables++;
 
 
     }
-    
+    public void dibujarLed(){
+        GraphicsContext gc = tablero.getGraphicsContext2D();
+
+        gc.setFill(Color.DARKRED);
+        gc.fillOval(x_led,y_led,30,30);
+
+        /* pines del led (comentados porque se dibujan al agregar el led)
+        gc.setStroke(Color.GRAY);
+        gc.setLineWidth(2);
+        gc.strokeLine(x_led+8, y_led+28, x_led+8, y_led+68);
+        gc.strokeLine(x_led+23, y_led+28, x_led+23, y_led+68);*/
+    }
+
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tablero.setOnMousePressed(this::click);
         tablero.setOnMouseDragged(this::arrastrarMouse);
         tablero.setOnMouseReleased(this::soltarMouse);
 
+
         dibujarProtoboard(tablero.getGraphicsContext2D());
         dibujarBateria(tablero.getGraphicsContext2D());
 
 
     }
+    public void activaLed(){
+        led_puesto=false;
+        agrega_led=true;
+        patita_led_1=false;
+        cantidad_patitas=0;
+    }
 
     private void soltarMouse(MouseEvent event) {
-        if (movible){
-            GraphicsContext gc = tablero.getGraphicsContext2D();
+        GraphicsContext gc = tablero.getGraphicsContext2D();
+        if (movible_cable){
             gc.strokeLine(startX, startY, event.getX(), event.getY());
             contador_cables++;
-            movible = false;
+            movible_cable = false;
+        } else if (patita_led_1 && cantidad_patitas<2){
+            gc.setStroke(Color.GRAY);
+            gc.setLineWidth(3);
+            gc.strokeLine(startX, startY, event.getX(), event.getY());
+            patita_led_1=false;
+            cantidad_patitas++;
+            //patita_led_2=true;
+        } else if (patita_led_2){
+            gc.setStroke(Color.GRAY);
+            gc.setLineWidth(3);
+            gc.strokeLine(startX,startY,event.getX(), event.getY());
+            patita_led_2=false;
+        }
+        if (led_puesto && !patita_led_1){
+            patita_led_1=true;
 
         }
 
     }
-    private void click(MouseEvent event) {
 
-        if (movible){
+    private void click(MouseEvent event) {
+        if (agrega_led){ // agrega un led al hacer click en una posicion // verificaciones y demas
+            x_led= (int) event.getX();
+            y_led= (int) event.getY();
+            dibujarLed();
+            agrega_led=false;
+            led_puesto=true;
+            patita_led_1=false;
+
+        } else if (patita_led_1 && led_puesto &&  cantidad_patitas<2){
+            startX = event.getX();
+            startY = event.getY();
+        }
+        if (patita_led_2){
+            startX = event.getX();
+            startY = event.getY();
+        }
+        if (movible_cable){
             startX = event.getX();
             startY = event.getY();
 
@@ -185,13 +251,9 @@ public class Controlador_Protoboard implements Initializable {
     }
 
     private void arrastrarMouse(MouseEvent event) {
-        if (movible){
-            /*
-            GraphicsContext gc = tablero.getGraphicsContext2D();
-            gc.strokeLine(startX, startY, event.getX(), event.getY()); */
-        }
+        GraphicsContext gc = tablero.getGraphicsContext2D();
+
 
     }
-
 
 }
