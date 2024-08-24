@@ -14,4 +14,5 @@
    <Canvas fx:id="tablero" height="320.0" width="800.0" />
 
     <Button onAction="#dibujarCable"  text="Agregar cable" />
+   <Button mnemonicParsing="false" onAction="#activaLed" text="Agregar Led" />
 </VBox>
