@@ -23,7 +23,9 @@ public class Controlador_Protoboard implements Initializable {
 
     private double startX;
     private double startY;
-
+    private double x_switch;
+    private double y_switch;
+    private Boolean agrega_switch = false;
 
 
     private Boolean movible_cable = false;
@@ -147,7 +149,20 @@ public class Controlador_Protoboard implements Initializable {
 
 
     }
+    public void AgregarSwitch() {
+        JOptionPane.showMessageDialog(null, "Seleccione el punto central de donde desea ubicar");
+        agrega_switch = true;
+    }
 
+    public void dibujarSwitch() {
+        GraphicsContext gc = tablero.getGraphicsContext2D();
+        gc.setStroke(Color.GREY);
+        for (int k = 0; k < 48; k++) {        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
+            gc.strokeLine(x_switch, y_switch + k, x_switch+48, y_switch + k); //ancho del switch = 48
+        }
+        gc.fillOval(x_switch+4, y_switch+4, 40, 40);
+
+    }
     public void dibujarCable(ActionEvent event){
 
         if (contador_cables < 2){
@@ -226,6 +241,12 @@ public class Controlador_Protoboard implements Initializable {
     }
 
     private void click(MouseEvent event) {
+        if (agrega_switch) { // agrega un led al hacer click en una posicion // verificaciones y demas
+            x_switch = (int) event.getX()-24;
+            y_switch = (int) event.getY()-24;
+            dibujarSwitch();
+            agrega_switch = false;
+        }
         if (agrega_led){ // agrega un led al hacer click en una posicion // verificaciones y demas
             x_led= (int) event.getX();
             y_led= (int) event.getY();
