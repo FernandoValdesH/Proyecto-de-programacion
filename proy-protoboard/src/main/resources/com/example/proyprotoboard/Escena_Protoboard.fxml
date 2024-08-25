@@ -15,4 +15,5 @@
 
     <Button onAction="#dibujarCable"  text="Agregar cable" />
    <Button mnemonicParsing="false" onAction="#activaLed" text="Agregar Led" />
+    <Button onAction="#AgregarSwitch"  text="Agregar switch" />
 </VBox>
