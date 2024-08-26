@@ -160,6 +160,7 @@ public class Controlador_Protoboard implements Initializable {
         for (int k = 0; k < 48; k++) {        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
             gc.strokeLine(x_switch, y_switch + k, x_switch+48, y_switch + k); //ancho del switch = 48
         }
+        gc.setFill(Color.BLACK);
         gc.fillOval(x_switch+4, y_switch+4, 40, 40);
 
     }
