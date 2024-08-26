@@ -248,8 +248,8 @@ public class Controlador_Protoboard implements Initializable {
             agrega_switch = false;
         }
         if (agrega_led){ // agrega un led al hacer click en una posicion // verificaciones y demas
-            x_led= (int) event.getX();
-            y_led= (int) event.getY();
+            x_led= (int) event.getX()-15;
+            y_led= (int) event.getY()-15;
             dibujarLed();
             agrega_led=false;
             led_puesto=true;
