@@ -160,6 +160,7 @@ public class Controlador_Protoboard implements Initializable {
         for (int k = 0; k < 48; k++) {        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
             gc.strokeLine(x_switch, y_switch + k, x_switch+48, y_switch + k); //ancho del switch = 48
         }
+        gc.setFill(Color.BLACK);
         gc.fillOval(x_switch+4, y_switch+4, 40, 40);
 
     }
@@ -248,8 +249,8 @@ public class Controlador_Protoboard implements Initializable {
             agrega_switch = false;
         }
         if (agrega_led){ // agrega un led al hacer click en una posicion // verificaciones y demas
-            x_led= (int) event.getX();
-            y_led= (int) event.getY();
+            x_led= (int) event.getX()-15;
+            y_led= (int) event.getY()-15;
             dibujarLed();
             agrega_led=false;
             led_puesto=true;
