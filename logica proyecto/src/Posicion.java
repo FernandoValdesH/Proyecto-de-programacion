@@ -1,3 +1,4 @@
 public class Posicion{
-    String coordenada;
+    String coordenadax = null;
+    String coordenaday = null;
 }
