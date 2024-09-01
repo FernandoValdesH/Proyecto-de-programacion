@@ -4,7 +4,6 @@
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
 
 <VBox alignment="CENTER" prefHeight="578.0" prefWidth="884.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proyprotoboard.Controlador_Protoboard">
     <padding>
@@ -13,7 +12,8 @@
 
     <Canvas fx:id="tablero" height="320.0" width="800.0" />
 
-    <Button onAction="#dibujarCable"  text="Agregar cable" />
+    <Button onAction="#dibujarCable" text="Agregar cable" />
     <Button mnemonicParsing="false" onAction="#activaLed" text="Agregar Led" />
-    <Button onAction="#AgregarSwitch"  text="Agregar switch" />
+    <Button onAction="#AgregarSwitch" text="Agregar switch" />
+   <Button mnemonicParsing="false" onAction="#activarEliminacion" text="Eliminar" />
 </VBox>
