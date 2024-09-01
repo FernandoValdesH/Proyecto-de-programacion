@@ -11,22 +11,24 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 
 import javax.swing.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Controlador_Protoboard implements Initializable {
 
-
+    private boolean activar_eliminacion=false;
+    private ArrayList<Double> arreglo_coordenadas_leds = new ArrayList<>();
+    private ArrayList<Double> arreglo_coordenadas_switch = new ArrayList<>();
+    private ArrayList<Double> arreglo_coordenadas_cables = new ArrayList<>();
+    private ArrayList<Double> arreglo_coordenadas_patitas_leds = new ArrayList<>();
     private double punto_inicio_x_patita=0;
     private double punto_inicio_y_patita=0;
     private double punto_final_x_patita=0;
     private double punto_final_y_patita=0;
-    private double startX=0;
-    private double startY=0;
     private double punto_inicio_x_cable=0;
     private double punto_inicio_y_cable=0;
     private double x_switch;
@@ -44,6 +46,10 @@ public class Controlador_Protoboard implements Initializable {
     double punto_final_x_cable=0;
     double punto_final_y_cable=0;
     private boolean dibujar_patitas=false;
+    private double inicio_x_eliminar=0;
+    private double inicio_y_eliminar=0;
+    int x=10,y=10;
+
 
     @FXML
     private Canvas tablero;
@@ -52,9 +58,9 @@ public class Controlador_Protoboard implements Initializable {
     int contador_cables;
 
     private void dibujarProtoboard(GraphicsContext gc){
-        int x= 10;
-        int y= 10;
-
+        x= 10;
+        y= 10;
+        gc.setLineWidth(1);
         gc.setStroke(Color.LIGHTGRAY);
         String letras ="jihgfedcba";
 
@@ -134,7 +140,7 @@ public class Controlador_Protoboard implements Initializable {
         }
     }
     private void dibujarBateria(GraphicsContext gc){
-        int x = 660;
+        x = 660;
 
 
         // bucle para hacer el rectangulo solo con lineas
@@ -191,7 +197,6 @@ public class Controlador_Protoboard implements Initializable {
         GraphicsContext gc = tablero.getGraphicsContext2D();
 
         gc.setFill(Color.DARKRED);
-        System.out.println(Color.DARKRED);
         gc.fillOval(x_led,y_led,30,30);
 
         /* pines del led (comentados porque se dibujan al agregar el led)
@@ -199,6 +204,118 @@ public class Controlador_Protoboard implements Initializable {
         gc.setLineWidth(2);
         gc.strokeLine(x_led+8, y_led+28, x_led+8, y_led+68);
         gc.strokeLine(x_led+23, y_led+28, x_led+23, y_led+68);*/
+    }
+
+    public void activarEliminacion(){
+        activar_eliminacion=true;
+    }
+
+    public void dibujarTodo(){
+        GraphicsContext gc = tablero.getGraphicsContext2D();
+        dibujarProtoboard(gc);
+        dibujarBateria(gc);
+
+        for (int i = 0 ; i < arreglo_coordenadas_leds.size() ; i+=2){
+            x_led=arreglo_coordenadas_leds.get(i);
+            y_led=arreglo_coordenadas_leds.get(i+1);
+            dibujarLed();
+        }
+
+        for (int i = 0 ; i < arreglo_coordenadas_switch.size() ; i+=2){
+            x_switch=arreglo_coordenadas_switch.get(i);
+            y_switch=arreglo_coordenadas_switch.get(i+1);
+            dibujarSwitch();
+        }
+
+        for (int i = 0 ; i < arreglo_coordenadas_cables.size() ; i+=4){
+            punto_inicio_x_cable = arreglo_coordenadas_cables.get(i);
+            punto_inicio_y_cable = arreglo_coordenadas_cables.get(i+1);
+            punto_final_x_cable = arreglo_coordenadas_cables.get(i+2);
+            punto_final_y_cable = arreglo_coordenadas_cables.get(i+3);
+            gc.setStroke(Color.RED);
+            gc.strokeLine(punto_inicio_x_cable,punto_inicio_y_cable,punto_final_x_cable,punto_final_y_cable);
+        }
+
+        for (int i = 0 ; i < arreglo_coordenadas_patitas_leds.size() ; i+=4){
+            punto_inicio_x_patita = arreglo_coordenadas_patitas_leds.get(i);
+            punto_inicio_y_patita = arreglo_coordenadas_patitas_leds.get(i+1);
+            punto_final_x_patita = arreglo_coordenadas_patitas_leds.get(i+2);
+            punto_final_y_patita = arreglo_coordenadas_patitas_leds.get(i+3);
+            gc.setStroke(Color.GRAY);
+            gc.strokeLine(punto_inicio_x_patita,punto_inicio_y_patita,punto_final_x_patita,punto_final_y_patita);
+
+
+        }
+    }
+
+    private boolean calcularDistanciaPuntos(double coord, double coord_2, double margen){
+        return Math.abs(coord-coord_2) <= margen;
+    }
+
+    public void eliminarElemento(double x, double y){
+        GraphicsContext gc = tablero.getGraphicsContext2D();
+
+        boolean cent_led=false;
+        boolean cent_switch=false;
+        boolean cent_cable=false;
+        int i=0;
+        for ( i = 0 ; i < arreglo_coordenadas_leds.size() && !cent_led; i+=2){
+            if ((calcularDistanciaPuntos(x, arreglo_coordenadas_leds.get(i), 20 )) && (calcularDistanciaPuntos(y, arreglo_coordenadas_leds.get(i+1), 20 ))){
+                cent_led = true;
+            }
+        }    i=i-2;
+        if (cent_led){
+
+                arreglo_coordenadas_leds.remove(i);
+                arreglo_coordenadas_leds.remove(i);
+
+                // calcular que patitas son : 2*i + los 3 siguientes a ese
+
+                arreglo_coordenadas_patitas_leds.remove(4*i);
+                arreglo_coordenadas_patitas_leds.remove(4*i);
+                arreglo_coordenadas_patitas_leds.remove(4*i);
+                arreglo_coordenadas_patitas_leds.remove(4*i);
+
+                arreglo_coordenadas_patitas_leds.remove(4*i);
+                arreglo_coordenadas_patitas_leds.remove(4*i);
+                arreglo_coordenadas_patitas_leds.remove(4*i);
+                arreglo_coordenadas_patitas_leds.remove(4*i);
+
+            gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
+            dibujarTodo();
+        } else {
+            i=0;
+            for ( i = 0 ; i < arreglo_coordenadas_switch.size() && !cent_switch ; i+=2){
+                if ((calcularDistanciaPuntos(x, arreglo_coordenadas_switch.get(i), 40 )) && (calcularDistanciaPuntos(y, arreglo_coordenadas_switch.get(i+1), 40 ))){
+                    cent_switch = true;
+                }
+            } i = i-2;
+            if (cent_switch){
+                arreglo_coordenadas_switch.remove(i);
+                arreglo_coordenadas_switch.remove(i);
+                gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
+                dibujarTodo();
+            } else{
+                i=0;
+                for ( i = 0 ; i < arreglo_coordenadas_cables.size() && !cent_cable; i+=4){
+                    if (((calcularDistanciaPuntos(x, arreglo_coordenadas_cables.get(i), 20 )) && (calcularDistanciaPuntos(y, arreglo_coordenadas_cables.get(i+1), 20 ))) || (calcularDistanciaPuntos(x, arreglo_coordenadas_cables.get(i+2), 20 )) && calcularDistanciaPuntos(y, arreglo_coordenadas_cables.get(i+3), 20 )){
+                        cent_cable = true;
+                    }
+                } i=i-4;
+                if (cent_cable){
+                    arreglo_coordenadas_cables.remove(i);
+                    arreglo_coordenadas_cables.remove(i);
+                    arreglo_coordenadas_cables.remove(i);
+                    arreglo_coordenadas_cables.remove(i);
+
+
+                    gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
+                    dibujarTodo();
+                }
+            }
+        }
+
+
     }
 
 
@@ -224,6 +341,7 @@ public class Controlador_Protoboard implements Initializable {
 
     private void soltarMouse(MouseEvent event) {
         GraphicsContext gc = tablero.getGraphicsContext2D();
+
         if (movible_cable){
             punto_final_x_cable=event.getX();
             punto_final_y_cable=event.getY();
@@ -232,10 +350,25 @@ public class Controlador_Protoboard implements Initializable {
                 punto_final_x_cable = puntoCercano[0];
                 punto_final_y_cable = puntoCercano[1];
             }
-            gc.strokeLine(punto_inicio_x_cable, punto_inicio_y_cable, punto_final_x_cable,punto_final_y_cable);
+            // agregar las coordenadas al arreglo
+            arreglo_coordenadas_cables.add(punto_inicio_x_cable); arreglo_coordenadas_cables.add(punto_inicio_y_cable);arreglo_coordenadas_cables.add(punto_final_x_cable);  arreglo_coordenadas_cables.add(punto_final_y_cable);
+
+            // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
+            int posicion1_x = (int) ((punto_inicio_x_cable - 15) / 20);
+            int posicion1_y = (int) ((punto_inicio_y_cable - 15) / 20);
+            int posicion2_x = (int) ((punto_final_x_cable - 15) / 20);
+            int posicion2_y = (int) ((punto_final_y_cable - 15) / 20);
+
+            // ahora retornar todo lo anterior a la lista de coordenadas de cables
+
+
+
+            gc.strokeLine(punto_inicio_x_cable, punto_inicio_y_cable, punto_final_x_cable,punto_final_y_cable); // dibuja el cable
             contador_cables++;
             movible_cable = false;
+
         } else if (patita_led_1 && cantidad_patitas<2 && dibujar_patitas){
+
             punto_final_x_patita= event.getX();
             punto_final_y_patita=event.getY();
             double[] puntoCercano = alcanzarPuntoCercano(punto_final_x_patita, punto_final_y_patita);
@@ -243,11 +376,23 @@ public class Controlador_Protoboard implements Initializable {
                 punto_final_x_patita = puntoCercano[0];
                 punto_final_y_patita = puntoCercano[1];
             }
+            arreglo_coordenadas_patitas_leds.add(punto_inicio_x_patita);arreglo_coordenadas_patitas_leds.add(punto_inicio_y_patita);arreglo_coordenadas_patitas_leds.add(punto_final_x_patita); arreglo_coordenadas_patitas_leds.add(punto_final_y_patita);
+            // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
+            // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
+            int posicion1_x = (int) ((punto_inicio_x_patita - 15) / 20);
+            int posicion1_y = (int) ((punto_inicio_y_patita - 15) / 20);
+            int posicion2_x = (int) ((punto_final_x_patita - 15) / 20);
+            int posicion2_y = (int) ((punto_final_y_patita - 15) / 20);
+
+            // ahora retornar todo lo anterior a la lista de coordenadas de patitas (leds)
+
+            // dibujar patitas
             gc.setStroke(Color.GRAY);
             gc.setLineWidth(3);
             gc.strokeLine(punto_inicio_x_patita, punto_inicio_y_patita, punto_final_x_patita, punto_final_y_patita);
             patita_led_1=false;
             cantidad_patitas++;
+            dibujar_patitas=false;
 
         }
         if (led_puesto && !patita_led_1){
@@ -259,14 +404,29 @@ public class Controlador_Protoboard implements Initializable {
 
     private void click(MouseEvent event) {
 
+        if (activar_eliminacion){
+            inicio_x_eliminar=event.getX();
+            inicio_y_eliminar=event.getY();
+            double[] puntoCercano = alcanzarPuntoCercano(inicio_x_eliminar, inicio_y_eliminar);
+            if (puntoCercano != null) {
+                inicio_x_eliminar = puntoCercano[0];
+                inicio_y_eliminar = puntoCercano[1];
+            } System.out.println(inicio_x_eliminar + "," + inicio_y_eliminar);
+
+
+            eliminarElemento(inicio_x_eliminar, inicio_y_eliminar);
+
+            activar_eliminacion=false;
+        }
+
         if (agrega_switch) { // agrega un led al hacer click en una posicion // verificaciones y demas
-            x_switch = (int) event.getX();
-            y_switch = (int) event.getY();
+            x_switch = event.getX();
+            y_switch =  event.getY();
             double[] puntoCercano = alcanzarPuntoCercano(x_switch, y_switch);
             if (puntoCercano != null) {
                 x_switch = puntoCercano[0]-24;
                 y_switch = puntoCercano[1]-24;
-            }
+            } arreglo_coordenadas_switch.add(x_switch); arreglo_coordenadas_switch.add(y_switch);
             dibujarSwitch();
             agrega_switch = false;
         }
@@ -277,7 +437,7 @@ public class Controlador_Protoboard implements Initializable {
             if (puntoCercano != null) {
                 x_led = puntoCercano[0]-15;
                 y_led = puntoCercano[1]-15;
-            }
+            } arreglo_coordenadas_leds.add(x_led); arreglo_coordenadas_leds.add(y_led); // agregar al arreglo
             dibujarLed();
             agrega_led=false;
             led_puesto=true;
