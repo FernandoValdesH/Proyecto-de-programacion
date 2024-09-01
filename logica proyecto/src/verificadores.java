@@ -1,45 +1,50 @@
-public Indicador verificadorProtoboard(logicalProtoboard[][] protoboard){
+public void verificadorProtoboard(protoboard _protoboard){
     int i = 0;int j=0;
-    while(i<protoboard.length){
-        while(j<protoboard.length){
-            if(protoboard[i][j].conexion == true){
-                //Basado en logica convencional de protoboard,se requerira revisar cada puerto para saber si posee una conexion, saber a donde esta conectada esta conexion, y finalmente que cualidades deben cambiar en los puertos adyacentes
-                
-                if(protoboard[i][j]._cable.posicion1.coordenadax != null){
-                    if(protoboard[i][j]._cable.corriente == true){
-
-                    }
-                }
-                if(protoboard[i][j]._cable.posicion2.coordenaday != null){
-                    if(protoboard[i][j]._cable.corriente == true){
-
-                    }
-                }
-                if(protoboard[i][j]._led.posicion1.coordenadax != null){
-                    if(protoboard[i][j]._led.corriente == true){
-
-                    }
-                }
-                if(protoboard[i][j]._led.posicion2.coordenaday != null){
-                    if(protoboard[i][j]._led.corriente == true){
-                        if(protoboard[i][j]._led.polaridad == true){
-                            if(j<5){
-                                int tempj = 0;
-                                while(tempj <5){
-                                    protoboard[i][tempj]._polaridad = true;
-                                }
+    while(i<30){
+        while(j<14){
+            //Basado en logica convencional de protoboard,se requerira revisar cada puerto para saber si posee una conexion, saber a donde esta conectada esta conexion, y finalmente que cualidades deben cambiar en los puertos adyacentes
+            if(_protoboard.protoboard[i][j].conexion == true){
+                    if(_protoboard.protoboard[i][j]._cable != null & (_protoboard.protoboard[i][j]._cable.posicion1.coordenadax == i & _protoboard.protoboard[i][j]._cable.posicion1.coordenaday == j) & _protoboard.protoboard[i][j]._cable.posicion1.corriente & _protoboard.protoboard[i][j]._cable.posicion2.corriente){
+                        if(_protoboard.protoboard[i][j]._cable.posicion1.coordenaday == 0 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday == 0){
+                            int tempi = 0;
+                            while(tempi<30){
+                                _protoboard.protoboard[tempi][j]._posicion.corriente = true;
+                                _protoboard.protoboard[tempi][j]._posicion.polaridad = true;
+                                
                             }
                         }
-                        if(protoboard[i][j]._led.polaridad == false){
-                            if(j>5){
-
+                        if(_protoboard.protoboard[i][j]._cable.posicion1.coordenaday == 1 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday == 1){
+                            int tempi = 0;
+                            while(tempi<30){
+                                _protoboard.protoboard[tempi][j]._posicion.corriente = true;
+                                _protoboard.protoboard[tempi][j]._posicion.polaridad = false;
+                            }
+                        }
+                        if(_protoboard.protoboard[i][j]._cable.posicion1.coordenaday == 12 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday == 12){
+                            int tempi = 0;
+                            while(tempi<30){
+                                _protoboard.protoboard[tempi][j]._posicion.corriente = true;
+                                _protoboard.protoboard[tempi][j]._posicion.polaridad = true;
+                            }
+                        }
+                        if(_protoboard.protoboard[i][j]._cable.posicion1.coordenaday == 13 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday == 13){
+                            int tempi = 0;
+                            while(tempi<30){
+                                _protoboard.protoboard[tempi][j]._posicion.corriente = true;
+                                _protoboard.protoboard[tempi][j]._posicion.polaridad = false;
+                            }
+                        }
+                        if((1<_protoboard.protoboard[i][j]._cable.posicion1.coordenaday & _protoboard.protoboard[i][j]._cable.posicion1.coordenaday <7)){
+                            int tempj = 2;
+                            while(tempj<7){
+                                _protoboard.protoboard[i][j]._posicion.corriente = true;
+                                _protoboard.protoboard[i][j]._posicion.corriente = _protoboard.protoboard[i][j]._cable.posicion1.polaridad;
                             }
                         }
                     }
-                }
             }
-            j++;
-        }
-        i++;
+        j++;
+        }i++;
+        j=0;
     }
 }

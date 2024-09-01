@@ -1,6 +1,7 @@
 public class logicalProtoboard{
-    Led _led;
-    Boolean conexion;
-    cable _cable;
-    Boolean _polaridad;
+    Boolean conexion = false;
+    Posicion _posicion = null;
+    Led _led = null;
+    cable _cable = null;
+    Switch _switch = null;
 }

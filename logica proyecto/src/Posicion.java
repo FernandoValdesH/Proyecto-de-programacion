@@ -1,4 +1,7 @@
 public class Posicion{
-    String coordenadax = null;
-    String coordenaday = null;
+    int coordenadax = -1;
+    int coordenaday = -1;
+    Boolean corriente = false;
+    //Positivo true, Negativo false
+    Boolean polaridad = false;
 }
