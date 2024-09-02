@@ -16,4 +16,5 @@
     <Button mnemonicParsing="false" onAction="#activaLed" text="Agregar Led" />
     <Button onAction="#AgregarSwitch" text="Agregar switch" />
    <Button mnemonicParsing="false" onAction="#activarEliminacion" text="Eliminar" />
+
 </VBox>

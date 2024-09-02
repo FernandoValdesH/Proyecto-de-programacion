@@ -14,7 +14,7 @@ public class Escena_Ejecutora_Protoboard extends Application {
     public void start(Stage stage) throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Escena_Ejecutora_Protoboard.class.getResource("Escena_Protoboard.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1600, 900);
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 600);
         stage.setScene(scene);
         stage.show();
 
