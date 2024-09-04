@@ -3,4 +3,5 @@ public class cable extends Indicador{
         super();
     }
     Boolean quemado = false;
+    Boolean conexionBateria = false;
 }
