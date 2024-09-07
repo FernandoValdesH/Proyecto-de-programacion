@@ -6,7 +6,9 @@ import javafx.fxml.Initializable;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.image.PixelReader;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -38,7 +40,6 @@ public class Controlador_Protoboard implements Initializable {
     private Boolean agrega_led=false;
     private Boolean led_puesto=false;
     private Boolean patita_led_1=false;
-    private Boolean patita_led_2=false;
     private int cantidad_patitas=0;
     double x_led=0; // inicializacion posicion x del led
     double y_led=0; // inicializacion posicion y del led
@@ -49,6 +50,15 @@ public class Controlador_Protoboard implements Initializable {
     private double inicio_x_eliminar=0;
     private double inicio_y_eliminar=0;
     int x=10,y=10;
+
+    @FXML
+    Button btnAgregarCable;
+    @FXML
+    Button btnAgregarLed;
+    @FXML
+    Button btnAgregarSwitch;
+    @FXML
+    Button btnEliminarObj;
 
 
     @FXML
@@ -164,6 +174,10 @@ public class Controlador_Protoboard implements Initializable {
 
     }
     public void AgregarSwitch() {
+        btnAgregarCable.setDisable(true);
+        btnAgregarLed.setDisable(true);
+        btnAgregarSwitch.setDisable(true);
+        btnEliminarObj.setDisable(true);
         JOptionPane.showMessageDialog(null, "Seleccione el punto central de donde desea ubicar");
         agrega_switch = true;
     }
@@ -171,15 +185,26 @@ public class Controlador_Protoboard implements Initializable {
     public void dibujarSwitch() {
         GraphicsContext gc = tablero.getGraphicsContext2D();
         gc.setStroke(Color.GREY);
-        for (int k = 0; k < 46; k++) {        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
-            gc.strokeLine(x_switch, y_switch + k, x_switch+46, y_switch + k); //ancho del switch = 48
+        gc.setLineWidth(2);
+        for (int k = 0; k < 43; k++) {        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
+            gc.strokeLine(x_switch, y_switch + k , x_switch+46, y_switch + k); //ancho del switch = 48
         }
+
+        gc.setFill(Color.BLACK);
+        gc.fillOval(x_switch, y_switch+3,8,8);
+        gc.fillOval(x_switch, y_switch+33,8,8);
+        gc.fillOval(x_switch+39, y_switch+3,8,8);
+        gc.fillOval(x_switch+39, y_switch+33,8,8);
+
         gc.setFill(Color.BLACK);
         gc.fillOval(x_switch+8, y_switch+8, 30, 30);
 
     }
     public void dibujarCable(ActionEvent event){
-
+        btnAgregarCable.setDisable(true);
+        btnAgregarLed.setDisable(true);
+        btnAgregarSwitch.setDisable(true);
+        btnEliminarObj.setDisable(true);
         if (contador_cables < 2){
             JOptionPane.showMessageDialog(null,"Seleccione la posicion inicial");
 
@@ -207,6 +232,10 @@ public class Controlador_Protoboard implements Initializable {
     }
 
     public void activarEliminacion(){
+        btnAgregarCable.setDisable(true);
+        btnAgregarLed.setDisable(true);
+        btnAgregarSwitch.setDisable(true);
+        btnEliminarObj.setDisable(true);
         activar_eliminacion=true;
     }
 
@@ -337,10 +366,15 @@ public class Controlador_Protoboard implements Initializable {
 
     }
     public void activaLed(){
+        btnAgregarCable.setDisable(true);
+        btnAgregarLed.setDisable(true);
+        btnAgregarSwitch.setDisable(true);
+        btnEliminarObj.setDisable(true);
         led_puesto=false;
         agrega_led=true;
         patita_led_1=false;
         cantidad_patitas=0;
+        JOptionPane.showMessageDialog(null, "Seleccione punto inicial");
     }
 
     private void soltarMouse(MouseEvent event) {
@@ -355,21 +389,35 @@ public class Controlador_Protoboard implements Initializable {
                 punto_final_y_cable = puntoCercano[1];
             }
             // agregar las coordenadas al arreglo
-            arreglo_coordenadas_cables.add(punto_inicio_x_cable); arreglo_coordenadas_cables.add(punto_inicio_y_cable);arreglo_coordenadas_cables.add(punto_final_x_cable);  arreglo_coordenadas_cables.add(punto_final_y_cable);
 
-            // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
-            int posicion1_x = (int) ((punto_inicio_x_cable - 15) / 20);
-            int posicion1_y = (int) ((punto_inicio_y_cable - 15) / 20);
-            int posicion2_x = (int) ((punto_final_x_cable - 15) / 20);
-            int posicion2_y = (int) ((punto_final_y_cable - 15) / 20);
+            if (punto_final_x_cable - punto_inicio_x_cable > 150 || punto_inicio_y_cable - punto_final_y_cable > 100){
+                JOptionPane.showMessageDialog(null, "Haga el cable mas corto.");
+            } else if (punto_final_x_cable <= 0 || punto_inicio_x_cable >=605 || punto_inicio_y_cable >= 285 || punto_final_y_cable<=0 || punto_final_y_cable >=285){
+                JOptionPane.showMessageDialog(null, "Ingrese el cable dentro del protoboard");
 
-            // ahora retornar todo lo anterior a la lista de coordenadas de cables
+            } else{
+                arreglo_coordenadas_cables.add(punto_inicio_x_cable); arreglo_coordenadas_cables.add(punto_inicio_y_cable);arreglo_coordenadas_cables.add(punto_final_x_cable);  arreglo_coordenadas_cables.add(punto_final_y_cable);
+
+                // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
+                int posicion1_x = (int) ((punto_inicio_x_cable - 15) / 20);
+                int posicion1_y = (int) ((punto_inicio_y_cable - 15) / 20);
+                int posicion2_x = (int) ((punto_final_x_cable - 15) / 20);
+                int posicion2_y = (int) ((punto_final_y_cable - 15) / 20);
+
+                // ahora retornar todo lo anterior a la lista de coordenadas de cables
 
 
 
-            gc.strokeLine(punto_inicio_x_cable, punto_inicio_y_cable, punto_final_x_cable,punto_final_y_cable); // dibuja el cable
-            contador_cables++;
-            movible_cable = false;
+                gc.strokeLine(punto_inicio_x_cable, punto_inicio_y_cable, punto_final_x_cable,punto_final_y_cable); // dibuja el cable
+                contador_cables++;
+                movible_cable = false;
+
+                btnAgregarCable.setDisable(false);
+                btnAgregarLed.setDisable(false);
+                btnAgregarSwitch.setDisable(false);
+                btnEliminarObj.setDisable(false);
+            }
+
 
         } else if (patita_led_1 && cantidad_patitas<2 && dibujar_patitas){
 
@@ -380,23 +428,36 @@ public class Controlador_Protoboard implements Initializable {
                 punto_final_x_patita = puntoCercano[0];
                 punto_final_y_patita = puntoCercano[1];
             }
-            arreglo_coordenadas_patitas_leds.add(punto_inicio_x_patita);arreglo_coordenadas_patitas_leds.add(punto_inicio_y_patita);arreglo_coordenadas_patitas_leds.add(punto_final_x_patita); arreglo_coordenadas_patitas_leds.add(punto_final_y_patita);
-            // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
-            // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
-            int posicion1_x = (int) ((punto_inicio_x_patita - 15) / 20);
-            int posicion1_y = (int) ((punto_inicio_y_patita - 15) / 20);
-            int posicion2_x = (int) ((punto_final_x_patita - 15) / 20);
-            int posicion2_y = (int) ((punto_final_y_patita - 15) / 20);
+            if (punto_final_x_patita - punto_inicio_x_patita > 50){
+                JOptionPane.showMessageDialog(null,"Demasiada distancia. Haga la patita mas corta.");
+            }
+            else{
+                arreglo_coordenadas_patitas_leds.add(punto_inicio_x_patita);arreglo_coordenadas_patitas_leds.add(punto_inicio_y_patita);arreglo_coordenadas_patitas_leds.add(punto_final_x_patita); arreglo_coordenadas_patitas_leds.add(punto_final_y_patita);
+                // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
+                // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
+                int posicion1_x = (int) ((punto_inicio_x_patita - 15) / 20);
+                int posicion1_y = (int) ((punto_inicio_y_patita - 15) / 20);
+                int posicion2_x = (int) ((punto_final_x_patita - 15) / 20);
+                int posicion2_y = (int) ((punto_final_y_patita - 15) / 20);
 
-            // ahora retornar todo lo anterior a la lista de coordenadas de patitas (leds)
+                // ahora retornar todo lo anterior a la lista de coordenadas de patitas (leds)
 
-            // dibujar patitas
-            gc.setStroke(Color.GRAY);
-            gc.setLineWidth(3);
-            gc.strokeLine(punto_inicio_x_patita, punto_inicio_y_patita, punto_final_x_patita, punto_final_y_patita);
-            patita_led_1=false;
-            cantidad_patitas++;
-            dibujar_patitas=false;
+                // dibujar patitas
+                gc.setStroke(Color.GRAY);
+                gc.setLineWidth(3);
+                gc.strokeLine(punto_inicio_x_patita, punto_inicio_y_patita, punto_final_x_patita, punto_final_y_patita);
+                patita_led_1=false;
+                cantidad_patitas++;
+                dibujar_patitas=false;
+
+                if (cantidad_patitas==2){
+                    btnAgregarCable.setDisable(false);
+                    btnAgregarLed.setDisable(false);
+                    btnAgregarSwitch.setDisable(false);
+                    btnEliminarObj.setDisable(false);
+                }
+            }
+
 
         }
         if (led_puesto && !patita_led_1){
@@ -419,7 +480,10 @@ public class Controlador_Protoboard implements Initializable {
 
 
             eliminarElemento(inicio_x_eliminar, inicio_y_eliminar);
-
+            btnAgregarCable.setDisable(false);
+            btnAgregarLed.setDisable(false);
+            btnAgregarSwitch.setDisable(false);
+            btnEliminarObj.setDisable(false);
             activar_eliminacion=false;
         }
 
@@ -433,6 +497,10 @@ public class Controlador_Protoboard implements Initializable {
             } arreglo_coordenadas_switch.add(x_switch); arreglo_coordenadas_switch.add(y_switch);
             dibujarSwitch();
             agrega_switch = false;
+            btnAgregarCable.setDisable(false);
+            btnAgregarLed.setDisable(false);
+            btnAgregarSwitch.setDisable(false);
+            btnEliminarObj.setDisable(false);
         }
         if (agrega_led){ // agrega un led al hacer click en una posicion // verificaciones y demas
             x_led= event.getX();
@@ -443,6 +511,11 @@ public class Controlador_Protoboard implements Initializable {
                 y_led = puntoCercano[1]-15;
             } arreglo_coordenadas_leds.add(x_led); arreglo_coordenadas_leds.add(y_led); // agregar al arreglo
             dibujarLed();
+            btnAgregarCable.setDisable(true);
+            btnAgregarLed.setDisable(true);
+            btnAgregarSwitch.setDisable(true);
+            btnEliminarObj.setDisable(true);
+
             agrega_led=false;
             led_puesto=true;
             patita_led_1=false;
@@ -455,7 +528,10 @@ public class Controlador_Protoboard implements Initializable {
                 dibujar_patitas=true;
 
             } else{
-                JOptionPane.showMessageDialog(null,"posicion invalida");
+
+                JOptionPane.showMessageDialog(null,"Posicion invalida.");
+                JOptionPane.showMessageDialog(null,"Ponga las patitas encima del led hacia un punto cercano.");
+
             }
 
             /*
@@ -466,6 +542,7 @@ public class Controlador_Protoboard implements Initializable {
             } */ // aca la implementacion seria que inicie del LED y termine en un punto del protoboard
         }
         if (movible_cable){
+
             punto_inicio_x_cable = event.getX();
             punto_inicio_y_cable = event.getY();
             double[] puntoCercano = alcanzarPuntoCercano(punto_inicio_x_cable, punto_inicio_y_cable);
