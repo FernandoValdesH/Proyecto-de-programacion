@@ -12,9 +12,8 @@
 
     <Canvas fx:id="tablero" height="320.0" width="800.0" />
 
-    <Button onAction="#dibujarCable" text="Agregar cable" />
-    <Button mnemonicParsing="false" onAction="#activaLed" text="Agregar Led" />
-    <Button onAction="#AgregarSwitch" text="Agregar switch" />
-   <Button mnemonicParsing="false" onAction="#activarEliminacion" text="Eliminar" />
-
+    <Button fx:id="btnAgregarCable" onAction="#dibujarCable" text="Agregar cable" />
+    <Button fx:id="btnAgregarLed" mnemonicParsing="false" onAction="#activaLed" text="Agregar Led" />
+    <Button fx:id="btnAgregarSwitch" onAction="#AgregarSwitch" text="Agregar switch" />
+    <Button fx:id="btnEliminarObj" mnemonicParsing="false" onAction="#activarEliminacion" text="Eliminar" />
 </VBox>
