@@ -6,7 +6,9 @@ import javafx.fxml.Initializable;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.image.PixelReader;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -38,7 +40,6 @@ public class Controlador_Protoboard implements Initializable {
     private Boolean agrega_led=false;
     private Boolean led_puesto=false;
     private Boolean patita_led_1=false;
-    private Boolean patita_led_2=false;
     private int cantidad_patitas=0;
     double x_led=0; // inicializacion posicion x del led
     double y_led=0; // inicializacion posicion y del led
@@ -49,6 +50,15 @@ public class Controlador_Protoboard implements Initializable {
     private double inicio_x_eliminar=0;
     private double inicio_y_eliminar=0;
     int x=10,y=10;
+
+    @FXML
+    Button btnAgregarCable;
+    @FXML
+    Button btnAgregarLed;
+    @FXML
+    Button btnAgregarSwitch;
+    @FXML
+    Button btnEliminarObj;
 
 
     @FXML
@@ -164,6 +174,10 @@ public class Controlador_Protoboard implements Initializable {
 
     }
     public void AgregarSwitch() {
+        btnAgregarCable.setDisable(true);
+        btnAgregarLed.setDisable(true);
+        btnAgregarSwitch.setDisable(true);
+        btnEliminarObj.setDisable(true);
         JOptionPane.showMessageDialog(null, "Seleccione el punto central de donde desea ubicar");
         agrega_switch = true;
     }
@@ -171,15 +185,26 @@ public class Controlador_Protoboard implements Initializable {
     public void dibujarSwitch() {
         GraphicsContext gc = tablero.getGraphicsContext2D();
         gc.setStroke(Color.GREY);
-        for (int k = 0; k < 48; k++) {        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
-            gc.strokeLine(x_switch, y_switch + k, x_switch+48, y_switch + k); //ancho del switch = 48
+        gc.setLineWidth(2);
+        for (int k = 0; k < 43; k++) {        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
+            gc.strokeLine(x_switch, y_switch + k , x_switch+46, y_switch + k); //ancho del switch = 48
         }
+
         gc.setFill(Color.BLACK);
-        gc.fillOval(x_switch+4, y_switch+4, 40, 40);
+        gc.fillOval(x_switch, y_switch+3,8,8);
+        gc.fillOval(x_switch, y_switch+33,8,8);
+        gc.fillOval(x_switch+39, y_switch+3,8,8);
+        gc.fillOval(x_switch+39, y_switch+33,8,8);
+
+        gc.setFill(Color.BLACK);
+        gc.fillOval(x_switch+8, y_switch+8, 30, 30);
 
     }
     public void dibujarCable(ActionEvent event){
-
+        btnAgregarCable.setDisable(true);
+        btnAgregarLed.setDisable(true);
+        btnAgregarSwitch.setDisable(true);
+        btnEliminarObj.setDisable(true);
         if (contador_cables < 2){
             JOptionPane.showMessageDialog(null,"Seleccione la posicion inicial");
 
@@ -207,6 +232,10 @@ public class Controlador_Protoboard implements Initializable {
     }
 
     public void activarEliminacion(){
+        btnAgregarCable.setDisable(true);
+        btnAgregarLed.setDisable(true);
+        btnAgregarSwitch.setDisable(true);
+        btnEliminarObj.setDisable(true);
         activar_eliminacion=true;
     }
 
@@ -233,6 +262,7 @@ public class Controlador_Protoboard implements Initializable {
             punto_final_x_cable = arreglo_coordenadas_cables.get(i+2);
             punto_final_y_cable = arreglo_coordenadas_cables.get(i+3);
             gc.setStroke(Color.RED);
+            gc.setLineWidth(5);
             gc.strokeLine(punto_inicio_x_cable,punto_inicio_y_cable,punto_final_x_cable,punto_final_y_cable);
         }
 
@@ -242,6 +272,7 @@ public class Controlador_Protoboard implements Initializable {
             punto_final_x_patita = arreglo_coordenadas_patitas_leds.get(i+2);
             punto_final_y_patita = arreglo_coordenadas_patitas_leds.get(i+3);
             gc.setStroke(Color.GRAY);
+            gc.setLineWidth(3);
             gc.strokeLine(punto_inicio_x_patita,punto_inicio_y_patita,punto_final_x_patita,punto_final_y_patita);
 
 
@@ -266,20 +297,22 @@ public class Controlador_Protoboard implements Initializable {
         }    i=i-2;
         if (cent_led){
 
-                arreglo_coordenadas_leds.remove(i);
-                arreglo_coordenadas_leds.remove(i);
 
-                // calcular que patitas son : 2*i + los 3 siguientes a ese
+            arreglo_coordenadas_leds.remove(i);
+            arreglo_coordenadas_leds.remove(i);
 
-                arreglo_coordenadas_patitas_leds.remove(4*i);
-                arreglo_coordenadas_patitas_leds.remove(4*i);
-                arreglo_coordenadas_patitas_leds.remove(4*i);
-                arreglo_coordenadas_patitas_leds.remove(4*i);
+            // calcular que patitas son : 2*i + los 3 siguientes a ese
 
-                arreglo_coordenadas_patitas_leds.remove(4*i);
-                arreglo_coordenadas_patitas_leds.remove(4*i);
-                arreglo_coordenadas_patitas_leds.remove(4*i);
-                arreglo_coordenadas_patitas_leds.remove(4*i);
+            arreglo_coordenadas_patitas_leds.remove(4*i);
+            arreglo_coordenadas_patitas_leds.remove(4*i);
+            arreglo_coordenadas_patitas_leds.remove(4*i);
+            arreglo_coordenadas_patitas_leds.remove(4*i);
+
+            arreglo_coordenadas_patitas_leds.remove(4*i);
+            arreglo_coordenadas_patitas_leds.remove(4*i);
+            arreglo_coordenadas_patitas_leds.remove(4*i);
+            arreglo_coordenadas_patitas_leds.remove(4*i);
+
 
             gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
             dibujarTodo();
@@ -333,10 +366,15 @@ public class Controlador_Protoboard implements Initializable {
 
     }
     public void activaLed(){
+        btnAgregarCable.setDisable(true);
+        btnAgregarLed.setDisable(true);
+        btnAgregarSwitch.setDisable(true);
+        btnEliminarObj.setDisable(true);
         led_puesto=false;
         agrega_led=true;
         patita_led_1=false;
         cantidad_patitas=0;
+        JOptionPane.showMessageDialog(null, "Seleccione punto inicial");
     }
 
     private void soltarMouse(MouseEvent event) {
@@ -351,21 +389,35 @@ public class Controlador_Protoboard implements Initializable {
                 punto_final_y_cable = puntoCercano[1];
             }
             // agregar las coordenadas al arreglo
-            arreglo_coordenadas_cables.add(punto_inicio_x_cable); arreglo_coordenadas_cables.add(punto_inicio_y_cable);arreglo_coordenadas_cables.add(punto_final_x_cable);  arreglo_coordenadas_cables.add(punto_final_y_cable);
 
-            // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
-            int posicion1_x = (int) ((punto_inicio_x_cable - 15) / 20);
-            int posicion1_y = (int) ((punto_inicio_y_cable - 15) / 20);
-            int posicion2_x = (int) ((punto_final_x_cable - 15) / 20);
-            int posicion2_y = (int) ((punto_final_y_cable - 15) / 20);
+            if (punto_final_x_cable - punto_inicio_x_cable > 100 || punto_inicio_y_cable - punto_final_y_cable > 100){
+                JOptionPane.showMessageDialog(null, "Haga el cable mas corto.");
+            } else if (punto_final_x_cable >= 605 || punto_inicio_x_cable >=605 || punto_inicio_y_cable >= 285){
+                JOptionPane.showMessageDialog(null, "Ingrese el cable dentro del protoboard");
 
-            // ahora retornar todo lo anterior a la lista de coordenadas de cables
+            } else{
+                arreglo_coordenadas_cables.add(punto_inicio_x_cable); arreglo_coordenadas_cables.add(punto_inicio_y_cable);arreglo_coordenadas_cables.add(punto_final_x_cable);  arreglo_coordenadas_cables.add(punto_final_y_cable);
+
+                // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
+                int posicion1_x = (int) ((punto_inicio_x_cable - 15) / 20);
+                int posicion1_y = (int) ((punto_inicio_y_cable - 15) / 20);
+                int posicion2_x = (int) ((punto_final_x_cable - 15) / 20);
+                int posicion2_y = (int) ((punto_final_y_cable - 15) / 20);
+
+                // ahora retornar todo lo anterior a la lista de coordenadas de cables
 
 
 
-            gc.strokeLine(punto_inicio_x_cable, punto_inicio_y_cable, punto_final_x_cable,punto_final_y_cable); // dibuja el cable
-            contador_cables++;
-            movible_cable = false;
+                gc.strokeLine(punto_inicio_x_cable, punto_inicio_y_cable, punto_final_x_cable,punto_final_y_cable); // dibuja el cable
+                contador_cables++;
+                movible_cable = false;
+
+                btnAgregarCable.setDisable(false);
+                btnAgregarLed.setDisable(false);
+                btnAgregarSwitch.setDisable(false);
+                btnEliminarObj.setDisable(false);
+            }
+
 
         } else if (patita_led_1 && cantidad_patitas<2 && dibujar_patitas){
 
@@ -376,23 +428,36 @@ public class Controlador_Protoboard implements Initializable {
                 punto_final_x_patita = puntoCercano[0];
                 punto_final_y_patita = puntoCercano[1];
             }
-            arreglo_coordenadas_patitas_leds.add(punto_inicio_x_patita);arreglo_coordenadas_patitas_leds.add(punto_inicio_y_patita);arreglo_coordenadas_patitas_leds.add(punto_final_x_patita); arreglo_coordenadas_patitas_leds.add(punto_final_y_patita);
-            // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
-            // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
-            int posicion1_x = (int) ((punto_inicio_x_patita - 15) / 20);
-            int posicion1_y = (int) ((punto_inicio_y_patita - 15) / 20);
-            int posicion2_x = (int) ((punto_final_x_patita - 15) / 20);
-            int posicion2_y = (int) ((punto_final_y_patita - 15) / 20);
+            if (punto_final_x_patita - punto_inicio_x_patita > 50){
+                JOptionPane.showMessageDialog(null,"Demasiada distancia. Haga la patita mas corta.");
+            }
+            else{
+                arreglo_coordenadas_patitas_leds.add(punto_inicio_x_patita);arreglo_coordenadas_patitas_leds.add(punto_inicio_y_patita);arreglo_coordenadas_patitas_leds.add(punto_final_x_patita); arreglo_coordenadas_patitas_leds.add(punto_final_y_patita);
+                // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
+                // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
+                int posicion1_x = (int) ((punto_inicio_x_patita - 15) / 20);
+                int posicion1_y = (int) ((punto_inicio_y_patita - 15) / 20);
+                int posicion2_x = (int) ((punto_final_x_patita - 15) / 20);
+                int posicion2_y = (int) ((punto_final_y_patita - 15) / 20);
 
-            // ahora retornar todo lo anterior a la lista de coordenadas de patitas (leds)
+                // ahora retornar todo lo anterior a la lista de coordenadas de patitas (leds)
 
-            // dibujar patitas
-            gc.setStroke(Color.GRAY);
-            gc.setLineWidth(3);
-            gc.strokeLine(punto_inicio_x_patita, punto_inicio_y_patita, punto_final_x_patita, punto_final_y_patita);
-            patita_led_1=false;
-            cantidad_patitas++;
-            dibujar_patitas=false;
+                // dibujar patitas
+                gc.setStroke(Color.GRAY);
+                gc.setLineWidth(3);
+                gc.strokeLine(punto_inicio_x_patita, punto_inicio_y_patita, punto_final_x_patita, punto_final_y_patita);
+                patita_led_1=false;
+                cantidad_patitas++;
+                dibujar_patitas=false;
+
+                if (cantidad_patitas==2){
+                    btnAgregarCable.setDisable(false);
+                    btnAgregarLed.setDisable(false);
+                    btnAgregarSwitch.setDisable(false);
+                    btnEliminarObj.setDisable(false);
+                }
+            }
+
 
         }
         if (led_puesto && !patita_led_1){
@@ -429,6 +494,10 @@ public class Controlador_Protoboard implements Initializable {
             } arreglo_coordenadas_switch.add(x_switch); arreglo_coordenadas_switch.add(y_switch);
             dibujarSwitch();
             agrega_switch = false;
+            btnAgregarCable.setDisable(false);
+            btnAgregarLed.setDisable(false);
+            btnAgregarSwitch.setDisable(false);
+            btnEliminarObj.setDisable(false);
         }
         if (agrega_led){ // agrega un led al hacer click en una posicion // verificaciones y demas
             x_led= event.getX();
@@ -439,6 +508,11 @@ public class Controlador_Protoboard implements Initializable {
                 y_led = puntoCercano[1]-15;
             } arreglo_coordenadas_leds.add(x_led); arreglo_coordenadas_leds.add(y_led); // agregar al arreglo
             dibujarLed();
+            btnAgregarCable.setDisable(true);
+            btnAgregarLed.setDisable(true);
+            btnAgregarSwitch.setDisable(true);
+            btnEliminarObj.setDisable(true);
+
             agrega_led=false;
             led_puesto=true;
             patita_led_1=false;
@@ -451,7 +525,10 @@ public class Controlador_Protoboard implements Initializable {
                 dibujar_patitas=true;
 
             } else{
-                JOptionPane.showMessageDialog(null,"posicion invalida");
+
+                JOptionPane.showMessageDialog(null,"Posicion invalida.");
+                JOptionPane.showMessageDialog(null,"Ponga las patitas encima del led hacia un punto cercano.");
+
             }
 
             /*
@@ -462,6 +539,7 @@ public class Controlador_Protoboard implements Initializable {
             } */ // aca la implementacion seria que inicie del LED y termine en un punto del protoboard
         }
         if (movible_cable){
+
             punto_inicio_x_cable = event.getX();
             punto_inicio_y_cable = event.getY();
             double[] puntoCercano = alcanzarPuntoCercano(punto_inicio_x_cable, punto_inicio_y_cable);
@@ -486,38 +564,44 @@ public class Controlador_Protoboard implements Initializable {
                 {15, 15}, {35, 15},{55, 15},{75, 15}, {95, 15},{115, 15},{135, 15}, {155, 15},{175, 15},{195, 15}, {215, 15},{235, 15},{255, 15}, {275, 15},{295, 15},
                 {315, 15}, {335, 15},{355, 15},{375, 15}, {395, 15},{415, 15},{435, 15}, {455, 15},{475, 15},{495, 15}, {515, 15},{535, 15},{555, 15}, {575, 15},{595, 15},
                 // fila 0.5
-                {30, 30}, {35, 30},{55, 30},{75, 30}, {95, 30},{130, 30},{135, 30}, {305, 30},{175, 30},{195, 30}, {230, 30},{235, 30},{255, 30}, {275, 30},{295, 30},
+
+                {15, 30}, {35, 30},{55, 30},{75, 30}, {95, 30},{130, 30},{135, 30}, {305, 30},{175, 30},{195, 30}, {230, 30},{235, 30},{255, 30}, {275, 30},{295, 30},
                 {330, 30}, {335, 30},{355, 30},{375, 30}, {395, 30},{430, 30},{435, 30}, {455, 30},{475, 30},{495, 30}, {530, 30},{535, 30},{555, 30}, {575, 30},{595, 30},
                 // fila 1
-                {15, 65}, {35, 65},{55, 65},{75, 65}, {95, 65},{115, 65},{135, 65}, {155, 65},{175, 65},{195, 65}, {215, 65},{235, 65},{255, 65}, {275, 65},{295, 65},
-                {315, 65}, {335, 65},{355, 65},{375, 65}, {395, 65},{415, 65},{435, 65}, {455, 65},{475, 65},{495, 65}, {515, 65},{535, 65},{555, 65}, {575, 65},{595, 65},
+                {15, 68}, {35, 68},{55, 68},{75, 68}, {95, 68},{115, 68},{135, 68}, {155, 68},{175, 68},{195, 68}, {215, 68},{235, 68},{255, 68}, {275, 68},{295, 68},
+                {315, 68}, {335, 68},{355, 68},{375, 68}, {395, 68},{415, 68},{435, 68}, {455, 68},{475, 68},{495, 68}, {515, 68},{535, 68},{555, 68}, {575, 68},{595, 68},
+
                 // fila 2
                 {15, 85}, {35, 85},{55, 85},{75, 85}, {95, 85},{115, 85},{135, 85}, {155, 85},{175, 85},{195, 85}, {215, 85},{235, 85},{255, 85}, {275, 85},{295, 85},
                 {315, 85}, {335, 85},{355, 85},{375, 85}, {395, 85},{415, 85},{435, 85}, {455, 85},{475, 85},{495, 85}, {515, 85},{535, 85},{555, 85}, {575, 85},{595, 85},
                 // fila 3
-                {15, 105}, {35, 105},{55, 105},{75, 105}, {95, 105},{115, 105},{135, 105}, {155, 105},{175, 105},{195, 105}, {215, 105},{235, 105},{255, 105}, {275, 105},{295, 105},
-                {315, 105}, {335, 105},{355, 105},{375, 105}, {395, 105},{415, 105},{435, 105}, {455, 105},{475, 105},{495, 105}, {515, 105},{535, 105},{555, 105}, {575, 105},{595, 105},
+
+                {15, 100}, {35, 100},{55, 100},{75, 100}, {95, 100},{115, 100},{135, 100}, {155, 100},{175, 100},{195, 100}, {215, 100},{235, 100},{255, 100}, {275, 100},{295, 100},
+                {315, 100}, {335, 100},{355, 100},{375, 100}, {395, 100},{415, 100},{435, 100}, {455, 100},{475, 100},{495, 100}, {515, 100},{535, 100},{555, 100}, {575, 100},{595, 100},
                 // fila 4
-                {15, 120}, {35, 120},{55, 120},{75, 120}, {95, 120},{115, 120},{135, 120}, {155, 120},{175, 120},{195, 120}, {215, 120},{235, 120},{255, 120}, {275, 120},{295, 120},
-                {315, 120}, {335, 120},{355, 120},{375, 120}, {395, 120},{415, 120},{435, 120}, {455, 120},{475, 120},{495, 120}, {515, 120},{535, 120},{555, 120}, {575, 120},{595, 120},
+                {15, 115}, {35, 115},{55, 115},{75, 115}, {95, 115},{115, 115},{135, 115}, {155, 115},{175, 115},{195, 115}, {215, 115},{235, 115},{255, 115}, {275, 115},{295, 115},
+                {315, 115}, {335, 115},{355, 115},{375, 115}, {395, 115},{415, 115},{435, 115}, {455, 115},{475, 115},{495, 115}, {515, 115},{535, 115},{555, 115}, {575, 115},{595, 115},
                 // fila 5
-                {15, 135}, {35, 135},{55, 135},{75, 135}, {95, 135},{115, 135},{135, 135}, {155, 135},{175, 135},{195, 135}, {215, 135},{235, 135},{255, 135}, {275, 135},{295, 135},
-                {315, 135}, {335, 135},{355, 135},{375, 135}, {395, 135},{415, 135},{435, 135}, {455, 135},{475, 135},{495, 135}, {515, 135},{535, 135},{555, 135}, {575, 135},{595, 135},
+                {15, 130}, {35, 130},{55, 130},{75, 130}, {95, 130},{115, 130},{135, 130}, {155, 130},{175, 130},{195, 130}, {215, 130},{235, 130},{255, 130}, {275, 130},{295, 130},
+                {315, 130}, {335, 130},{355, 130},{375, 130}, {395, 130},{415, 130},{435, 130}, {455, 130},{475, 130},{495, 130}, {515, 130},{535, 130},{555, 130}, {575, 130},{595, 130},
+
                 // fila 6
                 {15, 165}, {35, 165},{55, 165},{75, 165}, {95, 165},{115, 165},{135, 165}, {155, 165},{175, 165},{195, 165}, {215, 165},{235, 165},{255, 165}, {275, 165},{295, 165},
                 {315, 165}, {335, 165},{355, 165},{375, 165}, {395, 165},{415, 165},{435, 165}, {455, 165},{475, 165},{495, 165}, {515, 165},{535, 165},{555, 165}, {575, 165},{595, 165},
                 // fila 7
-                {15, 185}, {35, 185},{55, 185},{75, 185}, {95, 185},{115, 185},{135, 185}, {155, 185},{175, 185},{195, 185}, {215, 185},{235, 185},{255, 185}, {275, 185},{295, 185},
-                {315, 185}, {335, 185},{355, 185},{375, 185}, {395, 185},{415, 185},{435, 185}, {455, 185},{475, 185},{495, 185}, {515, 185},{535, 185},{555, 185}, {575, 185},{595, 185},
+
+                {15, 180}, {35, 180},{55, 180},{75, 180}, {95, 180},{115, 180},{135, 180}, {155, 180},{175, 180},{195, 180}, {215, 180},{235, 180},{255, 180}, {275, 180},{295, 180},
+                {315, 180}, {335, 180},{355, 180},{375, 180}, {395, 180},{415, 180},{435, 180}, {455, 180},{475, 180},{495, 180}, {515, 180},{535, 180},{555, 180}, {575, 180},{595, 180},
                 // fila 8
-                {15, 205}, {35, 205},{55, 205},{75, 205}, {95, 205},{115, 205},{135, 205}, {155, 205},{175, 205},{195, 205}, {215, 205},{235, 205},{255, 205}, {275, 205},{295, 205},
-                {315, 205}, {335, 205},{355, 205},{375, 205}, {395, 205},{415, 205},{435, 205}, {455, 205},{475, 205},{495, 205}, {515, 205},{535, 205},{555, 205}, {575, 205},{595, 205},
+                {15, 195}, {35, 195},{55, 195},{75, 195}, {95, 195},{115, 195},{135, 195}, {155, 195},{175, 195},{195, 195}, {215, 195},{235, 195},{255, 195}, {275, 195},{295, 195},
+                {315, 195}, {335, 195},{355, 195},{375, 195}, {395, 195},{415, 195},{435, 195}, {455, 195},{475, 195},{495, 195}, {515, 195},{535, 195},{555, 195}, {575, 195},{595, 195},
                 // fila 9
+                {15, 210}, {35, 210},{55, 210},{75, 210}, {95, 210},{115, 210},{135, 210}, {155, 210},{175, 210},{195, 210}, {215, 210},{235, 210},{255, 210}, {275, 210},{295, 210},
+                {315, 20}, {335, 210},{355, 210},{375, 210}, {395, 210},{415, 210},{435, 210}, {455, 210},{475, 210},{495, 210}, {515, 210},{535, 210},{555, 210}, {575, 210},{595, 210},
+                // fila 10
                 {15, 225}, {35, 225},{55, 225},{75, 225}, {95, 225},{115, 225},{135, 225}, {155, 225},{175, 225},{195, 225}, {215, 225},{235, 225},{255, 225}, {275, 225},{295, 225},
                 {315, 225}, {335, 225},{355, 225},{375, 225}, {395, 225},{415, 225},{435, 225}, {455, 225},{475, 225},{495, 225}, {515, 225},{535, 225},{555, 225}, {575, 225},{595, 225},
-                // fila 10
-                {15, 245}, {35, 245},{55, 245},{75, 245}, {95, 245},{115, 245},{135, 245}, {155, 245},{175, 245},{195, 245}, {215, 245},{235, 245},{255, 245}, {275, 245},{295, 245},
-                {315, 245}, {335, 245},{355, 245},{375, 245}, {395, 245},{415, 245},{435, 245}, {455, 245},{475, 245},{495, 245}, {515, 245},{535, 245},{555, 245}, {575, 245},{595, 245},
+
                 // fila 11
                 {15, 265}, {35, 265},{55, 265},{75, 265}, {95, 265},{115, 265},{135, 265}, {2655, 265},{175, 265},{195, 265}, {215, 265},{235, 265},{255, 265}, {275, 265},{295, 265},
                 {315, 265}, {335, 265},{355, 265},{375, 265}, {395, 265},{415, 265},{435, 265}, {455, 265},{475, 265},{495, 265}, {515, 265},{535, 265},{555, 265}, {575, 265},{595, 265},
