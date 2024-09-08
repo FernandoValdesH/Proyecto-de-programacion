@@ -67,6 +67,9 @@ public class Controlador_Protoboard implements Initializable {
 
     int contador_cables;
 
+    logicalProtoboard[][] Protoboard_logica = new logicalProtoboard[30][14];
+    protoboard _Protoboard_Funcional = protoboard.getInstance(Protoboard_logica);
+
     private void dibujarProtoboard(GraphicsContext gc){
         x= 10;
         y= 10;
@@ -379,7 +382,7 @@ public class Controlador_Protoboard implements Initializable {
 
     private void soltarMouse(MouseEvent event) {
         GraphicsContext gc = tablero.getGraphicsContext2D();
-
+        boolean conectado_bateria=false;
         if (movible_cable){
             punto_final_x_cable=event.getX();
             punto_final_y_cable=event.getY();
@@ -388,23 +391,43 @@ public class Controlador_Protoboard implements Initializable {
                 punto_final_x_cable = puntoCercano[0];
                 punto_final_y_cable = puntoCercano[1];
             }
-            // agregar las coordenadas al arreglo
 
-            if (punto_final_x_cable - punto_inicio_x_cable > 100 || punto_inicio_y_cable - punto_final_y_cable > 100){
+            // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
+            int posicion1_x = (int) ((punto_inicio_x_cable - 15) / 20);
+            int posicion1_y = (int) ((punto_inicio_y_cable - 15) / 20);
+            int posicion2_x = (int) ((punto_final_x_cable - 15) / 20);
+            int posicion2_y = (int) ((punto_final_y_cable - 15) / 20);
+            System.out.println(posicion1_x + " + " + posicion2_x);
+            System.out.println(punto_inicio_y_cable + " + " + punto_final_y_cable);
+            if (punto_final_x_cable - punto_inicio_x_cable > 150 || punto_inicio_y_cable - punto_final_y_cable > 100){
                 JOptionPane.showMessageDialog(null, "Haga el cable mas corto.");
-            } else if (punto_final_x_cable >= 605 || punto_inicio_x_cable >=605 || punto_inicio_y_cable >= 285){
+            } else if (punto_final_x_cable <= 0  || punto_inicio_y_cable >= 285 || punto_final_y_cable<=0 || punto_final_y_cable >=285){
                 JOptionPane.showMessageDialog(null, "Ingrese el cable dentro del protoboard");
 
-            } else{
+            }else if(posicion2_x==32||posicion1_x==32|| posicion1_x == 31 || posicion2_x==31 || posicion1_x== 30 || posicion2_x==30 ||posicion1_x == 34 && punto_inicio_y_cable > 270 || posicion1_x == 34 && punto_inicio_y_cable<240 || posicion1_x == 33 && punto_inicio_y_cable > 270 || posicion1_x == 33 && punto_inicio_y_cable<240 || posicion2_x==34 && punto_final_y_cable >270 || posicion2_x == 34 && punto_final_y_cable<240 || posicion2_x==33 && punto_final_y_cable < 240 || posicion2_x == 33 && punto_final_y_cable > 270 || posicion2_x==35 && punto_final_y_cable < 240 || posicion2_x == 35 && punto_final_y_cable > 270){
+                JOptionPane.showMessageDialog(null,"Ingrese el cable dentro del protoboard o conectado a las puntas de la bateria");
+            }
+            else{
+                // agregar las coordenadas al arreglo
                 arreglo_coordenadas_cables.add(punto_inicio_x_cable); arreglo_coordenadas_cables.add(punto_inicio_y_cable);arreglo_coordenadas_cables.add(punto_final_x_cable);  arreglo_coordenadas_cables.add(punto_final_y_cable);
 
-                // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
-                int posicion1_x = (int) ((punto_inicio_x_cable - 15) / 20);
-                int posicion1_y = (int) ((punto_inicio_y_cable - 15) / 20);
-                int posicion2_x = (int) ((punto_final_x_cable - 15) / 20);
-                int posicion2_y = (int) ((punto_final_y_cable - 15) / 20);
+                if ((punto_final_x_cable == 675 && punto_final_y_cable== 255)){
+                    posicion2_x = -3; posicion2_y = -3;
+                    conectado_bateria=true;
+                } else if (punto_inicio_x_cable == 675 && punto_inicio_y_cable== 255 ){
+                    posicion1_x = -2; posicion1_y = -2;
+                    conectado_bateria=true;
+                } else if ((punto_final_x_cable == 710 && punto_final_y_cable== 255)){
+                    posicion2_x = -3; posicion2_y = -3;
+                    conectado_bateria=true;
+                }else if((punto_inicio_x_cable == 710 && punto_inicio_y_cable== 255)){
+                    posicion1_x = -2; posicion1_y = -2;
+                    conectado_bateria=true;
+                }
 
-                // ahora retornar todo lo anterior a la lista de coordenadas de cables
+                // guarda el cable
+                _Protoboard_Funcional.cableSet(_Protoboard_Funcional, posicion1_x, posicion1_y, posicion2_x, posicion2_y,conectado_bateria);
+
 
 
 
@@ -468,7 +491,6 @@ public class Controlador_Protoboard implements Initializable {
     }
 
     private void click(MouseEvent event) {
-
         if (activar_eliminacion){
             inicio_x_eliminar=event.getX();
             inicio_y_eliminar=event.getY();
@@ -476,11 +498,14 @@ public class Controlador_Protoboard implements Initializable {
             if (puntoCercano != null) {
                 inicio_x_eliminar = puntoCercano[0];
                 inicio_y_eliminar = puntoCercano[1];
-            } System.out.println(inicio_x_eliminar + "," + inicio_y_eliminar);
+            }
 
 
             eliminarElemento(inicio_x_eliminar, inicio_y_eliminar);
-
+            btnAgregarCable.setDisable(false);
+            btnAgregarLed.setDisable(false);
+            btnAgregarSwitch.setDisable(false);
+            btnEliminarObj.setDisable(false);
             activar_eliminacion=false;
         }
 
@@ -560,6 +585,8 @@ public class Controlador_Protoboard implements Initializable {
 
     private double[] alcanzarPuntoCercano(double x, double y) {
         double[][] puntosDisponibles = {
+                // BATERIA
+                {675, 255}, {710, 255},
                 // fila 0
                 {15, 15}, {35, 15},{55, 15},{75, 15}, {95, 15},{115, 15},{135, 15}, {155, 15},{175, 15},{195, 15}, {215, 15},{235, 15},{255, 15}, {275, 15},{295, 15},
                 {315, 15}, {335, 15},{355, 15},{375, 15}, {395, 15},{415, 15},{435, 15}, {455, 15},{475, 15},{495, 15}, {515, 15},{535, 15},{555, 15}, {575, 15},{595, 15},
