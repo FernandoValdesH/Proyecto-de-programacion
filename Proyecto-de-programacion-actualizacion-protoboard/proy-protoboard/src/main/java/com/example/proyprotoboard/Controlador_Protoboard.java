@@ -417,8 +417,6 @@ public class Controlador_Protoboard implements Initializable {
                 posicion1_y = (int) ((punto_inicio_y_cable - 15 )/20);
             }
 
-            System.out.println(posicion1_x + " + " + posicion2_x + " posy1 " + posicion1_y + " posy2 " + posicion2_y);
-            System.out.println(punto_inicio_y_cable + " + " + punto_final_y_cable);
             if (punto_final_x_cable - punto_inicio_x_cable > 150 || punto_inicio_y_cable - punto_final_y_cable > 100){
                 JOptionPane.showMessageDialog(null, "Haga el cable mas corto.");
             } else if (punto_final_x_cable <= 0  || punto_inicio_y_cable >= 285 || punto_final_y_cable<=0 || punto_final_y_cable >=285){
@@ -432,7 +430,7 @@ public class Controlador_Protoboard implements Initializable {
                 arreglo_coordenadas_cables.add(punto_inicio_x_cable); arreglo_coordenadas_cables.add(punto_inicio_y_cable);arreglo_coordenadas_cables.add(punto_final_x_cable);  arreglo_coordenadas_cables.add(punto_final_y_cable);
 
                 if ((punto_final_x_cable == 675 && punto_final_y_cable== 255)){
-                    posicion2_x = -3; posicion2_y = -3;
+                    posicion2_x = -2; posicion2_y = -2;
                     conectado_bateria=true;
                 } else if (punto_inicio_x_cable == 675 && punto_inicio_y_cable== 255 ){
                     posicion1_x = -2; posicion1_y = -2;
@@ -441,7 +439,7 @@ public class Controlador_Protoboard implements Initializable {
                     posicion2_x = -3; posicion2_y = -3;
                     conectado_bateria=true;
                 }else if((punto_inicio_x_cable == 710 && punto_inicio_y_cable== 255)){
-                    posicion1_x = -2; posicion1_y = -2;
+                    posicion1_x = -3; posicion1_y = -3;
                     conectado_bateria=true;
                 }
 
