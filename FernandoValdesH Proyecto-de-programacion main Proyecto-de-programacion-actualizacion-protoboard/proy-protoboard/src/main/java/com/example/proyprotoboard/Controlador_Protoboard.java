@@ -251,12 +251,34 @@ public class Controlador_Protoboard implements Initializable {
         for (int i = 0 ; i < arreglo_coordenadas_leds.size() ; i+=2){
             x_led=arreglo_coordenadas_leds.get(i);
             y_led=arreglo_coordenadas_leds.get(i+1);
-            dibujarLed(Color.DARKRED);
+            // recuperar coordenadas 2 y 3 del arreglo de patitas de leds, transformarlas a posicion de matriz y chequear y si esa posicion tiene corriente o no
+            // si tiene corriente, dibujar el led en rojo, si no, dibujar el led en darkred
+            int posicion1_x = (int) ((arreglo_coordenadas_patitas_leds.get(2+i*8) - 15) / 20);
+            int posicion1_y = 0;
+            if ((arreglo_coordenadas_patitas_leds.get(3+i*8) < 68)){
+                posicion1_y = (int) (((arreglo_coordenadas_patitas_leds.get(3+i*8) - 15) /15));
+            } else if (arreglo_coordenadas_patitas_leds.get(3+i*8) >= 68 && (arreglo_coordenadas_patitas_leds.get(3+i*8) < 180)){
+                posicion1_y = (int) ((((arreglo_coordenadas_patitas_leds.get(3+i*8) - 15) /15) -1));
+            } else if (arreglo_coordenadas_patitas_leds.get(3+i*8) >= 180 && (arreglo_coordenadas_patitas_leds.get(3+i*8) <= 225)){
+                posicion1_y = (int) ((((arreglo_coordenadas_patitas_leds.get(3+i*8) - 30) /15)-2));
+            } else if (arreglo_coordenadas_patitas_leds.get(3+i*8) > 225){
+                posicion1_y = (int) (((arreglo_coordenadas_patitas_leds.get(3+i*8) - 15 )/20));
+            }
+            if (_Protoboard_Funcional.protoboard[posicion1_x][posicion1_y]._led.encendido){
+                System.out.println("ete sech");
+                dibujarLed(Color.RED);
+            } else {
+                System.out.println("pepito");
+                dibujarLed(Color.DARKRED);
+            }
+
         }
 
         for (int i = 0 ; i < arreglo_coordenadas_switch.size() ; i+=2){
             x_switch=arreglo_coordenadas_switch.get(i);
+            System.out.println(x_switch );
             y_switch=arreglo_coordenadas_switch.get(i+1);
+            System.out.println(y_switch);
             dibujarSwitch();
         }
 
@@ -307,6 +329,23 @@ public class Controlador_Protoboard implements Initializable {
 
             // calcular que patitas son : 2*i + los 3 siguientes a ese
 
+
+            int indice_1 = 2 + i * 8;
+            int indice_2 = 3 + i * 8;
+            // transformar coordenadas a posiciones de la matriz para eliminar el cable y la corriente que llevaba este
+            int posicion1_x = (int) ((arreglo_coordenadas_patitas_leds.get(indice_1) - 15) / 20);
+            int posicion1_y = 0;
+            if ((arreglo_coordenadas_patitas_leds.get(indice_2) < 68)){
+                posicion1_y = (int) (((arreglo_coordenadas_patitas_leds.get(indice_2) - 15) /15));
+            } else if (arreglo_coordenadas_patitas_leds.get(indice_2) >= 68 && (arreglo_coordenadas_patitas_leds.get(indice_2) < 180)){
+                posicion1_y = (int) ((((arreglo_coordenadas_patitas_leds.get(indice_2) - 15 )/15) -1));
+            } else if (arreglo_coordenadas_patitas_leds.get(indice_2) >= 180 && (arreglo_coordenadas_patitas_leds.get(indice_2) <= 225)){
+                posicion1_y = (int) ((((arreglo_coordenadas_patitas_leds.get(indice_2) - 30) /15)-2));
+            } else if (arreglo_coordenadas_patitas_leds.get(indice_2) > 225){
+                posicion1_y = (int) (((arreglo_coordenadas_patitas_leds.get(indice_2) - 15 )/20));
+            }
+
+
             arreglo_coordenadas_patitas_leds.remove(4*i);
             arreglo_coordenadas_patitas_leds.remove(4*i);
             arreglo_coordenadas_patitas_leds.remove(4*i);
@@ -316,6 +355,9 @@ public class Controlador_Protoboard implements Initializable {
             arreglo_coordenadas_patitas_leds.remove(4*i);
             arreglo_coordenadas_patitas_leds.remove(4*i);
             arreglo_coordenadas_patitas_leds.remove(4*i);
+
+
+            _Protoboard_Funcional.eliminarElemento(_Protoboard_Funcional, posicion1_x, posicion1_y);
 
 
             gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
@@ -328,8 +370,30 @@ public class Controlador_Protoboard implements Initializable {
                 }
             } i = i-2;
             if (cent_switch){
+                // transformar coordenadas a posiciones de la matriz para eliminar el cable y la corriente que llevaba este
+                int posicion1_x = (arreglo_coordenadas_switch.get(i).intValue() );
+                posicion1_x+=24;
+                posicion1_x = ((posicion1_x - 15) / 20);
+                int posicion1_y = (arreglo_coordenadas_switch.get(i+1).intValue() );
+                posicion1_y+=24;
+                if (posicion1_y < 68){
+                    posicion1_y = (posicion1_y - 15) /15;
+                } else if (posicion1_y >= 68 && posicion1_y < 180){
+                    posicion1_y =  (((posicion1_y - 15) /15) -1);
+                } else if (posicion1_y >= 180 && posicion1_y <= 225){
+                    posicion1_y =  (((posicion1_y - 30) /15)-2);
+                } else if (posicion1_y > 225){
+                    posicion1_y = ((posicion1_y - 15 )/20);
+                }
+
                 arreglo_coordenadas_switch.remove(i);
                 arreglo_coordenadas_switch.remove(i);
+
+                _Protoboard_Funcional.eliminarElemento(_Protoboard_Funcional, posicion1_x, posicion1_y);
+
+
+
+
                 gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
                 dibujarTodo();
             } else{
@@ -340,10 +404,37 @@ public class Controlador_Protoboard implements Initializable {
                     }
                 } i=i-4;
                 if (cent_cable){
+                    // transformar coordenadas a posiciones de la matriz para eliminar el cable y la corriente que llevaba este
+                    System.out.println("indice en el que queda: " + i);
+                    int posicion1_x = (int) ((arreglo_coordenadas_cables.get(2+i) - 15) / 20);
+                    int posicion1_y = (arreglo_coordenadas_cables.get(i+3).intValue());
+                    System.out.println(arreglo_coordenadas_cables.get(i+2));
+                    System.out.println(arreglo_coordenadas_cables.get(i+3));
+                    System.out.println(posicion1_x);
+
+                    if (posicion1_y < 68){
+                        posicion1_y = (posicion1_y - 15) /15;
+                    } else if (posicion1_y >= 68 && posicion1_y < 180){
+                        posicion1_y =  (((posicion1_y - 15) /15) -1);
+                    } else if (posicion1_y >= 180 && posicion1_y <= 225){
+                        posicion1_y =  (((posicion1_y - 30) /15)-2);
+                    } else if (posicion1_y > 225){
+                        posicion1_y = ((posicion1_y - 15 )/20);
+                    }
+                    System.out.println(posicion1_y);
+
+
                     arreglo_coordenadas_cables.remove(i);
                     arreglo_coordenadas_cables.remove(i);
                     arreglo_coordenadas_cables.remove(i);
                     arreglo_coordenadas_cables.remove(i);
+
+
+
+
+                    _Protoboard_Funcional.eliminarElemento(_Protoboard_Funcional, posicion1_x, posicion1_y);
+                    _Protoboard_Funcional.eliminarCorriente(_Protoboard_Funcional, posicion1_x, posicion1_y);
+
 
 
                     gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
@@ -380,6 +471,8 @@ public class Controlador_Protoboard implements Initializable {
         cantidad_patitas=0;
         JOptionPane.showMessageDialog(null, "Seleccione punto inicial");
     }
+
+
     int auxx = 0, auxy = 0;
     private void soltarMouse(MouseEvent event) {
         GraphicsContext gc = tablero.getGraphicsContext2D();
@@ -418,8 +511,6 @@ public class Controlador_Protoboard implements Initializable {
                 posicion1_y = (int) ((punto_inicio_y_cable - 15 )/20);
             }
 
-            System.out.println(posicion1_x + " + " + posicion2_x + " posy1 " + posicion1_y + " posy2 " + posicion2_y);
-            System.out.println(punto_inicio_y_cable + " + " + punto_final_y_cable);
             if (punto_final_x_cable - punto_inicio_x_cable > 150 || punto_inicio_y_cable - punto_final_y_cable > 100){
                 JOptionPane.showMessageDialog(null, "Haga el cable mas corto.");
             } else if (punto_final_x_cable <= 0  || punto_inicio_y_cable >= 285 || punto_final_y_cable<=0 || punto_final_y_cable >=285){
@@ -449,9 +540,7 @@ public class Controlador_Protoboard implements Initializable {
                 // guarda el cable
                 _Protoboard_Funcional.cableSet(_Protoboard_Funcional, posicion1_x, posicion1_y, posicion2_x, posicion2_y,conectado_bateria);
 
-
-
-
+                // dibujar el cable
                 gc.strokeLine(punto_inicio_x_cable, punto_inicio_y_cable, punto_final_x_cable,punto_final_y_cable); // dibuja el cable
                 contador_cables++;
                 movible_cable = false;
@@ -480,6 +569,7 @@ public class Controlador_Protoboard implements Initializable {
                 arreglo_coordenadas_patitas_leds.add(punto_inicio_x_patita);arreglo_coordenadas_patitas_leds.add(punto_inicio_y_patita);arreglo_coordenadas_patitas_leds.add(punto_final_x_patita); arreglo_coordenadas_patitas_leds.add(punto_final_y_patita);
                 // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
                 // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
+                System.out.println("patitas:" + punto_final_x_patita + " " + punto_final_y_patita);
                 int posicion1_x = (int) ((punto_final_x_patita - 15) / 20);
 
                 if (punto_final_y_patita < 68){
@@ -496,7 +586,6 @@ public class Controlador_Protoboard implements Initializable {
                     auxx = posicion1_x;
                     auxy = posicion1_y;
                 }
-                // ahora retornar todo lo anterior a la lista de coordenadas de patitas (leds)
 
                 // dibujar patitas
                 gc.setStroke(Color.GRAY);
@@ -505,16 +594,20 @@ public class Controlador_Protoboard implements Initializable {
                 patita_led_1=false;
 
                 dibujar_patitas=false;
-                _Protoboard_Funcional.ledInitiatorStart(_Protoboard_Funcional, posicion1_x, posicion1_y,auxx, auxy, cantidad_patitas);
-                if(_Protoboard_Funcional.protoboard[posicion1_x][posicion1_y]._led.encendido){
 
-                dibujarLed(Color.RED);
-                }
+
+                Led led = _Protoboard_Funcional.ledInitiatorStart(_Protoboard_Funcional, posicion1_x, posicion1_y,auxx, auxy, cantidad_patitas);
+
                 if (cantidad_patitas==2){
                     btnAgregarCable.setDisable(false);
                     btnAgregarLed.setDisable(false);
                     btnAgregarSwitch.setDisable(false);
                     btnEliminarObj.setDisable(false);
+                    if (_Protoboard_Funcional.cambiarEstadoLed(_Protoboard_Funcional, led)){
+                        dibujarLed(Color.RED);
+                    } else {
+                        dibujarLed(Color.DARKRED);
+                    }
 
                 }
             }
@@ -530,7 +623,55 @@ public class Controlador_Protoboard implements Initializable {
     private void click(MouseEvent event) {
         Color color_click_switch = getColor(event.getX(), event.getY());;
         if (color_click_switch.equals(Color.BLACK)){
-            switch_apretado = true;
+            int apretado_or_not = 0;
+            if (apretado_or_not % 2 != 0){
+                switch_apretado = true;
+                System.out.println("Switch apretado");
+                apretado_or_not++;
+            } else {
+                switch_apretado = false;
+                System.out.println("Switch soltado");
+                apretado_or_not++;
+            }
+
+            // buscar cual switch es
+            double busca_x_switch =  event.getX();
+            double busca_y_switch =  event.getY();
+
+            // buscar el switch que se apreto
+            double[] puntoCercano = alcanzarPuntoCercano(event.getX(), event.getY());
+            if (puntoCercano != null) {
+                busca_x_switch = puntoCercano[0];
+                busca_y_switch = puntoCercano[1];
+            }
+            busca_x_switch-=24;
+            busca_y_switch-=24;
+            // recorrer el arreglo de switch para ver cual se apreto
+            for (int i = 0 ; i < arreglo_coordenadas_switch.size() ; i+=2){
+                if ((calcularDistanciaPuntos(puntoCercano[0], arreglo_coordenadas_switch.get(i), 10 )) && (calcularDistanciaPuntos(puntoCercano[1], arreglo_coordenadas_switch.get(i+1), 10))){
+                    busca_x_switch = arreglo_coordenadas_switch.get(i);
+                    busca_y_switch = arreglo_coordenadas_switch.get(i+1);
+                    break;
+                }
+            } busca_x_switch+=24; busca_y_switch+=24;
+
+            // transformar x e y para buscar ahora en la matriz de 30 x 14
+            int transformacion_x_switch =  (int) ((busca_x_switch - 15 ) / 20);
+            int transformacion_y_switch=0;
+            if (busca_y_switch < 68){
+                transformacion_y_switch = (int) ((busca_y_switch -15) /15);
+            } else if (busca_y_switch >= 68 && busca_y_switch < 180){
+                transformacion_y_switch = (int) (((busca_y_switch -15 )/15) -1);
+            } else if (busca_y_switch >= 180 && busca_y_switch <= 225){
+                transformacion_y_switch = (int) (((busca_y_switch -30) /15)-2);
+            } else if (busca_y_switch > 225){
+                transformacion_y_switch = (int) ((busca_y_switch -15 )/20);
+            }
+
+            // esto lo que hace es reemplazar las posiciones o sobreescribirlas pero ahora encendido (muy trol)
+            _Protoboard_Funcional.switchSet(_Protoboard_Funcional, transformacion_x_switch,transformacion_y_switch, switch_apretado);
+            // pasar o no corriente del switch
+            _Protoboard_Funcional.toggleSwitch(_Protoboard_Funcional, transformacion_x_switch, transformacion_y_switch);
         }
 
 
@@ -545,6 +686,9 @@ public class Controlador_Protoboard implements Initializable {
 
 
             eliminarElemento(inicio_x_eliminar, inicio_y_eliminar);
+
+
+
             btnAgregarCable.setDisable(false);
             btnAgregarLed.setDisable(false);
             btnAgregarSwitch.setDisable(false);
@@ -557,32 +701,43 @@ public class Controlador_Protoboard implements Initializable {
             y_switch =  event.getY();
             double[] puntoCercano = alcanzarPuntoCercano(x_switch, y_switch);
             if (puntoCercano != null) {
-                x_switch = puntoCercano[0]-24;
-                y_switch = puntoCercano[1]-24;
-            } arreglo_coordenadas_switch.add(x_switch); arreglo_coordenadas_switch.add(y_switch);
+                x_switch = puntoCercano[0];
+                y_switch = puntoCercano[1];
+            } arreglo_coordenadas_switch.add(x_switch-24); arreglo_coordenadas_switch.add(y_switch-24);
 
-            int transformacion_x_switch =  (int) ((x_switch - 15) / 20);
+            int transformacion_x_switch =  (int) ((x_switch - 15 ) / 20);
+
             int transformacion_y_switch=0;
             if (y_switch < 68){
-                 transformacion_y_switch = (int) ((y_switch - 15) /15);
+                 transformacion_y_switch = (int) ((y_switch -15) /15);
             } else if (y_switch >= 68 && y_switch < 180){
-                 transformacion_y_switch = (int) (((y_switch - 15 )/15) -1);
+                 transformacion_y_switch = (int) (((y_switch -15 )/15) -1);
             } else if (y_switch >= 180 && y_switch <= 225){
-                 transformacion_y_switch = (int) (((y_switch - 30) /15)-2);
+                 transformacion_y_switch = (int) (((y_switch -30) /15)-2);
             } else if (y_switch > 225){
-                 transformacion_y_switch = (int) ((y_switch - 15 )/20);
+                 transformacion_y_switch = (int) ((y_switch -15 )/20);
+            }
+
+            if (transformacion_x_switch == 0 || transformacion_x_switch == 29){
+                JOptionPane.showMessageDialog(null,"No se puede poner un switch en los extremos del protoboard.");
+            } else if (transformacion_y_switch < 2 || transformacion_y_switch > 11){
+                JOptionPane.showMessageDialog(null,"No se puede poner un switch en los buses del protoboard.");
+            } else if (transformacion_y_switch == 2 || transformacion_y_switch == 11){
+                JOptionPane.showMessageDialog(null,"No se puede poner un switch en los extremos del protoboard.");
+            } else {
+                _Protoboard_Funcional.switchSet(_Protoboard_Funcional, transformacion_x_switch,transformacion_y_switch, switch_apretado);
+
+                x_switch-=24;
+                y_switch-=24;
+                dibujarSwitch();
+                agrega_switch = false;
+                btnAgregarCable.setDisable(false);
+                btnAgregarLed.setDisable(false);
+                btnAgregarSwitch.setDisable(false);
+                btnEliminarObj.setDisable(false);
             }
 
 
-            _Protoboard_Funcional.switchSet(_Protoboard_Funcional, transformacion_x_switch,transformacion_y_switch, switch_apretado);
-
-
-            dibujarSwitch();
-            agrega_switch = false;
-            btnAgregarCable.setDisable(false);
-            btnAgregarLed.setDisable(false);
-            btnAgregarSwitch.setDisable(false);
-            btnEliminarObj.setDisable(false);
         }
         if (agrega_led){ // agrega un led al hacer click en una posicion // verificaciones y demas
             x_led= event.getX();
@@ -647,56 +802,54 @@ public class Controlador_Protoboard implements Initializable {
         double[][] puntosDisponibles = {
                 // BATERIA
                 {675, 255}, {710, 255},
-                // fila 0
+                // buses
+                // fila 1
                 {15, 15}, {35, 15},{55, 15},{75, 15}, {95, 15},{115, 15},{135, 15}, {155, 15},{175, 15},{195, 15}, {215, 15},{235, 15},{255, 15}, {275, 15},{295, 15},
                 {315, 15}, {335, 15},{355, 15},{375, 15}, {395, 15},{415, 15},{435, 15}, {455, 15},{475, 15},{495, 15}, {515, 15},{535, 15},{555, 15}, {575, 15},{595, 15},
-                // fila 0.5
+                // fila 2
 
                 {15, 30}, {35, 30},{55, 30},{75, 30}, {95, 30},{130, 30},{135, 30}, {305, 30},{175, 30},{195, 30}, {230, 30},{235, 30},{255, 30}, {275, 30},{295, 30},
                 {330, 30}, {335, 30},{355, 30},{375, 30}, {395, 30},{430, 30},{435, 30}, {455, 30},{475, 30},{495, 30}, {530, 30},{535, 30},{555, 30}, {575, 30},{595, 30},
-                // fila 1
+
+                // fila 3 canales
                 {15, 68}, {35, 68},{55, 68},{75, 68}, {95, 68},{115, 68},{135, 68}, {155, 68},{175, 68},{195, 68}, {215, 68},{235, 68},{255, 68}, {275, 68},{295, 68},
                 {315, 68}, {335, 68},{355, 68},{375, 68}, {395, 68},{415, 68},{435, 68}, {455, 68},{475, 68},{495, 68}, {515, 68},{535, 68},{555, 68}, {575, 68},{595, 68},
 
-                // fila 2
+                // fila 4
                 {15, 85}, {35, 85},{55, 85},{75, 85}, {95, 85},{115, 85},{135, 85}, {155, 85},{175, 85},{195, 85}, {215, 85},{235, 85},{255, 85}, {275, 85},{295, 85},
                 {315, 85}, {335, 85},{355, 85},{375, 85}, {395, 85},{415, 85},{435, 85}, {455, 85},{475, 85},{495, 85}, {515, 85},{535, 85},{555, 85}, {575, 85},{595, 85},
-                // fila 3
-
+                // fila 5
                 {15, 100}, {35, 100},{55, 100},{75, 100}, {95, 100},{115, 100},{135, 100}, {155, 100},{175, 100},{195, 100}, {215, 100},{235, 100},{255, 100}, {275, 100},{295, 100},
                 {315, 100}, {335, 100},{355, 100},{375, 100}, {395, 100},{415, 100},{435, 100}, {455, 100},{475, 100},{495, 100}, {515, 100},{535, 100},{555, 100}, {575, 100},{595, 100},
-                // fila 4
+                // fila 6
                 {15, 115}, {35, 115},{55, 115},{75, 115}, {95, 115},{115, 115},{135, 115}, {155, 115},{175, 115},{195, 115}, {215, 115},{235, 115},{255, 115}, {275, 115},{295, 115},
                 {315, 115}, {335, 115},{355, 115},{375, 115}, {395, 115},{415, 115},{435, 115}, {455, 115},{475, 115},{495, 115}, {515, 115},{535, 115},{555, 115}, {575, 115},{595, 115},
-                // fila 5
+                // fila 7
                 {15, 130}, {35, 130},{55, 130},{75, 130}, {95, 130},{115, 130},{135, 130}, {155, 130},{175, 130},{195, 130}, {215, 130},{235, 130},{255, 130}, {275, 130},{295, 130},
                 {315, 130}, {335, 130},{355, 130},{375, 130}, {395, 130},{415, 130},{435, 130}, {455, 130},{475, 130},{495, 130}, {515, 130},{535, 130},{555, 130}, {575, 130},{595, 130},
-
-                // fila 6
-                {15, 165}, {35, 165},{55, 165},{75, 165}, {95, 165},{115, 165},{135, 165}, {155, 165},{175, 165},{195, 165}, {215, 165},{235, 165},{255, 165}, {275, 165},{295, 165},
-                {315, 165}, {335, 165},{355, 165},{375, 165}, {395, 165},{415, 165},{435, 165}, {455, 165},{475, 165},{495, 165}, {515, 165},{535, 165},{555, 165}, {575, 165},{595, 165},
-
                 //canal central
                 {15, 150}, {35, 150},{55, 150},{75, 150}, {95, 150},{115, 150},{135, 150}, {155, 150},{175, 150},{195, 150}, {215, 150},{235, 150},{255, 150}, {275, 150},{295, 150},
                 {315, 150}, {335, 150},{355, 150},{375, 150}, {395, 150},{415, 150},{435, 150}, {455, 150},{475, 150},{495, 150}, {515, 150},{535, 150},{555, 150}, {575, 150},{595, 150},
-                // fila 7
-
+                // fila 8
+                {15, 165}, {35, 165},{55, 165},{75, 165}, {95, 165},{115, 165},{135, 165}, {155, 165},{175, 165},{195, 165}, {215, 165},{235, 165},{255, 165}, {275, 165},{295, 165},
+                {315, 165}, {335, 165},{355, 165},{375, 165}, {395, 165},{415, 165},{435, 165}, {455, 165},{475, 165},{495, 165}, {515, 165},{535, 165},{555, 165}, {575, 165},{595, 165},
+                // fila 9
                 {15, 180}, {35, 180},{55, 180},{75, 180}, {95, 180},{115, 180},{135, 180}, {155, 180},{175, 180},{195, 180}, {215, 180},{235, 180},{255, 180}, {275, 180},{295, 180},
                 {315, 180}, {335, 180},{355, 180},{375, 180}, {395, 180},{415, 180},{435, 180}, {455, 180},{475, 180},{495, 180}, {515, 180},{535, 180},{555, 180}, {575, 180},{595, 180},
-                // fila 8
+                // fila 10
                 {15, 195}, {35, 195},{55, 195},{75, 195}, {95, 195},{115, 195},{135, 195}, {155, 195},{175, 195},{195, 195}, {215, 195},{235, 195},{255, 195}, {275, 195},{295, 195},
                 {315, 195}, {335, 195},{355, 195},{375, 195}, {395, 195},{415, 195},{435, 195}, {455, 195},{475, 195},{495, 195}, {515, 195},{535, 195},{555, 195}, {575, 195},{595, 195},
-                // fila 9
+                // fila 11
                 {15, 210}, {35, 210},{55, 210},{75, 210}, {95, 210},{115, 210},{135, 210}, {155, 210},{175, 210},{195, 210}, {215, 210},{235, 210},{255, 210}, {275, 210},{295, 210},
                 {315, 20}, {335, 210},{355, 210},{375, 210}, {395, 210},{415, 210},{435, 210}, {455, 210},{475, 210},{495, 210}, {515, 210},{535, 210},{555, 210}, {575, 210},{595, 210},
-                // fila 10
+                // fila 12
                 {15, 225}, {35, 225},{55, 225},{75, 225}, {95, 225},{115, 225},{135, 225}, {155, 225},{175, 225},{195, 225}, {215, 225},{235, 225},{255, 225}, {275, 225},{295, 225},
                 {315, 225}, {335, 225},{355, 225},{375, 225}, {395, 225},{415, 225},{435, 225}, {455, 225},{475, 225},{495, 225}, {515, 225},{535, 225},{555, 225}, {575, 225},{595, 225},
-
-                // fila 11
+                // buses
+                // fila 13
                 {15, 265}, {35, 265},{55, 265},{75, 265}, {95, 265},{115, 265},{135, 265}, {2655, 265},{175, 265},{195, 265}, {215, 265},{235, 265},{255, 265}, {275, 265},{295, 265},
                 {315, 265}, {335, 265},{355, 265},{375, 265}, {395, 265},{415, 265},{435, 265}, {455, 265},{475, 265},{495, 265}, {515, 265},{535, 265},{555, 265}, {575, 265},{595, 265},
-                // fila 12
+                // fila 14
                 {15, 280}, {35, 280},{55, 280},{75, 280}, {95, 280},{115, 280},{135, 280}, {155, 280},{175, 280},{195, 280}, {215, 280},{235, 280},{255, 280}, {275, 280},{295, 280},
                 {315, 280}, {335, 280},{355, 280},{375, 280}, {395, 280},{415, 280},{435, 280}, {455, 280},{475, 280},{495, 280}, {515, 280},{535, 280},{555, 280}, {575, 280},{595, 280},
 
