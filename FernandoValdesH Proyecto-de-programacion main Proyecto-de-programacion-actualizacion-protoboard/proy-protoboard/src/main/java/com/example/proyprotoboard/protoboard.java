@@ -13,6 +13,7 @@ public class protoboard {
 
         for (int i = 0; i < 30; i++) {
             for (int j = 0; j < 14; j++) {
+                //Llamado constructor
                 this.protoboard[i][j] = new logicalProtoboard();
                 protoboard[i][j]._posicion.coordenadax = i;
                 protoboard[i][j]._posicion.coordenaday = j;
@@ -24,12 +25,13 @@ public class protoboard {
         if (instance == null) {
             instance = new protoboard(protoboard);
         }
-
+        //Obtencion de la instancia
 
         return instance;
     }
 
     public boolean cambiarEstadoLed(protoboard _Protoboard, Led _led){
+        //Revision de condiciones para encender led
         if (_Protoboard.protoboard[_led.posicion2.coordenadax][_led.posicion2.coordenaday]._led.posicion1.corriente && _Protoboard.protoboard[_led.posicion2.coordenadax][_led.posicion2.coordenaday]._led.posicion2.corriente && _Protoboard.protoboard[_led.posicion2.coordenadax][_led.posicion2.coordenaday]._led.posicion1.polaridad != _Protoboard.protoboard[_led.posicion2.coordenadax][_led.posicion2.coordenaday]._led.posicion2.polaridad) {
             _Protoboard.protoboard[_led.posicion1.coordenadax][_led.posicion1.coordenaday]._led.encendido = true;
             System.out.println("prendio");
@@ -44,7 +46,9 @@ public class protoboard {
     }
 
     public Led ledInitiatorStart(protoboard _Protoboard, int posx_1, int posy_1,int auxx,int auxy, int cantidad_patas) {
+        //Constructor para led
         Led _led = new Led();
+        //Guardado temporal de datos al tener una pata
         if (cantidad_patas == 1) {
             _led.posicion1.coordenadax = posx_1;
             _led.posicion1.coordenaday = posy_1;
@@ -52,6 +56,7 @@ public class protoboard {
             _led.posicion1.polaridad = _Protoboard.protoboard[_led.posicion1.coordenadax][_led.posicion1.coordenaday]._posicion.polaridad;
             _Protoboard.protoboard[_led.posicion1.coordenadax][_led.posicion1.coordenaday]._led = _led;
         }
+        //Llenado final de datos y revisiones de condiciones al tener 2 patas
         if (cantidad_patas == 2) {
             _led.posicion2.coordenadax = posx_1;
             _led.posicion2.coordenaday = posy_1;
@@ -796,11 +801,12 @@ public class protoboard {
         _Cable.posicion2.coordenadax = pos_2_x;
         _Cable.posicion2.coordenaday = pos_2_y;
         _Cable.color = "rojo";
-
+        //Tomar consideracion de conexion con bateria
         _Cable.conexionBateria = conexion_bateria;
 
 
         if (_Cable.conexionBateria) {
+            //Se asume que el lado contrario esta conectado al protoboard y se realiza la conexion basado en puntos fijos determinados por trabajo interno
             if (_Cable.posicion1.coordenadax == -2 && _Cable.posicion1.coordenaday == -2) {
                 _Cable.posicion1.corriente = true;
                 _Cable.posicion2.corriente = true;
@@ -812,7 +818,7 @@ public class protoboard {
                 _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday]._cable = _Cable;
                 pasarCorriente(_Protoboard, _Cable);
             }
-
+            //Se repite lo anterior
             if (_Cable.posicion2.coordenadax == -3 && _Cable.posicion2.coordenaday == -3) {
                 _Cable.posicion1.corriente = true;
                 _Cable.posicion2.corriente = true;
@@ -824,6 +830,7 @@ public class protoboard {
                 _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday]._cable = _Cable;
                 pasarCorriente(_Protoboard, _Cable);
             }
+            //Se repite lo anterior
             if (_Cable.posicion1.coordenadax == -3 && _Cable.posicion1.coordenaday == -3) {
                 _Cable.posicion1.corriente = true;
                 _Cable.posicion2.corriente = true;
@@ -835,7 +842,7 @@ public class protoboard {
                 _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday]._cable = _Cable;
                 pasarCorriente(_Protoboard, _Cable);
             }
-
+            //Se repite lo anterior
             if (_Cable.posicion2.coordenadax == -2 && _Cable.posicion2.coordenaday == -2) {
                 _Cable.posicion1.corriente = true;
                 _Cable.posicion2.corriente = true;
@@ -849,21 +856,25 @@ public class protoboard {
             }
 
         } else {
+            //En el caso de que no suceda una conexion a la bateria, se asumen ambas posiciones como parte del protoboard
             _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday]._cable = _Cable;
             _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday]._cable = _Cable;
             _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday].conexion = true;
             _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday].conexion = true;
             pasarCorriente(_Protoboard, _Cable);
+            //En el caso de que la posicion en la que se conectara el cable posea corriente, se deberan realizar los cambios correspondientes
             if (_Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday]._posicion.corriente) {
 
                 _Cable.posicion2.corriente = true;
 
                 _Cable.posicion2.polaridad = _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday]._posicion.polaridad;
                 pasarCorriente(_Protoboard, _Cable);
+                //Al momento de causar una conexion opuesta entre ambas posiciones del cable, se asume que este se quemo
                 if (_Cable.posicion1.polaridad != _Cable.posicion2.polaridad && _Cable.posicion1.corriente && _Cable.posicion2.corriente) {
                     _Cable.quemado = true;
                     System.out.println("Has quemado el cable");
                 }
+                //Mismas comprobaciones
                 if (_Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday]._posicion.corriente) {
                     _Cable.posicion1.corriente = true;
                     _Cable.posicion1.polaridad = _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday]._posicion.polaridad;
