@@ -228,11 +228,6 @@ public class Controlador_Protoboard implements Initializable {
         gc.setFill(color);
         gc.fillOval(x_led,y_led,30,30);
 
-        /* pines del led (comentados porque se dibujan al agregar el led)
-        gc.setStroke(Color.GRAY);
-        gc.setLineWidth(2);
-        gc.strokeLine(x_led+8, y_led+28, x_led+8, y_led+68);
-        gc.strokeLine(x_led+23, y_led+28, x_led+23, y_led+68);*/
     }
 
     public void activarEliminacion(){
@@ -249,26 +244,29 @@ public class Controlador_Protoboard implements Initializable {
         dibujarBateria(gc);
 
         for (int i = 0 ; i < arreglo_coordenadas_leds.size() ; i+=2){
+            int k = 0;
             x_led=arreglo_coordenadas_leds.get(i);
             y_led=arreglo_coordenadas_leds.get(i+1);
             // recuperar coordenadas 2 y 3 del arreglo de patitas de leds, transformarlas a posicion de matriz y chequear y si esa posicion tiene corriente o no
             // si tiene corriente, dibujar el led en rojo, si no, dibujar el led en darkred
-            int posicion1_x = (int) ((arreglo_coordenadas_patitas_leds.get(2+i*8) - 15) / 20);
+            if (i!=0 && i%2==0){
+                k = i - 1;
+            }
+            int posicion1_x = (int) ((arreglo_coordenadas_patitas_leds.get(2+(k)*8) - 15) / 20);
             int posicion1_y = 0;
-            if ((arreglo_coordenadas_patitas_leds.get(3+i*8) < 68)){
-                posicion1_y = (int) (((arreglo_coordenadas_patitas_leds.get(3+i*8) - 15) /15));
-            } else if (arreglo_coordenadas_patitas_leds.get(3+i*8) >= 68 && (arreglo_coordenadas_patitas_leds.get(3+i*8) < 180)){
-                posicion1_y = (int) ((((arreglo_coordenadas_patitas_leds.get(3+i*8) - 15) /15) -1));
-            } else if (arreglo_coordenadas_patitas_leds.get(3+i*8) >= 180 && (arreglo_coordenadas_patitas_leds.get(3+i*8) <= 225)){
-                posicion1_y = (int) ((((arreglo_coordenadas_patitas_leds.get(3+i*8) - 30) /15)-2));
-            } else if (arreglo_coordenadas_patitas_leds.get(3+i*8) > 225){
-                posicion1_y = (int) (((arreglo_coordenadas_patitas_leds.get(3+i*8) - 15 )/20));
+            if ((arreglo_coordenadas_patitas_leds.get(3+(k)*8) < 68)){
+                posicion1_y = (int) (((arreglo_coordenadas_patitas_leds.get(3+(k)*8) - 15) /15));
+            } else if (arreglo_coordenadas_patitas_leds.get(3+(k)*8) >= 68 && (arreglo_coordenadas_patitas_leds.get(3+(k)*8) < 180)){
+                posicion1_y = (int) ((((arreglo_coordenadas_patitas_leds.get(3+(k)*8) - 15) /15) -1));
+            } else if (arreglo_coordenadas_patitas_leds.get(3+(k)*8) >= 180 && (arreglo_coordenadas_patitas_leds.get(3+(k)*8) <= 225)){
+                posicion1_y = (int) ((((arreglo_coordenadas_patitas_leds.get(3+(k)*8) - 30) /15)-2));
+            } else if (arreglo_coordenadas_patitas_leds.get(3+(k)*8) > 225){
+                posicion1_y = (int) (((arreglo_coordenadas_patitas_leds.get(3+(k)*8) - 15 )/20));
             }
             if (_Protoboard_Funcional.protoboard[posicion1_x][posicion1_y]._led.encendido){
                 System.out.println("ete sech");
                 dibujarLed(Color.RED);
             } else {
-                System.out.println("pepito");
                 dibujarLed(Color.DARKRED);
             }
 
@@ -323,15 +321,19 @@ public class Controlador_Protoboard implements Initializable {
         }    i=i-2;
         if (cent_led){
 
-
+            int k = 0 ;
             arreglo_coordenadas_leds.remove(i);
             arreglo_coordenadas_leds.remove(i);
 
             // calcular que patitas son : 2*i + los 3 siguientes a ese
 
 
-            int indice_1 = 2 + i * 8;
-            int indice_2 = 3 + i * 8;
+            if (i!=0 && i%2==0){
+                k = i - 1;
+            }
+
+            int indice_1 = 2 + k * 8;
+            int indice_2 = 3 + k * 8;
             // transformar coordenadas a posiciones de la matriz para eliminar el cable y la corriente que llevaba este
             int posicion1_x = (int) ((arreglo_coordenadas_patitas_leds.get(indice_1) - 15) / 20);
             int posicion1_y = 0;
@@ -405,7 +407,7 @@ public class Controlador_Protoboard implements Initializable {
                 } i=i-4;
                 if (cent_cable){
                     // transformar coordenadas a posiciones de la matriz para eliminar el cable y la corriente que llevaba este
-                    System.out.println("indice en el que queda: " + i);
+
                     int posicion1_x = (int) ((arreglo_coordenadas_cables.get(2+i) - 15) / 20);
                     int posicion1_y = (arreglo_coordenadas_cables.get(i+3).intValue());
                     System.out.println(arreglo_coordenadas_cables.get(i+2));
@@ -569,7 +571,6 @@ public class Controlador_Protoboard implements Initializable {
                 arreglo_coordenadas_patitas_leds.add(punto_inicio_x_patita);arreglo_coordenadas_patitas_leds.add(punto_inicio_y_patita);arreglo_coordenadas_patitas_leds.add(punto_final_x_patita); arreglo_coordenadas_patitas_leds.add(punto_final_y_patita);
                 // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
                 // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
-                System.out.println("patitas:" + punto_final_x_patita + " " + punto_final_y_patita);
                 int posicion1_x = (int) ((punto_final_x_patita - 15) / 20);
 
                 if (punto_final_y_patita < 68){
