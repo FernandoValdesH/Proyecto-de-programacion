@@ -13,6 +13,7 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
 import javax.swing.*;
@@ -49,7 +50,7 @@ public class Controlador_Protoboard implements Initializable {
     private boolean dibujar_patitas=false;
     private double inicio_x_eliminar=0;
     private double inicio_y_eliminar=0;
-    boolean switch_apretado;
+    boolean switch_apretado = false;
     int x=10,y=10;
 
     @FXML
@@ -68,7 +69,7 @@ public class Controlador_Protoboard implements Initializable {
 
     int contador_cables;
 
-    logicalProtoboard[][] Protoboard_logica = new logicalProtoboard[30][14];
+    logicalProtoboard[][] Protoboard_logica = new logicalProtoboard[30][15];
     protoboard _Protoboard_Funcional = protoboard.getInstance(Protoboard_logica);
 
     private void dibujarProtoboard(GraphicsContext gc){
@@ -108,6 +109,7 @@ public class Controlador_Protoboard implements Initializable {
             gc.strokeLine(0, k,605+x, k);
         }
 
+        gc.setFont(new Font("Arial", 12));
         // hacer simbolos + y -
         // simbolos -
         gc.setFill(Color.BLUE);
@@ -132,6 +134,7 @@ public class Controlador_Protoboard implements Initializable {
         // bucle para hacer los numeros
         x=8;
         y=55;
+
         gc.setFill(Color.BLACK);
         //gc.setFont(new Font("Arial", 60));
         gc.setTextAlign(TextAlignment.LEFT);
@@ -167,13 +170,21 @@ public class Controlador_Protoboard implements Initializable {
         for ( k=k ; k < 250 ; k++){
             gc.strokeLine(x, k,x+70, k);
         }
-        // posiblemente agregar + y - de la bateria
 
         gc.setStroke(Color.GRAY);
-        for ( k=k ; k < 260 ; k++){ // hjacer las puntitas de la bateria
+        for ( k=k ; k < 260 ; k++){ // hacer las puntitas de la bateria
             gc.strokeLine(x+10, k,x+25, k);
             gc.strokeLine(x+45, k,x+60, k);
         }
+
+        // hacer simbolos + y -
+        // simbolos -
+        gc.setFill(Color.BLUE);
+        gc.setFont(new Font("Arial", 30));
+        gc.fillText("-", x+48,252);
+        gc.setFill(Color.RED);
+        gc.setFont(new Font("Arial", 19));
+        gc.fillText("+", x+13,253);
 
 
     }
@@ -193,13 +204,14 @@ public class Controlador_Protoboard implements Initializable {
         for (int k = 0; k < 43; k++) {        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
             gc.strokeLine(x_switch, y_switch + k , x_switch+46, y_switch + k); //ancho del switch = 48
         }
-
-        gc.setFill(Color.BLACK);
+        // esquinas del switch
+        gc.setFill(Color.DARKSLATEGRAY);
         gc.fillOval(x_switch, y_switch+3,8,8);
         gc.fillOval(x_switch, y_switch+33,8,8);
         gc.fillOval(x_switch+39, y_switch+3,8,8);
         gc.fillOval(x_switch+39, y_switch+33,8,8);
 
+        // boton del switch
         gc.setFill(Color.BLACK);
         gc.fillOval(x_switch+8, y_switch+8, 30, 30);
 
@@ -256,28 +268,54 @@ public class Controlador_Protoboard implements Initializable {
             int posicion1_y = 0;
             if ((arreglo_coordenadas_patitas_leds.get(3+(k)*8) < 68)){
                 posicion1_y = (int) (((arreglo_coordenadas_patitas_leds.get(3+(k)*8) - 15) /15));
-            } else if (arreglo_coordenadas_patitas_leds.get(3+(k)*8) >= 68 && (arreglo_coordenadas_patitas_leds.get(3+(k)*8) < 180)){
+            } else if (arreglo_coordenadas_patitas_leds.get(3+(k)*8) >= 68 && (arreglo_coordenadas_patitas_leds.get(3+(k)*8) < 150)){
                 posicion1_y = (int) ((((arreglo_coordenadas_patitas_leds.get(3+(k)*8) - 15) /15) -1));
-            } else if (arreglo_coordenadas_patitas_leds.get(3+(k)*8) >= 180 && (arreglo_coordenadas_patitas_leds.get(3+(k)*8) <= 225)){
-                posicion1_y = (int) ((((arreglo_coordenadas_patitas_leds.get(3+(k)*8) - 30) /15)-2));
+            } else if (arreglo_coordenadas_patitas_leds.get(3+(k)*8) >= 150 && (arreglo_coordenadas_patitas_leds.get(3+(k)*8) <= 225)){
+                posicion1_y = (int) ((((arreglo_coordenadas_patitas_leds.get(3+(k)*8) ) /15)-3));
             } else if (arreglo_coordenadas_patitas_leds.get(3+(k)*8) > 225){
-                posicion1_y = (int) (((arreglo_coordenadas_patitas_leds.get(3+(k)*8) - 15 )/20));
+                posicion1_y = (int) (((arreglo_coordenadas_patitas_leds.get(3+(k)*8)  /15 )-4));
             }
-            if (_Protoboard_Funcional.protoboard[posicion1_x][posicion1_y]._led.encendido){
-                System.out.println("ete sech");
-                dibujarLed(Color.RED);
-            } else {
-                dibujarLed(Color.DARKRED);
-            }
+            if (_Protoboard_Funcional.protoboard[posicion1_x][posicion1_y]._led.posicion1.coordenadax!=-1) {
+                if (_Protoboard_Funcional.protoboard[posicion1_x][posicion1_y]._led.encendido) {
+                    dibujarLed(Color.RED);
+                } else {
+                    dibujarLed(Color.DARKRED);
+                }
 
+            }
         }
 
         for (int i = 0 ; i < arreglo_coordenadas_switch.size() ; i+=2){
             x_switch=arreglo_coordenadas_switch.get(i);
-            System.out.println(x_switch );
             y_switch=arreglo_coordenadas_switch.get(i+1);
-            System.out.println(y_switch);
-            dibujarSwitch();
+            // transformar coordenadas a coordenadas de matriz
+            int coord_original_x = (int) (x_switch+24);
+            int coord_original_y = (int) (y_switch+24);
+            int posicion1_x = (int) ((coord_original_x - 15) / 20);
+            int posicion1_y = 0;
+            if (coord_original_y < 68){
+                posicion1_y = (int) ((coord_original_y - 15) /15);
+            } else if (coord_original_y >= 68 && coord_original_y < 150){
+                posicion1_y = (int) (((coord_original_y - 15) /15) -1);
+            } else if (coord_original_y >= 150 && coord_original_y <= 225){
+                posicion1_y = (int) ((coord_original_y /15)-3);
+            } else if (coord_original_y > 225){
+                posicion1_y = (int) ((coord_original_y /15)-4);
+            }
+            // ver la matriz a ver si el switch esta prendido o apagado
+            System.out.println("aca"+posicion1_x);
+            System.out.println("aca"+posicion1_y);
+
+            if (_Protoboard_Funcional.protoboard[posicion1_x-1][posicion1_y-1]._switch.prendido){
+                dibujarSwitch();
+                gc.setFill(Color.DARKGRAY);
+                gc.fillOval(x_switch + 21 , y_switch +10 , 15, 15);
+            } else {
+                dibujarSwitch();
+                gc.setFill(Color.BLACK);
+                gc.fillOval(x_switch + 20 , y_switch +10 , 16, 16);
+            }
+
         }
 
         for (int i = 0 ; i < arreglo_coordenadas_cables.size() ; i+=4){
@@ -339,12 +377,12 @@ public class Controlador_Protoboard implements Initializable {
             int posicion1_y = 0;
             if ((arreglo_coordenadas_patitas_leds.get(indice_2) < 68)){
                 posicion1_y = (int) (((arreglo_coordenadas_patitas_leds.get(indice_2) - 15) /15));
-            } else if (arreglo_coordenadas_patitas_leds.get(indice_2) >= 68 && (arreglo_coordenadas_patitas_leds.get(indice_2) < 180)){
+            } else if (arreglo_coordenadas_patitas_leds.get(indice_2) >= 68 && (arreglo_coordenadas_patitas_leds.get(indice_2) < 150)){
                 posicion1_y = (int) ((((arreglo_coordenadas_patitas_leds.get(indice_2) - 15 )/15) -1));
-            } else if (arreglo_coordenadas_patitas_leds.get(indice_2) >= 180 && (arreglo_coordenadas_patitas_leds.get(indice_2) <= 225)){
-                posicion1_y = (int) ((((arreglo_coordenadas_patitas_leds.get(indice_2) - 30) /15)-2));
+            } else if (arreglo_coordenadas_patitas_leds.get(indice_2) >= 150 && (arreglo_coordenadas_patitas_leds.get(indice_2) <= 225)){
+                posicion1_y = (int) ((((arreglo_coordenadas_patitas_leds.get(indice_2) ) /15)-3));
             } else if (arreglo_coordenadas_patitas_leds.get(indice_2) > 225){
-                posicion1_y = (int) (((arreglo_coordenadas_patitas_leds.get(indice_2) - 15 )/20));
+                posicion1_y = (int) (((arreglo_coordenadas_patitas_leds.get(indice_2)  /15 )-4));
             }
 
 
@@ -380,12 +418,12 @@ public class Controlador_Protoboard implements Initializable {
                 posicion1_y+=24;
                 if (posicion1_y < 68){
                     posicion1_y = (posicion1_y - 15) /15;
-                } else if (posicion1_y >= 68 && posicion1_y < 180){
+                } else if (posicion1_y >= 68 && posicion1_y < 150){
                     posicion1_y =  (((posicion1_y - 15) /15) -1);
-                } else if (posicion1_y >= 180 && posicion1_y <= 225){
-                    posicion1_y =  (((posicion1_y - 30) /15)-2);
+                } else if (posicion1_y >= 150 && posicion1_y <= 225){
+                    posicion1_y =  (((posicion1_y ) /15)-3);
                 } else if (posicion1_y > 225){
-                    posicion1_y = ((posicion1_y - 15 )/20);
+                    posicion1_y = ((posicion1_y  /15 )-4);
                 }
 
                 arreglo_coordenadas_switch.remove(i);
@@ -416,12 +454,12 @@ public class Controlador_Protoboard implements Initializable {
 
                     if (posicion1_y < 68){
                         posicion1_y = (posicion1_y - 15) /15;
-                    } else if (posicion1_y >= 68 && posicion1_y < 180){
+                    } else if (posicion1_y >= 68 && posicion1_y < 150){
                         posicion1_y =  (((posicion1_y - 15) /15) -1);
-                    } else if (posicion1_y >= 180 && posicion1_y <= 225){
-                        posicion1_y =  (((posicion1_y - 30) /15)-2);
+                    } else if (posicion1_y >= 150 && posicion1_y <= 225){
+                        posicion1_y =  (((posicion1_y ) /15)-3);
                     } else if (posicion1_y > 225){
-                        posicion1_y = ((posicion1_y - 15 )/20);
+                        posicion1_y = ((posicion1_y  /15 )-4);
                     }
                     System.out.println(posicion1_y);
 
@@ -496,21 +534,21 @@ public class Controlador_Protoboard implements Initializable {
 
             if (punto_final_y_cable < 68){
                 posicion2_y = (int)(punto_final_y_cable - 15) /15;
-            } else if (punto_final_y_cable >= 68 && punto_final_y_cable < 180){
+            } else if (punto_final_y_cable >= 68 && punto_final_y_cable < 150){
                 posicion2_y = (int) (((punto_final_y_cable - 15) /15) -1);
-            } else if (punto_final_y_cable >= 180 && punto_final_y_cable <= 225){
-                posicion2_y = (int) (((punto_final_y_cable - 30) /15)-2);
+            } else if (punto_final_y_cable >= 150 && punto_final_y_cable <= 225){
+                posicion2_y = (int) (((punto_final_y_cable ) /15)-3);
             } else if (punto_final_y_cable > 225){
-                posicion2_y = (int) ((punto_final_y_cable - 15 )/20);
+                posicion2_y = (int) ((punto_final_y_cable  /15 )-4);
             }
             if (punto_inicio_y_cable < 68){
                 posicion1_y = (int) ((punto_inicio_y_cable - 15) /15);
-            } else if (punto_inicio_y_cable >= 68 && punto_inicio_y_cable < 180){
+            } else if (punto_inicio_y_cable >= 68 && punto_inicio_y_cable < 150){
                 posicion1_y = (int) (((punto_inicio_y_cable - 15 )/15) -1);
-            } else if (punto_inicio_y_cable >= 180 && punto_inicio_y_cable <= 225){
-                posicion1_y = (int) (((punto_inicio_y_cable - 30) /15)-2);
+            } else if (punto_inicio_y_cable >= 150 && punto_inicio_y_cable <= 225){
+                posicion1_y = (int) (((punto_inicio_y_cable ) /15)-3);
             } else if (punto_inicio_y_cable > 225){
-                posicion1_y = (int) ((punto_inicio_y_cable - 15 )/20);
+                posicion1_y = (int) ((punto_inicio_y_cable  /15 )-4);
             }
 
             if (punto_final_x_cable - punto_inicio_x_cable > 150 || punto_inicio_y_cable - punto_final_y_cable > 100){
@@ -575,12 +613,12 @@ public class Controlador_Protoboard implements Initializable {
 
                 if (punto_final_y_patita < 68){
                     posicion1_y = (int) ((punto_final_y_patita - 15) /15);
-                } else if (punto_final_y_patita >= 68 && punto_final_y_patita < 180){
+                } else if (punto_final_y_patita >= 68 && punto_final_y_patita < 150){
                     posicion1_y = (int) (((punto_final_y_patita - 15 )/15) -1);
-                } else if (punto_final_y_patita >= 180 && punto_final_y_patita <= 225){
-                    posicion1_y = (int) (((punto_final_y_patita - 30) /15)-2);
+                } else if (punto_final_y_patita >= 150 && punto_final_y_patita <= 225){
+                    posicion1_y = (int) ((punto_final_y_patita /15)-3);
                 } else if (punto_final_y_patita > 225){
-                    posicion1_y = (int) ((punto_final_y_patita - 15 )/20);
+                    posicion1_y = (int) ((punto_final_y_patita /15 )-4);
                 }
                 cantidad_patitas++;
                 if(cantidad_patitas == 1){
@@ -598,6 +636,8 @@ public class Controlador_Protoboard implements Initializable {
 
 
                 Led led = _Protoboard_Funcional.ledInitiatorStart(_Protoboard_Funcional, posicion1_x, posicion1_y,auxx, auxy, cantidad_patitas);
+                System.out.println("pone el led");
+                System.out.println(led.posicion1.polaridad);
 
                 if (cantidad_patitas==2){
                     btnAgregarCable.setDisable(false);
@@ -623,21 +663,15 @@ public class Controlador_Protoboard implements Initializable {
 
     private void click(MouseEvent event) {
         Color color_click_switch = getColor(event.getX(), event.getY());;
+        // si el click es del color del boton
         if (color_click_switch.equals(Color.BLACK)){
-            int apretado_or_not = 0;
-            if (apretado_or_not % 2 != 0){
-                switch_apretado = true;
-                System.out.println("Switch apretado");
-                apretado_or_not++;
-            } else {
-                switch_apretado = false;
-                System.out.println("Switch soltado");
-                apretado_or_not++;
-            }
+            // si presiono algo que podria ser el boton, se busca que sea el boton del switch
 
             // buscar cual switch es
             double busca_x_switch =  event.getX();
             double busca_y_switch =  event.getY();
+
+
 
             // buscar el switch que se apreto
             double[] puntoCercano = alcanzarPuntoCercano(event.getX(), event.getY());
@@ -647,32 +681,60 @@ public class Controlador_Protoboard implements Initializable {
             }
             busca_x_switch-=24;
             busca_y_switch-=24;
+
             // recorrer el arreglo de switch para ver cual se apreto
             for (int i = 0 ; i < arreglo_coordenadas_switch.size() ; i+=2){
+                assert puntoCercano != null;
                 if ((calcularDistanciaPuntos(puntoCercano[0], arreglo_coordenadas_switch.get(i), 10 )) && (calcularDistanciaPuntos(puntoCercano[1], arreglo_coordenadas_switch.get(i+1), 10))){
                     busca_x_switch = arreglo_coordenadas_switch.get(i);
                     busca_y_switch = arreglo_coordenadas_switch.get(i+1);
                     break;
                 }
-            } busca_x_switch+=24; busca_y_switch+=24;
+            } int coord_switch_x = (int) busca_x_switch;
+            int coord_switch_y = (int) busca_y_switch;
+
+            busca_x_switch+=24; busca_y_switch+=24;
+
 
             // transformar x e y para buscar ahora en la matriz de 30 x 14
             int transformacion_x_switch =  (int) ((busca_x_switch - 15 ) / 20);
             int transformacion_y_switch=0;
             if (busca_y_switch < 68){
                 transformacion_y_switch = (int) ((busca_y_switch -15) /15);
-            } else if (busca_y_switch >= 68 && busca_y_switch < 180){
+            } else if (busca_y_switch >= 68 && busca_y_switch < 150){
                 transformacion_y_switch = (int) (((busca_y_switch -15 )/15) -1);
-            } else if (busca_y_switch >= 180 && busca_y_switch <= 225){
-                transformacion_y_switch = (int) (((busca_y_switch -30) /15)-2);
+            } else if (busca_y_switch >= 150 && busca_y_switch <= 225){
+                transformacion_y_switch = (int) (((busca_y_switch) /15)-3);
             } else if (busca_y_switch > 225){
-                transformacion_y_switch = (int) ((busca_y_switch -15 )/20);
+                transformacion_y_switch = (int) ((busca_y_switch /15 )-4);
             }
 
-            // esto lo que hace es reemplazar las posiciones o sobreescribirlas pero ahora encendido (muy trol)
-            _Protoboard_Funcional.switchSet(_Protoboard_Funcional, transformacion_x_switch,transformacion_y_switch, switch_apretado);
-            // pasar o no corriente del switch
-            _Protoboard_Funcional.toggleSwitch(_Protoboard_Funcional, transformacion_x_switch, transformacion_y_switch);
+            if (calcularDistanciaPuntos(event.getX()-24, coord_switch_x, 10) && calcularDistanciaPuntos(event.getY()-24, coord_switch_y, 10)){
+
+                if (!_Protoboard_Funcional.protoboard[transformacion_x_switch][transformacion_y_switch]._switch.prendido){
+
+                    _Protoboard_Funcional.protoboard[transformacion_x_switch][transformacion_y_switch]._switch.prendido=true;
+                    System.out.println("Switch apretado");
+                    GraphicsContext gc = tablero.getGraphicsContext2D();
+                    gc.setFill(Color.DARKGRAY);
+                    gc.fillOval(coord_switch_x + 21 , coord_switch_y +10 , 15, 15);
+                    // pasar la corriente del switch
+                    _Protoboard_Funcional.toggleSwitch(_Protoboard_Funcional, transformacion_x_switch, transformacion_y_switch, _Protoboard_Funcional.protoboard[transformacion_x_switch][transformacion_y_switch]._switch.prendido);
+
+                } else {
+                    _Protoboard_Funcional.protoboard[transformacion_x_switch][transformacion_y_switch]._switch.prendido=false;
+                    System.out.println("Switch soltado");
+                    GraphicsContext gc = tablero.getGraphicsContext2D();
+                    gc.setFill(Color.BLACK);
+                    gc.fillOval(coord_switch_x + 20, coord_switch_y +10 , 16, 16);
+                    // pasar la corriente del switch a la columna "original"
+                    _Protoboard_Funcional.toggleSwitch(_Protoboard_Funcional, transformacion_x_switch, transformacion_y_switch, _Protoboard_Funcional.protoboard[transformacion_x_switch][transformacion_y_switch]._switch.prendido);
+                }
+
+            }
+
+
+
         }
 
 
@@ -706,27 +768,29 @@ public class Controlador_Protoboard implements Initializable {
                 y_switch = puntoCercano[1];
             } arreglo_coordenadas_switch.add(x_switch-24); arreglo_coordenadas_switch.add(y_switch-24);
 
+            System.out.println(y_switch);
             int transformacion_x_switch =  (int) ((x_switch - 15 ) / 20);
 
             int transformacion_y_switch=0;
             if (y_switch < 68){
                  transformacion_y_switch = (int) ((y_switch -15) /15);
-            } else if (y_switch >= 68 && y_switch < 180){
+            } else if (y_switch >= 68 && y_switch < 150){
                  transformacion_y_switch = (int) (((y_switch -15 )/15) -1);
-            } else if (y_switch >= 180 && y_switch <= 225){
-                 transformacion_y_switch = (int) (((y_switch -30) /15)-2);
+            } else if (y_switch >= 150 && y_switch <= 225){
+                transformacion_y_switch = (int) ((y_switch/15) -3);
             } else if (y_switch > 225){
-                 transformacion_y_switch = (int) ((y_switch -15 )/20);
+                 transformacion_y_switch = (int) ((y_switch/15 )-4);
             }
+            System.out.println(transformacion_y_switch);
 
             if (transformacion_x_switch == 0 || transformacion_x_switch == 29){
                 JOptionPane.showMessageDialog(null,"No se puede poner un switch en los extremos del protoboard.");
-            } else if (transformacion_y_switch < 2 || transformacion_y_switch > 11){
+            } else if (transformacion_y_switch < 2 || transformacion_y_switch > 12){
                 JOptionPane.showMessageDialog(null,"No se puede poner un switch en los buses del protoboard.");
-            } else if (transformacion_y_switch == 2 || transformacion_y_switch == 11){
+            } else if (transformacion_y_switch == 2 || transformacion_y_switch == 12 || transformacion_y_switch == 6 || transformacion_y_switch == 8){
                 JOptionPane.showMessageDialog(null,"No se puede poner un switch en los extremos del protoboard.");
             } else {
-                _Protoboard_Funcional.switchSet(_Protoboard_Funcional, transformacion_x_switch,transformacion_y_switch, switch_apretado);
+                _Protoboard_Funcional.switchSet(_Protoboard_Funcional, transformacion_x_switch,transformacion_y_switch, false);
 
                 x_switch-=24;
                 y_switch-=24;
@@ -842,13 +906,13 @@ public class Controlador_Protoboard implements Initializable {
                 {315, 195}, {335, 195},{355, 195},{375, 195}, {395, 195},{415, 195},{435, 195}, {455, 195},{475, 195},{495, 195}, {515, 195},{535, 195},{555, 195}, {575, 195},{595, 195},
                 // fila 11
                 {15, 210}, {35, 210},{55, 210},{75, 210}, {95, 210},{115, 210},{135, 210}, {155, 210},{175, 210},{195, 210}, {215, 210},{235, 210},{255, 210}, {275, 210},{295, 210},
-                {315, 20}, {335, 210},{355, 210},{375, 210}, {395, 210},{415, 210},{435, 210}, {455, 210},{475, 210},{495, 210}, {515, 210},{535, 210},{555, 210}, {575, 210},{595, 210},
+                {315, 210}, {335, 210},{355, 210},{375, 210}, {395, 210},{415, 210},{435, 210}, {455, 210},{475, 210},{495, 210}, {515, 210},{535, 210},{555, 210}, {575, 210},{595, 210},
                 // fila 12
                 {15, 225}, {35, 225},{55, 225},{75, 225}, {95, 225},{115, 225},{135, 225}, {155, 225},{175, 225},{195, 225}, {215, 225},{235, 225},{255, 225}, {275, 225},{295, 225},
                 {315, 225}, {335, 225},{355, 225},{375, 225}, {395, 225},{415, 225},{435, 225}, {455, 225},{475, 225},{495, 225}, {515, 225},{535, 225},{555, 225}, {575, 225},{595, 225},
                 // buses
                 // fila 13
-                {15, 265}, {35, 265},{55, 265},{75, 265}, {95, 265},{115, 265},{135, 265}, {2655, 265},{175, 265},{195, 265}, {215, 265},{235, 265},{255, 265}, {275, 265},{295, 265},
+                {15, 265}, {35, 265},{55, 265},{75, 265}, {95, 265},{115, 265},{135, 265}, {155, 265},{175, 265},{195, 265}, {215, 265},{235, 265},{255, 265}, {275, 265},{295, 265},
                 {315, 265}, {335, 265},{355, 265},{375, 265}, {395, 265},{415, 265},{435, 265}, {455, 265},{475, 265},{495, 265}, {515, 265},{535, 265},{555, 265}, {575, 265},{595, 265},
                 // fila 14
                 {15, 280}, {35, 280},{55, 280},{75, 280}, {95, 280},{115, 280},{135, 280}, {155, 280},{175, 280},{195, 280}, {215, 280},{235, 280},{255, 280}, {275, 280},{295, 280},
