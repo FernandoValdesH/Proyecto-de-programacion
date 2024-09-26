@@ -12,7 +12,7 @@ public class protoboard {
         // rellenar matriz
 
         for (int i = 0; i < 30; i++) {
-            for (int j = 0; j < 14; j++) {
+            for (int j = 0; j < 15; j++) {
                 this.protoboard[i][j] = new logicalProtoboard();
                 protoboard[i][j]._posicion.coordenadax = i;
                 protoboard[i][j]._posicion.coordenaday = j;
@@ -32,11 +32,11 @@ public class protoboard {
     public boolean cambiarEstadoLed(protoboard _Protoboard, Led _led){
         if (_Protoboard.protoboard[_led.posicion2.coordenadax][_led.posicion2.coordenaday]._led.posicion1.corriente && _Protoboard.protoboard[_led.posicion2.coordenadax][_led.posicion2.coordenaday]._led.posicion2.corriente && _Protoboard.protoboard[_led.posicion2.coordenadax][_led.posicion2.coordenaday]._led.posicion1.polaridad != _Protoboard.protoboard[_led.posicion2.coordenadax][_led.posicion2.coordenaday]._led.posicion2.polaridad) {
             _Protoboard.protoboard[_led.posicion1.coordenadax][_led.posicion1.coordenaday]._led.encendido = true;
-            //System.out.println("prendio");
+            System.out.println("prendio");
             return true;
         } else{
             _Protoboard.protoboard[_led.posicion1.coordenadax][_led.posicion1.coordenaday]._led.encendido = false;
-            //System.out.println("apago");
+            System.out.println("apago");
             return false;
         }
 
@@ -79,7 +79,7 @@ public class protoboard {
             pos_x=-2;
             // buscar el cable
             for (int i = 0; i < 30; i++) {
-                for (int j = 0; j < 14; j++) {
+                for (int j = 0; j < 15; j++) {
                     if (_Protoboard.protoboard[i][j]._cable.posicion1.coordenadax!=-1){
                         if (_Protoboard.protoboard[i][j]._cable.posicion1.coordenadax == -2 && _Protoboard.protoboard[i][j]._cable.posicion1.coordenaday == -2){
                             pos_x_2 = _Protoboard.protoboard[i][j]._cable.posicion2.coordenadax;
@@ -93,7 +93,7 @@ public class protoboard {
             pos_x=-3;
             // buscar el cable
             for (int i = 0; i < 30; i++) {
-                for (int j = 0; j < 14; j++) {
+                for (int j = 0; j < 15; j++) {
                     if (_Protoboard.protoboard[i][j]._cable.posicion1.coordenadax!=-1){
                     if (_Protoboard.protoboard[i][j]._cable.posicion1.coordenadax == -3 && _Protoboard.protoboard[i][j]._cable.posicion1.coordenaday == -3){
                         pos_x_2 = _Protoboard.protoboard[i][j]._cable.posicion2.coordenadax;
@@ -158,17 +158,16 @@ public class protoboard {
 
     public void eliminarCorriente(protoboard _Protoboard, int pos_x, int pos_y){
 
+        // este metodo recibe la posicion donde se elimino el elemento
+
         // al eliminar un elemento, se debe eliminar un cable, led, switch, del protoboard y eliminar la corriente de esa fila/columna
-        // eliminar cable
-            // eliminar corriente de este cable
 
-
-            if (pos_y <=1 || pos_y > 11){
+            if (pos_y <=1 || pos_y > 12){
                 int j = pos_y;
                 int i = 0;
                 while (i < 30){
                     _Protoboard.protoboard[i][j]._posicion.corriente = false;
-
+                    // si hay un led en la columna que se esta eliminando corriente, apagarlo
                     if (_Protoboard.protoboard[i][j]._led.posicion1.coordenadax!=-1){
                         _Protoboard.protoboard[i][j]._posicion.corriente = false;
                         _Protoboard.protoboard[i][j]._led.encendido=false;
@@ -182,6 +181,8 @@ public class protoboard {
                         int pos_final_y = _Protoboard.protoboard[i][j]._cable.posicion2.coordenaday;
                         eliminarCorriente(_Protoboard, pos_final_x, pos_final_y);
                     }
+
+                    // si hay un switch en la columna que se esta eliminando corriente, eliminar la corriente de la columna de su posicion, pero comprobando si esta apretado o no
 
                     i++;
                 }
@@ -205,9 +206,9 @@ public class protoboard {
                     j++;
                 }
             } else {
-                int j = 7;
+                int j = 8;
                 int i = pos_x;
-                while (j < 12){
+                while (j < 13){
                     _Protoboard.protoboard[i][j]._posicion.corriente = false;
 
                     if (_Protoboard.protoboard[i][j]._led.posicion1.coordenadax!=-1){
@@ -287,7 +288,7 @@ public class protoboard {
             }
         }*/
         for (int i = 0; i < 30; i++) {
-            for (int j = 0; j < 14; j++) {
+            for (int j = 0; j < 15; j++) {
                 if (_Protoboard.protoboard[i][j]._cable!=null){
                     _Protoboard.protoboard[i][j]._cable.procesado=false;
                 }
@@ -308,7 +309,7 @@ public class protoboard {
             _Protoboard.protoboard[posicion_final_x][posicion_final_y].conexion = true;
             
 
-            if ( posicion_final_y > 1 && posicion_final_y < 12) {
+            if ( posicion_final_y > 1 && posicion_final_y < 7) {
 
                 int j = 2;
                 while (j < 7) {
@@ -344,17 +345,16 @@ public class protoboard {
                     }
                     i++;
                 }
-            }else if (posicion_final_y > 7 && posicion_final_y<12){
-                int j = 7;
-                while (j < 12) {
+            }else if (posicion_final_y > 7 && posicion_final_y<13){
+                int j = 8;
+                while (j < 13) {
                     _Protoboard.protoboard[posicion_final_x][j]._posicion.corriente = true;
                     if (_Protoboard.protoboard[posicion_final_x][j]._led.posicion1.coordenadax!=-1){
                         _Protoboard.protoboard[posicion_final_x][j]._posicion.corriente = true;
                         _Protoboard.protoboard[posicion_final_x][j]._led.encendido=true;
                     }
 
-
-                    if (_cable.posicion2.coordenadax == -2){
+                    if (_cable.posicion1.coordenadax == -2){
                         _Protoboard.protoboard[posicion_final_x][j]._posicion.polaridad = true;
                     } else {
                         _Protoboard.protoboard[posicion_final_x][j]._posicion.polaridad = false;
@@ -430,9 +430,9 @@ public class protoboard {
 
                     i++;
                 }
-            }else if (posicion_final_y > 7 && posicion_final_y<12){
-                int j = 7;
-                while (j < 12) {
+            }else if (posicion_final_y > 7 && posicion_final_y<13){
+                int j = 8;
+                while (j < 13) {
                     _Protoboard.protoboard[posicion_final_x][j]._posicion.corriente = true;
 
                     if (_Protoboard.protoboard[posicion_final_x][j]._led.posicion1.coordenadax!=-1){
@@ -485,10 +485,10 @@ public class protoboard {
 
 
 
-            if (_Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.corriente && (posicion_final_y > 6 && posicion_final_y < 12)) {
+            if (_Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.corriente && (posicion_final_y > 7 && posicion_final_y < 13)) {
 
-                int j = 7;
-                while (j < 12) {
+                int j = 8;
+                while (j < 13) {
                     _Protoboard.protoboard[posicion_final_x][j]._posicion.corriente = true;
                     _Protoboard.protoboard[posicion_final_x][j]._posicion.polaridad = _Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.polaridad;
                     j++;
@@ -501,7 +501,7 @@ public class protoboard {
                     _Protoboard.protoboard[i][posicion_final_y]._posicion.polaridad = _Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.polaridad;
                     i++;
                 }
-            } else if (_Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.corriente && (posicion_final_y >=12)){
+            } else if (_Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.corriente && (posicion_final_y >=13)){
                 int i = 0;
                 while (i < 30) {
                     _Protoboard.protoboard[i][posicion_final_y]._posicion.corriente = true;
@@ -557,45 +557,113 @@ public class protoboard {
 
     }
 
-    public void toggleSwitch(protoboard _Protoboard, int pos_x, int pos_y){
+    public void toggleSwitch(protoboard _Protoboard, int pos_x, int pos_y, boolean encendido){
 
-        boolean switch_encendido = false;
         boolean cent_ciclo = true;
+        int pos_central_x = pos_x;
+        int pos_central_y = pos_y;
+        // encender el switch (todas sus posiciones)
+        if (encendido){
+            _Protoboard.protoboard[pos_central_x+1][pos_central_y-1]._switch.prendido = encendido;
+            _Protoboard.protoboard[pos_central_x-1][pos_central_y-1]._switch.prendido = encendido;
+            _Protoboard.protoboard[pos_central_x+1][pos_central_y+1]._switch.prendido = encendido;
+            _Protoboard.protoboard[pos_central_x-1][pos_central_y+1]._switch.prendido = encendido;
+        } else {
+            _Protoboard.protoboard[pos_central_x+1][pos_central_y-1]._switch.prendido = false;
+            _Protoboard.protoboard[pos_central_x-1][pos_central_y-1]._switch.prendido = false;
+            _Protoboard.protoboard[pos_central_x+1][pos_central_y+1]._switch.prendido = false;
+            _Protoboard.protoboard[pos_central_x-1][pos_central_y+1]._switch.prendido = false;
+        }
+
         // para la posicion de arriba a la izquierda (la 1 )
         pos_x--;
         pos_y--;
+
         // ciclo para buscar el switch con pox_x y pos_y dentro de la matriz
         int i = 0 ;
         int j = 0;
         for ( i = 0; i < 30 && cent_ciclo ; i++) {
-            for ( j = 0; j < 14 && cent_ciclo; j++) {
+            for ( j = 0; j < 15 && cent_ciclo; j++) {
                     if (_Protoboard.protoboard[i][j]._switch.posicion1.coordenadax == pos_x && _Protoboard.protoboard[i][j]._switch.posicion1.coordenaday == pos_y){
-                        switch_encendido = _Protoboard.protoboard[i][j]._switch.prendido;
                         cent_ciclo=false;
                 }
             }
         } i--; j--;
-        if (switch_encendido){
+
+        if (encendido){
+
             // consultar por las posiciones del switch
+            // pos 1 seria la esquina izquierda
             int pos_1_x = _Protoboard.protoboard[i][j]._switch.posicion1.coordenadax;
             int pos_1_y = _Protoboard.protoboard[i][j]._switch.posicion1.coordenaday;
             int pos_4_x = _Protoboard.protoboard[i][j]._switch.posicion4.coordenadax;
+
             boolean tiene_corriente_1 = false;
             boolean tiene_corriente_3 = false;
 
+            if (pos_1_y == 6){
 
-            if ( pos_1_y < 7 && pos_1_y>1){
+                // si la esquina izquierda es 6 significa que esta en el canal central, por lo tanto debe pasar corriente desde la posicion 1 a la contraria o viceversa
+                // recorrer a ver si la columna en la pos x de la esquina izquierda tiene corriente
+                for (int k = 2; k < 7; k++) {
+                    if (_Protoboard.protoboard[pos_1_x][k]._posicion.corriente){
+                        tiene_corriente_1 = true;
+
+                        break;
+                    }
+                }
+                // si la posicion 1 x tiene corriente entonces la pasamos para abajo
+                if (tiene_corriente_1){
+                    // se pasa corriente al canal de abajo
+                    for (int k = 8; k < 13; k++) {
+                        _Protoboard.protoboard[pos_4_x][k]._posicion.corriente = true;
+                        _Protoboard.protoboard[pos_4_x][k]._posicion.polaridad = _Protoboard.protoboard[pos_1_x][2]._posicion.polaridad;
+
+                    }
+                    // se apaga la corriente de arriba
+                    for (int k = 2; k < 7; k++) {
+                        _Protoboard.protoboard[pos_1_x][k]._posicion.corriente = false;
+                    }
+                }
+                else{
+                    // comprobamos si hay corriente en la esquina contraria, es decir, la esquina de abajo a la derecha
+                    for (int k = 8; k < 13; k++) {
+                        if (_Protoboard.protoboard[pos_4_x][k]._posicion.corriente){
+                            tiene_corriente_3 = true;
+                            System.out.println(_Protoboard.protoboard[pos_4_x][k]._posicion.polaridad);
+
+                            break;
+
+                        }
+                    }
+                    if (tiene_corriente_3){
+                        // pasamos la corriente para arriba a la izquierda
+                        for (int k = 2; k < 7; k++) {
+
+                            _Protoboard.protoboard[pos_1_x][k]._posicion.corriente = true;
+
+                            _Protoboard.protoboard[pos_1_x][k]._posicion.polaridad = _Protoboard.protoboard[pos_4_x][8]._posicion.polaridad;
+                            System.out.println("pos_1_x: "+pos_1_x+" k: "+k +"corriente" + _Protoboard.protoboard[pos_1_x][k]._posicion.corriente + " polaridad: "+_Protoboard.protoboard[pos_1_x][k]._posicion.polaridad);
+                        }
+                        // apagamos la corriente de abajo a la derecha
+                        for (int k = 8; k < 13; k++) {
+                            _Protoboard.protoboard[pos_4_x][k]._posicion.corriente = false;
+                        }
+                    }
+                }
+            }
+            if ( pos_1_y < 7 && pos_1_y>1 && pos_1_y!=6){
                 // recorre la columna por si tiene corriente
                 for (int k = 2; k < 7; k++) {
                     if (_Protoboard.protoboard[pos_1_x][k]._posicion.corriente){
                         tiene_corriente_1 = true;
-                        System.out.println("tiene corriente la primera columna");
+
                     } else if (_Protoboard.protoboard[pos_4_x][k]._posicion.corriente){
                         tiene_corriente_3 = true;
-                        System.out.println("tiene corriente la tercera columna");
+
                     }
                 }
-                // si la posicion 1 x tiene corriente entonces se la pasamos a la posicion 3 x
+                // si la posicion 1 x tiene corriente entonces se la pasamos a la posicion 4 x
                 if (tiene_corriente_1){
                     for (int k = 2; k < 7; k++) {
                         _Protoboard.protoboard[pos_4_x][k]._posicion.corriente = true;
@@ -606,7 +674,7 @@ public class protoboard {
                         _Protoboard.protoboard[pos_1_x][k]._posicion.corriente = false;
                     }
                 } else if (tiene_corriente_3){
-                    // si no tiene corriente esa posicion, buscamos en la posicion 3 x
+                    // si no tiene corriente esa posicion, buscamos en la posicion 4 x
                     for (int k = 2; k < 7; k++) {
                         _Protoboard.protoboard[pos_1_x][k]._posicion.corriente = true;
                         _Protoboard.protoboard[pos_1_x][k]._posicion.polaridad = _Protoboard.protoboard[pos_4_x][k]._posicion.polaridad;
@@ -615,36 +683,36 @@ public class protoboard {
                         _Protoboard.protoboard[pos_4_x][k]._posicion.corriente = false;
                     }
                 }
-            } else if (pos_1_y>=7 && pos_1_y<12){
+            } else if (pos_1_y>=8 && pos_1_y<13){
                 // recorre la columna por si tiene corriente
-                for (int k = 7; k < 12; k++) {
+                for (int k = 8; k < 13; k++) {
                     if (_Protoboard.protoboard[pos_1_x][k]._posicion.corriente){
                         tiene_corriente_1 = true;
-                        System.out.println("tiene corriente la primera columna y esta abajo");
+
                     } else if (_Protoboard.protoboard[pos_4_x][k]._posicion.corriente){
                         tiene_corriente_3 = true;
-                        System.out.println("tiene corriente la tercera columna y esta abajo");
+
                     }
                 }
                 // si la posicion 1 x tiene corriente entonces se la pasamos a la posicion 3 x
                 if (tiene_corriente_1){
-                    for (int k = 7; k < 12; k++) {
+                    for (int k = 8; k < 13; k++) {
                         _Protoboard.protoboard[pos_4_x][k]._posicion.corriente = true;
                         _Protoboard.protoboard[pos_4_x][k]._posicion.polaridad = _Protoboard.protoboard[pos_1_x][k]._posicion.polaridad;
-                        System.out.println("pasando corriente a columna 3");
+
                     }
                     // apagamos la corriente de la posicion 1 x
-                    for (int k = 7; k < 12; k++) {
+                    for (int k = 8; k < 13; k++) {
                         _Protoboard.protoboard[pos_1_x][k]._posicion.corriente = false;
                     }
                 } else if ( tiene_corriente_3){
                     // si no tiene corriente esa posicion, buscamos en la posicion 3 x
 
-                    for (int k = 7; k < 12; k++) {
+                    for (int k = 8; k < 13; k++) {
                         _Protoboard.protoboard[pos_1_x][k]._posicion.corriente = true;
                         _Protoboard.protoboard[pos_1_x][k]._posicion.polaridad = _Protoboard.protoboard[pos_4_x][k]._posicion.polaridad;
                     }
-                    for (int k = 7; k < 12; k++) {
+                    for (int k = 8; k < 13; k++) {
                         _Protoboard.protoboard[pos_4_x][k]._posicion.corriente = false;
                     }
                 }
