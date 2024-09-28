@@ -261,9 +261,10 @@ public class Controlador_Protoboard implements Initializable {
             y_led=arreglo_coordenadas_leds.get(i+1);
             // recuperar coordenadas 2 y 3 del arreglo de patitas de leds, transformarlas a posicion de matriz y chequear y si esa posicion tiene corriente o no
             // si tiene corriente, dibujar el led en rojo, si no, dibujar el led en darkred
-            if (i!=0 && i%2==0){
+
+            /*if (i!=0 && i%2==0){
                 k = i - 1;
-            }
+            }*/
             int posicion1_x = (int) ((arreglo_coordenadas_patitas_leds.get(2+(k)*8) - 15) / 20);
             int posicion1_y = 0;
             if ((arreglo_coordenadas_patitas_leds.get(3+(k)*8) < 68)){
@@ -448,9 +449,6 @@ public class Controlador_Protoboard implements Initializable {
 
                     int posicion1_x = (int) ((arreglo_coordenadas_cables.get(2+i) - 15) / 20);
                     int posicion1_y = (arreglo_coordenadas_cables.get(i+3).intValue());
-                    System.out.println(arreglo_coordenadas_cables.get(i+2));
-                    System.out.println(arreglo_coordenadas_cables.get(i+3));
-                    System.out.println(posicion1_x);
 
                     if (posicion1_y < 68){
                         posicion1_y = (posicion1_y - 15) /15;
@@ -475,7 +473,13 @@ public class Controlador_Protoboard implements Initializable {
                     _Protoboard_Funcional.eliminarElemento(_Protoboard_Funcional, posicion1_x, posicion1_y);
                     _Protoboard_Funcional.eliminarCorriente(_Protoboard_Funcional, posicion1_x, posicion1_y);
 
-
+                    for (int fil = 0 ; fil < 30 ; fil++){
+                        for (int com = 0 ; com < 15 ; com++){
+                            if (_Protoboard_Funcional.protoboard[fil][com]._led!=null && _Protoboard_Funcional.protoboard[fil][com]._led.posicion1.coordenadax!=-1){
+                                _Protoboard_Funcional.protoboard[fil][com]._led.revisado=false;
+                            }
+                        }
+                    }
 
                     gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
                     dibujarTodo();
@@ -580,6 +584,75 @@ public class Controlador_Protoboard implements Initializable {
                 // guarda el cable
                 _Protoboard_Funcional.cableSet(_Protoboard_Funcional, posicion1_x, posicion1_y, posicion2_x, posicion2_y,conectado_bateria);
 
+                // luego de poner un cable, chequear si paso corriente a un led, para esto buscamos en el protoboard a ver si hay un led encendido, y lo dibujamos rojo
+                // si no, lo dibujamos en darkred
+                boolean encontro_uno = false;
+                for (int i = 0 ; i < 30 && !encontro_uno ; i++){
+                    for (int j = 0 ; j < 14 && !encontro_uno ; j++){
+                        if ( _Protoboard_Funcional.protoboard[i][j]._led!=null && _Protoboard_Funcional.protoboard[i][j]._led.posicion1.coordenadax!=-1 && !_Protoboard_Funcional.protoboard[i][j]._led.revisado){
+                            System.out.println("entra y es led de la posicion "+i+" "+j);
+                            if (_Protoboard_Funcional.protoboard[i][j]._led.encendido ){
+                                System.out.println("entra denuevo y es led de la posicion "+i+" "+j);
+                                // si encuentra un led encendido, transformamo el i y j a coordenada x haciendo la transformacion inversa
+                                int transformacion_inversa_x = (i  *20)+ 15;
+                                int transformacion_inversa_y = 0;
+                                // rangos de j, 0 a 2, 3 a 6, 7 a 12, 13 a 14
+                                // de 0 a 2
+                                //                posicion2_y = (int)(punto_final_y_cable - 15) /15;
+                                //            }de 3 a 6
+                                //                posicion2_y = (int) (((punto_final_y_cable - 15) /15) -1);
+                                //            } de 7 a 12
+                                //                posicion2_y = (int) (((punto_final_y_cable ) /15)-3);
+                                //            } de 13 a 14
+                                //                posicion2_y = (int) ((punto_final_y_cable  /15 )-4);
+                                //            }
+                                if (j >= 0 && j <= 2){
+                                    transformacion_inversa_y = (j + 15) * 15;
+                                } else if (j >2 && j<=6){
+                                    transformacion_inversa_y = ((j + 15) * 15) + 1;
+                                } else if (j >6 && j<=12){
+                                    transformacion_inversa_y = (j +3) *15;
+                                } else if (j > 12){
+                                    transformacion_inversa_y = (j +4 ) * 15;
+                                }
+                                System.out.println("transformacion x: " + transformacion_inversa_x);
+                                System.out.println("transformacion y: " + transformacion_inversa_y);
+                                // buscar las transformaciones en el indice de patitas
+                                boolean encuentra_patitas = false;
+                                int k=0;
+                                for ( k=0  ; k < arreglo_coordenadas_patitas_leds.size(); k++){
+                                    if (calcularDistanciaPuntos(arreglo_coordenadas_patitas_leds.get(k),transformacion_inversa_x,10) && calcularDistanciaPuntos(arreglo_coordenadas_patitas_leds.get(k+1),transformacion_inversa_y,10) ){
+                                        System.out.println("encuentra la patita");
+                                        encuentra_patitas = true;
+                                        break;
+                                    }
+
+                                } k--;
+                                if (encuentra_patitas){
+                                    int indice =(k / 8);
+                                    System.out.println("indice: "+indice);
+                                    System.out.println("a1");
+                                    Led led_encontrado = _Protoboard_Funcional.protoboard[i][j]._led;
+                                    System.out.println("a2");
+                                    x_led = arreglo_coordenadas_leds.get(indice*2);
+                                    System.out.println("a3");
+                                    y_led = arreglo_coordenadas_leds.get((indice*2)+1);
+                                    System.out.println("a4");
+                                    System.out.println("el led en las"+"posiciones led: " + _Protoboard_Funcional.protoboard[i][j]._led.posicion1.coordenadax + " " + _Protoboard_Funcional.protoboard[i][j]._led.posicion1.coordenaday + " " + _Protoboard_Funcional.protoboard[i][j]._led.posicion2.coordenadax + " " + _Protoboard_Funcional.protoboard[i][j]._led.posicion2.coordenaday + "se encuentra revisado");
+                                    _Protoboard_Funcional.protoboard[led_encontrado.posicion1.coordenadax][led_encontrado.posicion1.coordenaday]._led.revisado=true;
+                                    System.out.println("a5");
+                                    _Protoboard_Funcional.protoboard[led_encontrado.posicion2.coordenadax][led_encontrado.posicion2.coordenaday]._led.revisado=true;
+                                    System.out.println(led_encontrado.revisado);
+                                    dibujarLed(Color.RED);
+                                    encontro_uno = true;
+                                }
+
+                            }
+                        }
+                    }
+                } // restablecer los leds revisados
+
+
                 // dibujar el cable
                 gc.strokeLine(punto_inicio_x_cable, punto_inicio_y_cable, punto_final_x_cable,punto_final_y_cable); // dibuja el cable
                 contador_cables++;
@@ -636,15 +709,13 @@ public class Controlador_Protoboard implements Initializable {
 
 
                 Led led = _Protoboard_Funcional.ledInitiatorStart(_Protoboard_Funcional, posicion1_x, posicion1_y,auxx, auxy, cantidad_patitas);
-                System.out.println("pone el led");
-                System.out.println(led.posicion1.polaridad);
 
                 if (cantidad_patitas==2){
                     btnAgregarCable.setDisable(false);
                     btnAgregarLed.setDisable(false);
                     btnAgregarSwitch.setDisable(false);
                     btnEliminarObj.setDisable(false);
-                    if (_Protoboard_Funcional.cambiarEstadoLed(_Protoboard_Funcional, led)){
+                    if (led.encendido){
                         dibujarLed(Color.RED);
                     } else {
                         dibujarLed(Color.DARKRED);
@@ -658,6 +729,8 @@ public class Controlador_Protoboard implements Initializable {
         if (led_puesto && !patita_led_1){
             patita_led_1=true;
         }
+
+        // restablecer lo revisado del led
 
     }
 
