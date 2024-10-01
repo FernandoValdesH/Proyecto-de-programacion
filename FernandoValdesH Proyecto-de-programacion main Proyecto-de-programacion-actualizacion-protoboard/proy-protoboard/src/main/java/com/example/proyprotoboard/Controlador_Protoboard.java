@@ -84,21 +84,52 @@ public class Controlador_Protoboard implements Initializable {
         }
         gc.setFill(Color.GRAY);
         // bucle para rellenar de puntos el rectangulo
-        for (int j =0; j < 14 ; j++){
+
+        for (int j = 0 ; j < 15 ; j++){
             for (int i = 0 ; i < 30 ; i++){
-                gc.fillOval(x,y,8,8); // luego del X e Y va el tamaño del punto
-                x=x+20; // la distancia entre cada punto es 20
-            } x= 10;
-            if (j==1) {
-                y=y+25;
-            } if (j==6){
-                y=y+20;
+                int transformacion_inversa_x = ((i * 20) + 15)-5;
+                if (j==7){
+                    j++;
+                }
+                if (_Protoboard_Funcional.protoboard[i][j]._posicion.corriente){
+                    int transformacion_inversa_y = 0;
+                    if (j >= 0 && j < 2) {
+                        transformacion_inversa_y = ((j * 15 ) + 15) - 5;
+                    } else if (j >= 2 && j <= 6) {
+                        transformacion_inversa_y = (((j + 2) * 15) -5) + 10;
+                    } else if (j > 6 && j <= 12) {
+                        transformacion_inversa_y = ((j + 3) * 15) - 5;
+                    } else if (j > 12) {
+                        transformacion_inversa_y = ((j + 4) * 15) + 5;
+                    }
+                    if (_Protoboard_Funcional.protoboard[i][j]._posicion.polaridad){
+                        gc.setFill(Color.RED);
+                        gc.fillOval(transformacion_inversa_x, transformacion_inversa_y, 8, 8);
+                    } else{
+                        gc.setFill(Color.BLUE);
+                        gc.fillOval(transformacion_inversa_x, transformacion_inversa_y, 8, 8);
+                    }
+
+                } else{
+                    int transformacion_inversa_y = 0;
+                    if (j >= 0 && j < 2) {
+                        transformacion_inversa_y = ((j * 15 ) + 15) - 5;
+                    } else if (j >= 2 && j <= 6) {
+                        transformacion_inversa_y = (((j + 2) * 15) -5) + 10;
+                    } else if (j > 6 && j <= 12) {
+                        transformacion_inversa_y = ((j + 3) * 15) - 5;
+                    } else if (j > 12) {
+                        transformacion_inversa_y = ((j + 4) * 15) + 5;
+                    }
+                    gc.setFill(Color.GRAY);
+                    gc.fillOval(transformacion_inversa_x,transformacion_inversa_y,8,8); // luego del X e Y va el tamaño del punto
+                }
+
             }
-            if (j==11){
-                y=y+25;
-            }
-            y = y+15;
+
         }
+
+
 
         // bucle para rellenar el canal central
         x= 10;
@@ -627,6 +658,9 @@ public class Controlador_Protoboard implements Initializable {
                 // si no, lo dibujamos en darkred
                 revisarLedsEncendidos(_Protoboard_Funcional, gc);
 
+                gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
+                dibujarTodo();
+
 
                 // dibujar el cable
                 gc.strokeLine(punto_inicio_x_cable, punto_inicio_y_cable, punto_final_x_cable,punto_final_y_cable); // dibuja el cable
@@ -927,8 +961,8 @@ public class Controlador_Protoboard implements Initializable {
                 {330, 30}, {335, 30},{355, 30},{375, 30}, {395, 30},{430, 30},{435, 30}, {455, 30},{475, 30},{495, 30}, {530, 30},{535, 30},{555, 30}, {575, 30},{595, 30},
 
                 // fila 3 canales
-                {15, 68}, {35, 68},{55, 68},{75, 68}, {95, 68},{115, 68},{135, 68}, {155, 68},{175, 68},{195, 68}, {215, 68},{235, 68},{255, 68}, {275, 68},{295, 68},
-                {315, 68}, {335, 68},{355, 68},{375, 68}, {395, 68},{415, 68},{435, 68}, {455, 68},{475, 68},{495, 68}, {515, 68},{535, 68},{555, 68}, {575, 68},{595, 68},
+                {15, 70}, {35, 70},{55, 70},{75, 70}, {95, 70},{115, 70},{135, 70}, {155, 70},{175, 70},{195, 70}, {215, 70},{235, 70},{255, 70}, {275, 70},{295, 70},
+                {315, 70}, {335, 70},{355, 70},{375, 70}, {395, 70},{415, 70},{435, 70}, {455, 70},{475, 70},{495, 70}, {515, 70},{535, 70},{555, 70}, {575, 70},{595, 70},
 
                 // fila 4
                 {15, 85}, {35, 85},{55, 85},{75, 85}, {95, 85},{115, 85},{135, 85}, {155, 85},{175, 85},{195, 85}, {215, 85},{235, 85},{255, 85}, {275, 85},{295, 85},
