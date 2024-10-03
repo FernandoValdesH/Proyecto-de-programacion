@@ -28,6 +28,7 @@ public class Controlador_Protoboard implements Initializable {
     private ArrayList<Double> arreglo_coordenadas_switch = new ArrayList<>();
     private ArrayList<Double> arreglo_coordenadas_cables = new ArrayList<>();
     private ArrayList<Double> arreglo_coordenadas_patitas_leds = new ArrayList<>();
+    private ArrayList<Double> arreglo_coordenadas_OctoSwitch = new ArrayList<>();
     private double punto_inicio_x_patita=0;
     private double punto_inicio_y_patita=0;
     private double punto_final_x_patita=0;
@@ -47,6 +48,9 @@ public class Controlador_Protoboard implements Initializable {
     double punto_final_x_cable=0;
     double punto_final_y_cable=0;
     private boolean dibujar_patitas=false;
+    private boolean switch_bateria=true;
+    private boolean agrega_octo_switch=false;
+    private boolean switch_posicion_Octo = false;
 
     int x=10,y=10;
 
@@ -69,122 +73,232 @@ public class Controlador_Protoboard implements Initializable {
     logicalProtoboard[][] Protoboard_logica = new logicalProtoboard[30][15];
     protoboard _Protoboard_Funcional = protoboard.getInstance(Protoboard_logica);
 
-
-    private void dibujarProtoboard(GraphicsContext gc){
-        x= 10;
-        y= 10;
-        gc.setLineWidth(1);
-        gc.setStroke(Color.LIGHTGRAY);
-        String letras ="jihgfedcba";
-
-        // bucle para hacer el rectangulo solo con lineas
-
-        for( int k = 0 ; k < 300 ; k++){        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
-            gc.strokeLine(0, k,605+x, k);
+    public int transformacionY_coordA_Matriz(double y){
+        if (y < 68){
+            y = (y - 15) /15;
+        } else if (y >= 68 && y < 150){
+            y =  (((y - 15) /15) -1);
+        } else if (y >= 150 && y <= 225){
+            y =  (((y ) /15)-3);
+        } else if (y > 225){
+            y = ((y  /15 )-4);
         }
-        gc.setFill(Color.GRAY);
-        // bucle para rellenar de puntos el rectangulo
-
-        for (int j = 0 ; j < 15 ; j++){
-            for (int i = 0 ; i < 30 ; i++){
-                int transformacion_inversa_x = ((i * 20) + 15)-5;
-                if (j==7){
-                    j++;
-                }
-                if (_Protoboard_Funcional.protoboard[i][j]._posicion.corriente){
-                    int transformacion_inversa_y = 0;
-                    if (j >= 0 && j < 2) {
-                        transformacion_inversa_y = ((j * 15 ) + 15) - 5;
-                    } else if (j >= 2 && j <= 6) {
-                        transformacion_inversa_y = (((j + 2) * 15) -5) + 10;
-                    } else if (j > 6 && j <= 12) {
-                        transformacion_inversa_y = ((j + 3) * 15) - 5;
-                    } else if (j > 12) {
-                        transformacion_inversa_y = ((j + 4) * 15) + 5;
-                    }
-                    if (_Protoboard_Funcional.protoboard[i][j]._posicion.polaridad){
-                        gc.setFill(Color.RED);
-                        gc.fillOval(transformacion_inversa_x, transformacion_inversa_y, 8, 8);
-                    } else{
-                        gc.setFill(Color.BLUE);
-                        gc.fillOval(transformacion_inversa_x, transformacion_inversa_y, 8, 8);
-                    }
-
-                } else{
-                    int transformacion_inversa_y = 0;
-                    if (j >= 0 && j < 2) {
-                        transformacion_inversa_y = ((j * 15 ) + 15) - 5;
-                    } else if (j >= 2 && j <= 6) {
-                        transformacion_inversa_y = (((j + 2) * 15) -5) + 10;
-                    } else if (j > 6 && j <= 12) {
-                        transformacion_inversa_y = ((j + 3) * 15) - 5;
-                    } else if (j > 12) {
-                        transformacion_inversa_y = ((j + 4) * 15) + 5;
-                    }
-                    gc.setFill(Color.GRAY);
-                    gc.fillOval(transformacion_inversa_x,transformacion_inversa_y,8,8); // luego del X e Y va el tamaño del punto
-                }
-
-            }
-
-        }
-
-
-
-        // bucle para rellenar el canal central
-        x= 10;
-        gc.setStroke(Color.DARKGRAY);
-        for( int k = 138 ; k < 155 ; k++){        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
-            gc.strokeLine(0, k,605+x, k);
-        }
-
-        gc.setFont(new Font("Arial", 12));
-        // hacer simbolos + y -
-        // simbolos -
-        gc.setFill(Color.BLUE);
-        gc.setStroke(Color.BLUE);
-        x=2; y=10;
-        //gc.setFont(new Font("Arial", 40));
-        gc.fillText("-", x,y); gc.strokeLine(x+10,y -4,600,y -4) ;
-        y= 260;
-        gc.fillText("-", x,y); gc.strokeLine(x+10,y -4,600,y -4) ;
-
-
-        // simbolos +
-        y=42;
-        gc.setFill(Color.RED);
-        gc.setStroke(Color.RED);
-        gc.fillText("+", x,y); gc.strokeLine(x+10,y-4,600,y-4);
-        y=290;
-        gc.fillText("+", x,y); gc.strokeLine(x+10,y-4,600,y-4);
-
-
-
-        // bucle para hacer los numeros
-        x=8;
-        y=55;
-
-        gc.setFill(Color.BLACK);
-        //gc.setFont(new Font("Arial", 60));
-        gc.setTextAlign(TextAlignment.LEFT);
-        gc.setTextBaseline(VPos.CENTER);
-        for (int i = 1 ; i <=30 ; i++) {
-            gc.fillText(String.valueOf(i), x, y);
-            x += 20;
-        }
-        // bucle para hacer las letras al costado
-        x= 605;
-        y= 68;
-        int cuenta_letras=0;
-        for (char letra : letras.toCharArray()) {
-            cuenta_letras++;
-            if (cuenta_letras==6){
-                y=y+20;
-            }
-            gc.fillText(String.valueOf(letra), x, y);
-            y += 15;
-        }
+        return (int) y;
     }
+
+    public void agregarOctoSwitch(){
+        btnAgregarCable.setDisable(true);
+        btnAgregarLed.setDisable(true);
+        btnAgregarSwitch.setDisable(true);
+        btnEliminarObj.setDisable(true);
+        JOptionPane.showMessageDialog(null, "Seleccione el punto central de donde desea ubicar");
+        agrega_octo_switch = true;
+
+    }
+    public void dibujarOctoSwitch(double x, double y, GraphicsContext gc, protoboard _protoboard){
+        gc.setStroke(Color.RED);
+        gc.setLineWidth(2);
+        for (int k = 0; k < 45; k++) {
+            gc.strokeLine(x, y + k , x+155, y + k);
+        }
+        // switches del switch xd
+        gc.setStroke(Color.WHITE);
+        gc.setFill(Color.WHITE);
+        String numeros = "12345678";
+        gc.setFont(new Font("Arial", 9));
+        gc.fillText("ON", x+5, y+5);
+        gc.setFont(new Font("Arial", 10));
+        int x_provisoria = (int) x;
+        for (int k = 0; k < 8; k++){
+            gc.fillText(String.valueOf(numeros.charAt(k)), x_provisoria+7, y+40);
+            x_provisoria+=19;
+        }
+
+        int transformacion_del_x = (int) (((x + 70) - 15) / 20);
+        int transformacion_del_y = transformacionY_coordA_Matriz(y + 24);
+
+        for (int i = 0 ; i < 8 ; i++){
+            switch (i){
+                case 0:
+                    if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_1.encendido){
+                        for (int k = (int) (y+10); k < y+35; k++){
+                            gc.setStroke(Color.WHITE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                        for (int k = (int) (y+20); k < y+35; k++){
+                            gc.setStroke(Color.DARKBLUE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                    }else{
+                        for (int k = (int) (y+10); k < y+35; k++){
+                            gc.setStroke(Color.DARKBLUE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                        for (int k = (int) (y+20); k < y+35; k++){
+                            gc.setStroke(Color.WHITE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                    } x+=19;
+                    break;
+                case 1:
+                    if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_2.encendido){
+                        for (int k = (int) (y+10); k < y+35; k++){
+                            gc.setStroke(Color.WHITE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                        for (int k = (int) (y+20); k < y+35; k++){
+                            gc.setStroke(Color.DARKBLUE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                    }else{
+                        for (int k = (int) (y+10); k < y+35; k++){
+                            gc.setStroke(Color.DARKBLUE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                        for (int k = (int) (y+20); k < y+35; k++){
+                            gc.setStroke(Color.WHITE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                    } x+=19;
+                    break;
+                case 2:
+                    if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_3.encendido){
+                        for (int k = (int) (y+10); k < y+35; k++){
+                            gc.setStroke(Color.WHITE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                        for (int k = (int) (y+20); k < y+35; k++){
+                            gc.setStroke(Color.DARKBLUE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                    }else{
+                        for (int k = (int) (y+10); k < y+35; k++){
+                            gc.setStroke(Color.DARKBLUE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                        for (int k = (int) (y+20); k < y+35; k++){
+                            gc.setStroke(Color.WHITE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                    } x+=19;
+                    break;
+                case 3:
+                    if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_4.encendido){
+                        for (int k = (int) (y+10); k < y+35; k++){
+                            gc.setStroke(Color.WHITE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                        for (int k = (int) (y+20); k < y+35; k++){
+                            gc.setStroke(Color.DARKBLUE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                    }else{
+                        for (int k = (int) (y+10); k < y+35; k++){
+                            gc.setStroke(Color.DARKBLUE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                        for (int k = (int) (y+20); k < y+35; k++){
+                            gc.setStroke(Color.WHITE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                    } x+=19;
+                    break;
+                case 4:
+                    if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_5.encendido){
+                        for (int k = (int) (y+10); k < y+35; k++){
+                            gc.setStroke(Color.WHITE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                        for (int k = (int) (y+20); k < y+35; k++){
+                            gc.setStroke(Color.DARKBLUE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                    }else{
+                        for (int k = (int) (y+10); k < y+35; k++){
+                            gc.setStroke(Color.DARKBLUE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                        for (int k = (int) (y+20); k < y+35; k++){
+                            gc.setStroke(Color.WHITE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                    } x+=19;
+                    break;
+                case 5:
+                    if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_6.encendido){
+                        for (int k = (int) (y+10); k < y+35; k++){
+                            gc.setStroke(Color.WHITE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                        for (int k = (int) (y+20); k < y+35; k++){
+                            gc.setStroke(Color.DARKBLUE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                    }else{
+                        for (int k = (int) (y+10); k < y+35; k++){
+                            gc.setStroke(Color.DARKBLUE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                        for (int k = (int) (y+20); k < y+35; k++){
+                            gc.setStroke(Color.WHITE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                    } x+=19;
+                    break;
+                case 6:
+                    if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_7.encendido){
+                        for (int k = (int) (y+10); k < y+35; k++){
+                            gc.setStroke(Color.WHITE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                        for (int k = (int) (y+20); k < y+35; k++){
+                            gc.setStroke(Color.DARKBLUE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                    }else{
+                        for (int k = (int) (y+10); k < y+35; k++){
+                            gc.setStroke(Color.DARKBLUE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                        for (int k = (int) (y+20); k < y+35; k++){
+                            gc.setStroke(Color.WHITE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                    } x+=19;
+                    break;
+                case 7:
+                    if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_8.encendido){
+                        for (int k = (int) (y+10); k < y+35; k++){
+                            gc.setStroke(Color.WHITE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                        for (int k = (int) (y+20); k < y+35; k++){
+                            gc.setStroke(Color.DARKBLUE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                    }else{
+                        for (int k = (int) (y+10); k < y+35; k++){
+                            gc.setStroke(Color.DARKBLUE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                        for (int k = (int) (y+20); k < y+35; k++){
+                            gc.setStroke(Color.WHITE);
+                            gc.strokeLine(x+5, k, x+15, k);
+                        }
+                    } x+=19;
+                    break;
+            }
+
+        }
+
+
+
+
+
+
+
+    }
+
     private void dibujarBateria(GraphicsContext gc){
         x = 660;
 
@@ -214,6 +328,32 @@ public class Controlador_Protoboard implements Initializable {
         gc.setFill(Color.RED);
         gc.setFont(new Font("Arial", 19));
         gc.fillText("+", x+13,253);
+
+        // dibujar switch para pasar o no corriente
+        gc.setStroke(Color.DARKGRAY);
+        k = 150;
+        for ( k=k ; k < 180 ; k++){
+            gc.strokeLine(x+10, k,x+60, k);
+        } k = 155;
+
+        if (switch_bateria){
+            gc.setStroke(Color.GREEN);
+            gc.setLineWidth(3);
+            for ( k=k ; k < 175 ; k++){
+                gc.strokeLine(x+30, k,x+59, k);
+            }
+        } else{
+            gc.setStroke(Color.DARKGRAY);
+            for ( k=k ; k < 175 ; k++){
+                gc.strokeLine(x+30, k,x+59, k);
+            } k = 155;
+            gc.setLineWidth(3);
+            gc.setStroke(Color.INDIANRED);
+            for ( k=k ; k < 175 ; k++){
+                gc.strokeLine(x+11, k,x+34, k);
+            }
+        }
+
 
 
     }
@@ -263,14 +403,6 @@ public class Controlador_Protoboard implements Initializable {
 
 
     }
-    /*
-    public void dibujarLed(Color color){
-        GraphicsContext gc = tablero.getGraphicsContext2D();
-
-        gc.setFill(color);
-        gc.fillOval(x_led,y_led,30,30);
-
-    } */
 
     public void activarEliminacion(){
         btnAgregarCable.setDisable(true);
@@ -282,7 +414,7 @@ public class Controlador_Protoboard implements Initializable {
 
     public void dibujarTodo(){
         GraphicsContext gc = tablero.getGraphicsContext2D();
-        dibujarProtoboard(gc);
+        dibujador.dibujarProtoboard(gc, 10, 10, _Protoboard_Funcional);
         dibujarBateria(gc);
 
         for (int i = 0 ; i < arreglo_coordenadas_leds.size() ; i+=2){
@@ -296,16 +428,7 @@ public class Controlador_Protoboard implements Initializable {
                 k = i - 1;
             }
             int posicion1_x = (int) ((arreglo_coordenadas_patitas_leds.get(2+(k)*8) - 15) / 20);
-            int posicion1_y = 0;
-            if ((arreglo_coordenadas_patitas_leds.get(3+(k)*8) < 68)){
-                posicion1_y = (int) (((arreglo_coordenadas_patitas_leds.get(3+(k)*8) - 15) /15));
-            } else if (arreglo_coordenadas_patitas_leds.get(3+(k)*8) >= 68 && (arreglo_coordenadas_patitas_leds.get(3+(k)*8) < 150)){
-                posicion1_y = (int) ((((arreglo_coordenadas_patitas_leds.get(3+(k)*8) - 15) /15) -1));
-            } else if (arreglo_coordenadas_patitas_leds.get(3+(k)*8) >= 150 && (arreglo_coordenadas_patitas_leds.get(3+(k)*8) <= 225)){
-                posicion1_y = (int) ((((arreglo_coordenadas_patitas_leds.get(3+(k)*8) ) /15)-3));
-            } else if (arreglo_coordenadas_patitas_leds.get(3+(k)*8) > 225){
-                posicion1_y = (int) (((arreglo_coordenadas_patitas_leds.get(3+(k)*8)  /15 )-4));
-            }
+            int posicion1_y = transformacionY_coordA_Matriz(arreglo_coordenadas_patitas_leds.get(3+(k)*8));
             if (_Protoboard_Funcional.protoboard[posicion1_x][posicion1_y]._led.posicion1.coordenadax!=-1) {
                 if (_Protoboard_Funcional.protoboard[posicion1_x][posicion1_y]._led.encendido) {
                    dibujador.dibujarLed(gc, x_led, y_led, Color.RED);
@@ -323,16 +446,7 @@ public class Controlador_Protoboard implements Initializable {
             int coord_original_x = (int) (x_switch+24);
             int coord_original_y = (int) (y_switch+24);
             int posicion1_x = (int) ((coord_original_x - 15) / 20);
-            int posicion1_y = 0;
-            if (coord_original_y < 68){
-                posicion1_y = (int) ((coord_original_y - 15) /15);
-            } else if (coord_original_y >= 68 && coord_original_y < 150){
-                posicion1_y = (int) (((coord_original_y - 15) /15) -1);
-            } else if (coord_original_y >= 150 && coord_original_y <= 225){
-                posicion1_y = (int) ((coord_original_y /15)-3);
-            } else if (coord_original_y > 225){
-                posicion1_y = (int) ((coord_original_y /15)-4);
-            }
+            int posicion1_y = transformacionY_coordA_Matriz(coord_original_y);
             // ver la matriz a ver si el switch esta prendido o apagado
 
             if (_Protoboard_Funcional.protoboard[posicion1_x-1][posicion1_y-1]._switch.prendido){
@@ -367,6 +481,11 @@ public class Controlador_Protoboard implements Initializable {
             gc.strokeLine(punto_inicio_x_patita,punto_inicio_y_patita,punto_final_x_patita,punto_final_y_patita);
 
 
+        }
+        for (int i = 0 ; i < arreglo_coordenadas_OctoSwitch.size() ; i+=2){
+            double x_Octo_switch=arreglo_coordenadas_OctoSwitch.get(i);
+            double y_Octo_switch=arreglo_coordenadas_OctoSwitch.get(i+1);
+            dibujarOctoSwitch(x_Octo_switch, y_Octo_switch, gc, _Protoboard_Funcional);
         }
     }
 
@@ -403,16 +522,7 @@ public class Controlador_Protoboard implements Initializable {
             int indice_2 = 3 + k * 8;
             // transformar coordenadas a posiciones de la matriz para eliminar el cable y la corriente que llevaba este
             int posicion1_x = (int) ((arreglo_coordenadas_patitas_leds.get(indice_1) - 15) / 20);
-            int posicion1_y = 0;
-            if ((arreglo_coordenadas_patitas_leds.get(indice_2) < 68)){
-                posicion1_y = (int) (((arreglo_coordenadas_patitas_leds.get(indice_2) - 15) /15));
-            } else if (arreglo_coordenadas_patitas_leds.get(indice_2) >= 68 && (arreglo_coordenadas_patitas_leds.get(indice_2) < 150)){
-                posicion1_y = (int) ((((arreglo_coordenadas_patitas_leds.get(indice_2) - 15 )/15) -1));
-            } else if (arreglo_coordenadas_patitas_leds.get(indice_2) >= 150 && (arreglo_coordenadas_patitas_leds.get(indice_2) <= 225)){
-                posicion1_y = (int) ((((arreglo_coordenadas_patitas_leds.get(indice_2) ) /15)-3));
-            } else if (arreglo_coordenadas_patitas_leds.get(indice_2) > 225){
-                posicion1_y = (int) (((arreglo_coordenadas_patitas_leds.get(indice_2)  /15 )-4));
-            }
+            int posicion1_y = transformacionY_coordA_Matriz(arreglo_coordenadas_patitas_leds.get(indice_2));
 
 
             arreglo_coordenadas_patitas_leds.remove(4*i);
@@ -445,15 +555,7 @@ public class Controlador_Protoboard implements Initializable {
                 posicion1_x = ((posicion1_x - 15) / 20);
                 int posicion1_y = (arreglo_coordenadas_switch.get(i+1).intValue() );
                 posicion1_y+=24;
-                if (posicion1_y < 68){
-                    posicion1_y = (posicion1_y - 15) /15;
-                } else if (posicion1_y >= 68 && posicion1_y < 150){
-                    posicion1_y =  (((posicion1_y - 15) /15) -1);
-                } else if (posicion1_y >= 150 && posicion1_y <= 225){
-                    posicion1_y =  (((posicion1_y ) /15)-3);
-                } else if (posicion1_y > 225){
-                    posicion1_y = ((posicion1_y  /15 )-4);
-                }
+                posicion1_y = transformacionY_coordA_Matriz(posicion1_y);
 
                 arreglo_coordenadas_switch.remove(i);
                 arreglo_coordenadas_switch.remove(i);
@@ -477,17 +579,7 @@ public class Controlador_Protoboard implements Initializable {
 
                     int posicion1_x = (int) ((arreglo_coordenadas_cables.get(2+i) - 15) / 20);
                     int posicion1_y = (arreglo_coordenadas_cables.get(i+3).intValue());
-
-                    if (posicion1_y < 68){
-                        posicion1_y = (posicion1_y - 15) /15;
-                    } else if (posicion1_y >= 68 && posicion1_y < 150){
-                        posicion1_y =  (((posicion1_y - 15) /15) -1);
-                    } else if (posicion1_y >= 150 && posicion1_y <= 225){
-                        posicion1_y =  (((posicion1_y ) /15)-3);
-                    } else if (posicion1_y > 225){
-                        posicion1_y = ((posicion1_y  /15 )-4);
-                    }
-                    System.out.println(posicion1_y);
+                    posicion1_y = transformacionY_coordA_Matriz(posicion1_y);
 
 
                     arreglo_coordenadas_cables.remove(i);
@@ -508,6 +600,15 @@ public class Controlador_Protoboard implements Initializable {
                             }
                         }
                     }
+                    for (int fil = 0; fil < 30; fil++) {
+                        for (int com = 0; com < 15; com++) {
+                            if (_Protoboard_Funcional.protoboard[fil][com]._cable!=null){
+                                _Protoboard_Funcional.protoboard[fil][com]._cable.procesado=false;
+                            }
+
+                        }
+                    }
+
 
                     gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
                     dibujarTodo();
@@ -526,7 +627,7 @@ public class Controlador_Protoboard implements Initializable {
         tablero.setOnMouseReleased(this::soltarMouse);
 
 
-        dibujarProtoboard(tablero.getGraphicsContext2D());
+        dibujador.dibujarProtoboard(tablero.getGraphicsContext2D(), 10, 10, _Protoboard_Funcional);
         dibujarBateria(tablero.getGraphicsContext2D());
 
 
@@ -590,8 +691,7 @@ public class Controlador_Protoboard implements Initializable {
     int auxx = 0, auxy = 0;
     private void soltarMouse(MouseEvent event) {
         GraphicsContext gc = tablero.getGraphicsContext2D();
-        int posicion1_y = 0;
-        int posicion2_y = 0;
+
         boolean conectado_bateria=false;
         if (movible_cable){
             punto_final_x_cable=event.getX();
@@ -605,29 +705,12 @@ public class Controlador_Protoboard implements Initializable {
             // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
             int posicion1_x = (int) ((punto_inicio_x_cable - 15) / 20);
             int posicion2_x = (int) ((punto_final_x_cable - 15) / 20);
+            int posicion1_y = transformacionY_coordA_Matriz(punto_inicio_y_cable);
+            int posicion2_y = transformacionY_coordA_Matriz(punto_final_y_cable);
 
-            if (punto_final_y_cable < 68){
-                posicion2_y = (int)(punto_final_y_cable - 15) /15;
-            } else if (punto_final_y_cable >= 68 && punto_final_y_cable < 150){
-                posicion2_y = (int) (((punto_final_y_cable - 15) /15) -1);
-            } else if (punto_final_y_cable >= 150 && punto_final_y_cable <= 225){
-                posicion2_y = (int) (((punto_final_y_cable ) /15)-3);
-            } else if (punto_final_y_cable > 225){
-                posicion2_y = (int) ((punto_final_y_cable  /15 )-4);
-            }
-            if (punto_inicio_y_cable < 68){
-                posicion1_y = (int) ((punto_inicio_y_cable - 15) /15);
-            } else if (punto_inicio_y_cable >= 68 && punto_inicio_y_cable < 150){
-                posicion1_y = (int) (((punto_inicio_y_cable - 15 )/15) -1);
-            } else if (punto_inicio_y_cable >= 150 && punto_inicio_y_cable <= 225){
-                posicion1_y = (int) (((punto_inicio_y_cable ) /15)-3);
-            } else if (punto_inicio_y_cable > 225){
-                posicion1_y = (int) ((punto_inicio_y_cable  /15 )-4);
-            }
-
-            if (punto_final_x_cable - punto_inicio_x_cable > 150 || punto_inicio_y_cable - punto_final_y_cable > 100){
-                JOptionPane.showMessageDialog(null, "Haga el cable mas corto.");
-            } else if (punto_final_x_cable <= 0  || punto_inicio_y_cable >= 285 || punto_final_y_cable<=0 || punto_final_y_cable >=285){
+//            if (punto_final_x_cable - punto_inicio_x_cable > 150 || punto_inicio_y_cable - punto_final_y_cable > 100){
+//                JOptionPane.showMessageDialog(null, "Haga el cable mas corto."); { else
+            if (punto_final_x_cable <= 0  || punto_inicio_y_cable >= 285 || punto_final_y_cable<=0 || punto_final_y_cable >=285){
                 JOptionPane.showMessageDialog(null, "Ingrese el cable dentro del protoboard");
 
             }else if(posicion2_x==32||posicion1_x==32|| posicion1_x == 31 || posicion2_x==31 || posicion1_x== 30 || posicion2_x==30 ||posicion1_x == 34 && punto_inicio_y_cable > 270 || posicion1_x == 34 && punto_inicio_y_cable<240 || posicion1_x == 33 && punto_inicio_y_cable > 270 || posicion1_x == 33 && punto_inicio_y_cable<240 || posicion2_x==34 && punto_final_y_cable >270 || posicion2_x == 34 && punto_final_y_cable<240 || posicion2_x==33 && punto_final_y_cable < 240 || posicion2_x == 33 && punto_final_y_cable > 270 || posicion2_x==35 && punto_final_y_cable < 240 || posicion2_x == 35 && punto_final_y_cable > 270){
@@ -663,6 +746,7 @@ public class Controlador_Protoboard implements Initializable {
 
 
                 // dibujar el cable
+                gc.setStroke(Color.RED);
                 gc.strokeLine(punto_inicio_x_cable, punto_inicio_y_cable, punto_final_x_cable,punto_final_y_cable); // dibuja el cable
                 contador_cables++;
                 movible_cable = false;
@@ -692,16 +776,8 @@ public class Controlador_Protoboard implements Initializable {
                 // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
                 // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
                 int posicion1_x = (int) ((punto_final_x_patita - 15) / 20);
+                int posicion1_y = transformacionY_coordA_Matriz(punto_final_y_patita);
 
-                if (punto_final_y_patita < 68){
-                    posicion1_y = (int) ((punto_final_y_patita - 15) /15);
-                } else if (punto_final_y_patita >= 68 && punto_final_y_patita < 150){
-                    posicion1_y = (int) (((punto_final_y_patita - 15 )/15) -1);
-                } else if (punto_final_y_patita >= 150 && punto_final_y_patita <= 225){
-                    posicion1_y = (int) ((punto_final_y_patita /15)-3);
-                } else if (punto_final_y_patita > 225){
-                    posicion1_y = (int) ((punto_final_y_patita /15 )-4);
-                }
                 cantidad_patitas++;
                 if(cantidad_patitas == 1){
                     auxx = posicion1_x;
@@ -780,16 +856,7 @@ public class Controlador_Protoboard implements Initializable {
 
             // transformar x e y para buscar ahora en la matriz de 30 x 14
             int transformacion_x_switch =  (int) ((busca_x_switch - 15 ) / 20);
-            int transformacion_y_switch=0;
-            if (busca_y_switch < 68){
-                transformacion_y_switch = (int) ((busca_y_switch -15) /15);
-            } else if (busca_y_switch >= 68 && busca_y_switch < 150){
-                transformacion_y_switch = (int) (((busca_y_switch -15 )/15) -1);
-            } else if (busca_y_switch >= 150 && busca_y_switch <= 225){
-                transformacion_y_switch = (int) (((busca_y_switch) /15)-3);
-            } else if (busca_y_switch > 225){
-                transformacion_y_switch = (int) ((busca_y_switch /15 )-4);
-            }
+            int transformacion_y_switch= transformacionY_coordA_Matriz(busca_y_switch);
 
             if (calcularDistanciaPuntos(event.getX()-24, coord_switch_x, 10) && calcularDistanciaPuntos(event.getY()-24, coord_switch_y, 10)){
 
@@ -825,7 +892,112 @@ public class Controlador_Protoboard implements Initializable {
 
         }
 
+        if (color_click_switch.equals(Color.GREEN)){
+            switch_bateria=false;
+            GraphicsContext gc = tablero.getGraphicsContext2D();
+            gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
+            dibujarTodo();
+            System.out.println("se apago la bateria");
+            // buscamos el o los cables conectados a la bateria y eliminamos corriente
+            for (int i = 0 ; i < 30 ; i++){
+                for (int j = 0 ; j < 15 ; j++){
+                    if (_Protoboard_Funcional.protoboard[i][j]._cable != null && _Protoboard_Funcional.protoboard[i][j]._cable.conexionBateria){
+                        System.out.println("encuentra");
+                        System.out.println(i + " " + j);
+                        _Protoboard_Funcional.eliminarCorriente(_Protoboard_Funcional, i, j);
+                    }
+                }
+            }
+            gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
+            dibujarTodo();
 
+        } else if (color_click_switch.equals(Color.INDIANRED)){
+            System.out.println("se prendio la bateria");
+            switch_bateria=true;
+            GraphicsContext gc = tablero.getGraphicsContext2D();
+            gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
+            dibujarTodo();
+            // buscamos el o los cables conectados a la bateria y pasamos corriente
+            for (int i = 0 ; i < 30 ; i++){
+                for (int j = 0 ; j < 15 ; j++){
+                    if (_Protoboard_Funcional.protoboard[i][j]._cable != null && _Protoboard_Funcional.protoboard[i][j]._cable.posicion1.coordenadax!=-1 && _Protoboard_Funcional.protoboard[i][j]._cable.conexionBateria){
+                        cable _cable = _Protoboard_Funcional.protoboard[i][j]._cable;
+                        _Protoboard_Funcional.pasarCorriente(_Protoboard_Funcional, _cable);
+                    }
+                }
+
+            }
+            gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
+            dibujarTodo();
+
+
+        }
+
+        if (color_click_switch.equals(Color.WHITE)){
+            System.out.println("deberia prender x posicion");
+            double x_del_switch_presionado = event.getX();
+            double y_del_switch_presionado = event.getY();
+            double[] puntoCercano = alcanzarPuntoCercano(x_del_switch_presionado, y_del_switch_presionado);
+            if (puntoCercano != null) {
+                x_del_switch_presionado = puntoCercano[0];
+                y_del_switch_presionado = puntoCercano[1];
+            }
+            int transformar_x_switch = (int) ((x_del_switch_presionado - 15 ) / 20);
+            int transformar_y_switch= transformacionY_coordA_Matriz(y_del_switch_presionado);
+
+            if (transformar_y_switch == _Protoboard_Funcional.protoboard[transformar_x_switch][transformar_y_switch]._octoSwitch.posicion1.coordenaday){
+                transformar_y_switch++;
+            }
+
+            _Protoboard_Funcional.protoboard[transformar_x_switch][transformar_y_switch]._octoSwitch.pasarCorrientePosicion(_Protoboard_Funcional, transformar_x_switch, transformar_y_switch);
+            tablero.getGraphicsContext2D().clearRect(0,0,tablero.getWidth(),tablero.getHeight());
+            dibujarTodo();
+
+        }
+        else if (color_click_switch.equals(Color.DARKBLUE)){
+            System.out.println("deberia apagar x posicion");
+            double x_del_switch_presionado = event.getX();
+            double y_del_switch_presionado = event.getY();
+            double[] puntoCercano = alcanzarPuntoCercano(x_del_switch_presionado, y_del_switch_presionado);
+            if (puntoCercano != null) {
+                x_del_switch_presionado = puntoCercano[0];
+                y_del_switch_presionado = puntoCercano[1];
+            }
+            int transformar_x_switch = (int) ((x_del_switch_presionado - 15 ) / 20);
+            int transformar_y_switch= transformacionY_coordA_Matriz(y_del_switch_presionado);
+
+            if (transformar_y_switch == _Protoboard_Funcional.protoboard[transformar_x_switch][transformar_y_switch]._octoSwitch.posicion1.coordenaday){
+                transformar_y_switch++;
+            }
+
+            _Protoboard_Funcional.protoboard[transformar_x_switch][transformar_y_switch]._octoSwitch.eliminarCorrientePosicion(_Protoboard_Funcional, transformar_x_switch, transformar_y_switch);
+            tablero.getGraphicsContext2D().clearRect(0,0,tablero.getWidth(),tablero.getHeight());
+            dibujarTodo();
+        }
+
+        if (agrega_octo_switch){
+            double inicio_x = event.getX();
+            double inicio_y = event.getY();
+            double[] puntoCercano = alcanzarPuntoCercano(inicio_x, inicio_y);
+            if (puntoCercano != null) {
+                inicio_x = puntoCercano[0];
+                inicio_y = puntoCercano[1];
+            } arreglo_coordenadas_OctoSwitch.add(inicio_x-70); arreglo_coordenadas_OctoSwitch.add(inicio_y-24);
+            dibujarOctoSwitch(inicio_x-70, inicio_y-24,tablero.getGraphicsContext2D(), _Protoboard_Funcional );
+
+            int transformacion_x_switch = (int) ((inicio_x - 15 ) / 20);
+            int transformacion_y_switch= transformacionY_coordA_Matriz(inicio_y);
+
+            _Protoboard_Funcional.octoSwitchSet(_Protoboard_Funcional, transformacion_x_switch, transformacion_y_switch);
+
+
+
+            btnAgregarCable.setDisable(false);
+            btnAgregarLed.setDisable(false);
+            btnAgregarSwitch.setDisable(false);
+            btnEliminarObj.setDisable(false);
+            agrega_octo_switch=false;
+        }
         if (activar_eliminacion){
             double inicio_x_eliminar = event.getX();
             double inicio_y_eliminar = event.getY();
@@ -858,18 +1030,7 @@ public class Controlador_Protoboard implements Initializable {
 
             System.out.println(y_switch);
             int transformacion_x_switch =  (int) ((x_switch - 15 ) / 20);
-
-            int transformacion_y_switch=0;
-            if (y_switch < 68){
-                 transformacion_y_switch = (int) ((y_switch -15) /15);
-            } else if (y_switch >= 68 && y_switch < 150){
-                 transformacion_y_switch = (int) (((y_switch -15 )/15) -1);
-            } else if (y_switch >= 150 && y_switch <= 225){
-                transformacion_y_switch = (int) ((y_switch/15) -3);
-            } else if (y_switch > 225){
-                 transformacion_y_switch = (int) ((y_switch/15 )-4);
-            }
-            System.out.println(transformacion_y_switch);
+            int transformacion_y_switch= transformacionY_coordA_Matriz(y_switch);
 
             if (transformacion_x_switch == 0 || transformacion_x_switch == 29){
                 JOptionPane.showMessageDialog(null,"No se puede poner un switch en los extremos del protoboard.");
@@ -925,12 +1086,6 @@ public class Controlador_Protoboard implements Initializable {
 
             }
 
-            /*
-            double[] puntoCercano = alcanzarPuntoCercano(punto_inicio_x_patita, punto_inicio_y_patita);
-            if (puntoCercano != null) {
-                punto_inicio_x_patita = puntoCercano[0];
-                punto_inicio_y_patita = puntoCercano[1];
-            } */ // aca la implementacion seria que inicie del LED y termine en un punto del protoboard
         }
         if (movible_cable){
 
@@ -958,7 +1113,7 @@ public class Controlador_Protoboard implements Initializable {
                 // fila 2
 
                 {15, 30}, {35, 30},{55, 30},{75, 30}, {95, 30},{130, 30},{135, 30}, {305, 30},{175, 30},{195, 30}, {230, 30},{235, 30},{255, 30}, {275, 30},{295, 30},
-                {330, 30}, {335, 30},{355, 30},{375, 30}, {395, 30},{430, 30},{435, 30}, {455, 30},{475, 30},{495, 30}, {530, 30},{535, 30},{555, 30}, {575, 30},{595, 30},
+                {330, 30}, {335, 30},{355, 30},{375, 30}, {395, 30},{415, 30},{435, 30}, {455, 30},{475, 30},{495, 30}, {515, 30},{535, 30},{555, 30}, {575, 30},{595, 30},
 
                 // fila 3 canales
                 {15, 70}, {35, 70},{55, 70},{75, 70}, {95, 70},{115, 70},{135, 70}, {155, 70},{175, 70},{195, 70}, {215, 70},{235, 70},{255, 70}, {275, 70},{295, 70},
