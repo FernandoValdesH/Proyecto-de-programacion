@@ -15,6 +15,7 @@
     <Button fx:id="btnAgregarCable" onAction="#activarCable" text="Agregar cable" />
     <Button fx:id="btnAgregarLed" mnemonicParsing="false" onAction="#activaLed" text="Agregar Led" />
     <Button fx:id="btnAgregarSwitch" onAction="#AgregarSwitch" text="Agregar switch" />
-   <Button fx:id="btnEliminarObj" mnemonicParsing="false" onAction="#activarEliminacion" text="Eliminar" />
     <Button fx:id="btnAgregarOctoSwitch" mnemonicParsing="false" onAction="#agregarOctoSwitch" text="Agregar OctoSwitch" />
+    <Button fx:id="btnAgregarResistencia" onAction="#AgregarResistencia" text="Agregar resistencia" />
+    <Button fx:id="btnEliminarObj" mnemonicParsing="false" onAction="#activarEliminacion" text="Eliminar" />
 </VBox>
