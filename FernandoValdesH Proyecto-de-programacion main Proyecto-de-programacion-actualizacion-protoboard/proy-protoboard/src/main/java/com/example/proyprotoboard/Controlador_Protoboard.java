@@ -232,8 +232,21 @@ public class Controlador_Protoboard implements Initializable {
         GraphicsContext gc = tablero.getGraphicsContext2D();
         gc.setStroke(Color.GREY);
         gc.setLineWidth(2);
-        for (int k = 0; k < 43; k++) {        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
-            gc.strokeLine(x_resistencia, y_resistencia + k, x_resistencia + 46, y_resistencia + k); //ancho del switch = 48
+        for (int k = 0; k < 15; k++) {        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
+            gc.strokeLine(x_resistencia+10, y_resistencia +5+ k, x_resistencia + 40, y_resistencia +5+ k); //ancho del switch = 48
+        }
+        gc.setStroke(Color.BLACK);
+        for (int k = 0; k < 15; k++) {
+            gc.strokeLine(x_resistencia+12, y_resistencia +5+ k, x_resistencia + 14, y_resistencia +5+ k);
+        }
+        for (int k = 0; k < 15; k++) {
+            gc.strokeLine(x_resistencia+19, y_resistencia +5+ k, x_resistencia + 21, y_resistencia +5+ k);
+        }
+        for (int k = 0; k < 15; k++) {
+            gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
+        }
+        for (int k = 0; k < 15; k++) {
+            gc.strokeLine(x_resistencia+36, y_resistencia +5+ k, x_resistencia + 37, y_resistencia +5+ k);
         }
     }
     public void dibujarTodo(){
