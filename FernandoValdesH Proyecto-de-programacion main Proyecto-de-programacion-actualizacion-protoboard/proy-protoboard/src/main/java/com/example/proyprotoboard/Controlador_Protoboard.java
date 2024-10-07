@@ -185,7 +185,7 @@ public class Controlador_Protoboard implements Initializable {
         btnAgregarLed.setDisable(true);
         btnAgregarSwitch.setDisable(true);
         btnEliminarObj.setDisable(true);
-        btnAgregarSwitch.setDisable(true);
+        btnAgregarOctoSwitch.setDisable(true);
         agregar_resistencia = true;
     }
 
