@@ -51,6 +51,7 @@ public class Controlador_Protoboard implements Initializable {
     private boolean dibujar_patitas=false;
     private boolean switch_bateria=true;
     private boolean agrega_octo_switch=false;
+    private Boolean agregar_resistencia = false;
 
     int x=10,y=10;
 
@@ -64,6 +65,8 @@ public class Controlador_Protoboard implements Initializable {
     Button btnEliminarObj;
     @FXML
     public Button btnAgregarOctoSwitch;
+    @FXML
+    Button btnAgregarResistencia;
 
 
     @FXML
@@ -156,13 +159,22 @@ public class Controlador_Protoboard implements Initializable {
     }
 
     // metodos que se activan al presionar boton
-
+    public void AgregarResistencia() {
+        btnAgregarCable.setDisable(true);
+        btnAgregarLed.setDisable(true);
+        btnAgregarSwitch.setDisable(true);
+        btnEliminarObj.setDisable(true);
+        btnAgregarOctoSwitch.setDisable(true);
+        btnAgregarResistencia.setDisable(true);
+        agregar_resistencia = true;
+    }
     public void agregarOctoSwitch(){
         btnAgregarCable.setDisable(true);
         btnAgregarLed.setDisable(true);
         btnAgregarSwitch.setDisable(true);
         btnEliminarObj.setDisable(true);
         btnAgregarOctoSwitch.setDisable(true);
+        btnAgregarResistencia.setDisable(true);
         JOptionPane.showMessageDialog(null, "Seleccione el punto central de donde desea ubicar");
         agrega_octo_switch = true;
 
@@ -174,6 +186,7 @@ public class Controlador_Protoboard implements Initializable {
         btnAgregarSwitch.setDisable(true);
         btnEliminarObj.setDisable(true);
         btnAgregarOctoSwitch.setDisable(true);
+        btnAgregarResistencia.setDisable(true);
         JOptionPane.showMessageDialog(null, "Seleccione el punto central de donde desea ubicar");
         agrega_switch = true;
     }
@@ -184,6 +197,7 @@ public class Controlador_Protoboard implements Initializable {
         btnAgregarSwitch.setDisable(true);
         btnEliminarObj.setDisable(true);
         btnAgregarOctoSwitch.setDisable(true);
+        btnAgregarResistencia.setDisable(true);
         led_puesto=false;
         agrega_led=true;
         patita_led_1=false;
@@ -197,6 +211,7 @@ public class Controlador_Protoboard implements Initializable {
         btnAgregarSwitch.setDisable(true);
         btnEliminarObj.setDisable(true);
         btnAgregarOctoSwitch.setDisable(true);
+        btnAgregarResistencia.setDisable(true);
         if (contador_cables < 2){
             JOptionPane.showMessageDialog(null,"Seleccione la posicion inicial");
 
@@ -213,10 +228,32 @@ public class Controlador_Protoboard implements Initializable {
         btnAgregarSwitch.setDisable(true);
         btnEliminarObj.setDisable(true);
         btnAgregarOctoSwitch.setDisable(true);
+        btnAgregarResistencia.setDisable(true);
         activar_eliminacion=true;
     }
 
     // metodos distintos
+    public void dibujarResistencia(int x_resistencia,int y_resistencia) {
+        GraphicsContext gc = tablero.getGraphicsContext2D();
+        gc.setStroke(Color.GREY);
+        gc.setLineWidth(2);
+        for (int k = 0; k < 15; k++) {        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
+            gc.strokeLine(x_resistencia+10, y_resistencia +5+ k, x_resistencia + 40, y_resistencia +5+ k); //ancho del switch = 48
+        }
+        gc.setStroke(Color.BLACK);
+        for (int k = 0; k < 15; k++) {
+            gc.strokeLine(x_resistencia+12, y_resistencia +5+ k, x_resistencia + 14, y_resistencia +5+ k);
+        }
+        for (int k = 0; k < 15; k++) {
+            gc.strokeLine(x_resistencia+19, y_resistencia +5+ k, x_resistencia + 21, y_resistencia +5+ k);
+        }
+        for (int k = 0; k < 15; k++) {
+            gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
+        }
+        for (int k = 0; k < 15; k++) {
+            gc.strokeLine(x_resistencia+36, y_resistencia +5+ k, x_resistencia + 37, y_resistencia +5+ k);
+        }
+    }
     public void dibujarTodo(){
         GraphicsContext gc = tablero.getGraphicsContext2D();
         dibujador.dibujarProtoboard(gc, 10, 10, _Protoboard_Funcional);
@@ -256,12 +293,12 @@ public class Controlador_Protoboard implements Initializable {
 
             if (_Protoboard_Funcional.protoboard[posicion1_x-1][posicion1_y-1]._switch.prendido){
                 dibujador.dibujarSwitch(gc, x_switch, y_switch);
-                gc.setFill(Color.DARKGRAY);
-                gc.fillOval(x_switch + 21 , y_switch +10 , 15, 15);
+                gc.setFill(Color.LIMEGREEN);
+                gc.fillOval(x_switch + 8 , y_switch +8 , 30, 30);
             } else {
                 dibujador.dibujarSwitch(gc,x_switch, y_switch);
                 gc.setFill(Color.BLACK);
-                gc.fillOval(x_switch + 20 , y_switch +10 , 16, 16);
+                gc.fillOval(x_switch + 8 , y_switch +8 , 30, 30);
             }
 
         }
@@ -517,6 +554,7 @@ public class Controlador_Protoboard implements Initializable {
                 btnAgregarSwitch.setDisable(false);
                 btnEliminarObj.setDisable(false);
                 btnAgregarOctoSwitch.setDisable(false);
+                btnAgregarResistencia.setDisable(false);
             }
 
 
@@ -563,6 +601,7 @@ public class Controlador_Protoboard implements Initializable {
                     btnAgregarSwitch.setDisable(false);
                     btnEliminarObj.setDisable(false);
                     btnAgregarOctoSwitch.setDisable(false);
+                    btnAgregarResistencia.setDisable(false);
                     if (led.encendido){
                         dibujador.dibujarLed(gc, x_led, y_led, Color.RED);
                     } else {
@@ -585,7 +624,7 @@ public class Controlador_Protoboard implements Initializable {
     private void click(MouseEvent event) {
         Color color_click_switch = getColor(event.getX(), event.getY());;
         // si el click es del color del boton
-        if (color_click_switch.equals(Color.BLACK) && !activar_eliminacion){
+        if (color_click_switch.equals(Color.BLACK) && !activar_eliminacion || color_click_switch.equals(Color.LIMEGREEN) && !activar_eliminacion){
             // si presiono algo que podria ser el boton, se busca que sea el boton del switch
 
             // buscar cual switch es
@@ -623,27 +662,23 @@ public class Controlador_Protoboard implements Initializable {
 
 
             if (calcularDistanciaPuntos(event.getX()-24, coord_switch_x, 10) && calcularDistanciaPuntos(event.getY()-24, coord_switch_y, 10)){
+                Switch _switch = _Protoboard_Funcional.protoboard[transformacion_x_switch-1][transformacion_y_switch-1]._switch;
+                if (!_switch.prendido){
 
-                if (!_Protoboard_Funcional.protoboard[transformacion_x_switch][transformacion_y_switch]._switch.prendido){
-
-                    _Protoboard_Funcional.protoboard[transformacion_x_switch][transformacion_y_switch]._switch.prendido=true;
+                    _switch.prendido=true;
                     System.out.println("Switch apretado");
                     GraphicsContext gc = tablero.getGraphicsContext2D();
-                    gc.setFill(Color.DARKGRAY);
-                    gc.fillOval(coord_switch_x + 21 , coord_switch_y +10 , 15, 15);
                     // pasar la corriente del switch
-                    _Protoboard_Funcional.toggleSwitch(_Protoboard_Funcional, transformacion_x_switch, transformacion_y_switch, _Protoboard_Funcional.protoboard[transformacion_x_switch][transformacion_y_switch]._switch.prendido);
+                    _Protoboard_Funcional.toggleSwitch(_Protoboard_Funcional, _switch, _switch.prendido);
                     revisarLedsEncendidos(_Protoboard_Funcional, gc);
                     gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
                     dibujarTodo();
                 } else {
-                    _Protoboard_Funcional.protoboard[transformacion_x_switch][transformacion_y_switch]._switch.prendido=false;
+                    _switch.prendido=false;
                     System.out.println("Switch soltado");
                     GraphicsContext gc = tablero.getGraphicsContext2D();
-                    gc.setFill(Color.BLACK);
-                    gc.fillOval(coord_switch_x + 20, coord_switch_y +10 , 16, 16);
                     // pasar la corriente del switch a la columna "original"
-                    _Protoboard_Funcional.toggleSwitch(_Protoboard_Funcional, transformacion_x_switch, transformacion_y_switch, _Protoboard_Funcional.protoboard[transformacion_x_switch][transformacion_y_switch]._switch.prendido);
+                    _Protoboard_Funcional.toggleSwitch(_Protoboard_Funcional, _switch, _switch.prendido);
                     revisarLedsEncendidos(_Protoboard_Funcional, gc);
                     gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
                     dibujarTodo();
@@ -666,8 +701,6 @@ public class Controlador_Protoboard implements Initializable {
             for (int i = 0 ; i < 30 ; i++){
                 for (int j = 0 ; j < 15 ; j++){
                     if (_Protoboard_Funcional.protoboard[i][j]._cable != null && _Protoboard_Funcional.protoboard[i][j]._cable.conexionBateria){
-                        System.out.println("encuentra");
-                        System.out.println(i + " " + j);
                         _Protoboard_Funcional.eliminarCorriente(_Protoboard_Funcional, i, j);
                     }
                 }
@@ -736,6 +769,27 @@ public class Controlador_Protoboard implements Initializable {
             tablero.getGraphicsContext2D().clearRect(0,0,tablero.getWidth(),tablero.getHeight());
             dibujarTodo();
         }
+        if(agregar_resistencia){
+            agregar_resistencia=false;
+            GraphicsContext gc = tablero.getGraphicsContext2D();
+            int x_resistencia= (int) event.getX();
+            int y_resistencia= (int) event.getY();
+            double[] puntoCercano = alcanzarPuntoCercano(x_resistencia, y_resistencia);
+            if (puntoCercano != null) {
+                x_resistencia = (int) (puntoCercano[0]-15);
+                y_resistencia = (int) (puntoCercano[1]-15);
+            } //arreglo_coordenadas_leds.add(x_led); arreglo_coordenadas_leds.add(y_led); // agregar al arreglo
+            dibujarResistencia(x_resistencia,y_resistencia);
+            //dibujador.dibujarRes(gc, x_led, y_led, Color.DARKRED);
+            btnAgregarCable.setDisable(false);
+            btnAgregarLed.setDisable(false);
+            btnAgregarSwitch.setDisable(false);
+            btnEliminarObj.setDisable(false);
+            btnAgregarResistencia.setDisable(false);
+            btnAgregarOctoSwitch.setDisable(false);
+
+        }
+
 
         if (agrega_octo_switch){
             double inicio_x = event.getX();
@@ -759,6 +813,7 @@ public class Controlador_Protoboard implements Initializable {
             btnAgregarSwitch.setDisable(false);
             btnEliminarObj.setDisable(false);
             btnAgregarOctoSwitch.setDisable(false);
+            btnAgregarResistencia.setDisable(false);
             agrega_octo_switch=false;
         }
         if (activar_eliminacion){
@@ -780,6 +835,7 @@ public class Controlador_Protoboard implements Initializable {
             btnAgregarSwitch.setDisable(false);
             btnEliminarObj.setDisable(false);
             btnAgregarOctoSwitch.setDisable(false);
+            btnAgregarResistencia.setDisable(false);
             activar_eliminacion=false;
         }
 
@@ -815,6 +871,7 @@ public class Controlador_Protoboard implements Initializable {
                 btnAgregarSwitch.setDisable(false);
                 btnEliminarObj.setDisable(false);
                 btnAgregarOctoSwitch.setDisable(false);
+                btnAgregarResistencia.setDisable(false);
             }
 
 
@@ -834,6 +891,7 @@ public class Controlador_Protoboard implements Initializable {
             btnAgregarSwitch.setDisable(true);
             btnEliminarObj.setDisable(true);
             btnAgregarOctoSwitch.setDisable(true);
+            btnAgregarResistencia.setDisable(true);
 
             agrega_led=false;
             led_puesto=true;
