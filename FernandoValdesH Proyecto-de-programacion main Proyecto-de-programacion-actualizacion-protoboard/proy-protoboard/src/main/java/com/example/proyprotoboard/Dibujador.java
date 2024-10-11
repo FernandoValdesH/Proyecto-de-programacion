@@ -23,15 +23,17 @@ public class Dibujador {
 
     public void dibujarProtoboard(GraphicsContext gc, double x_inicio, double y_inicio, protoboard protoboard){
 
-        gc.setLineWidth(1);
+        gc.setLineWidth(2);
         gc.setStroke(Color.LIGHTGRAY);
         String letras ="jihgfedcba";
 
         // bucle para hacer el rectangulo solo con lineas
 
-        for( int k = 0 ; k < 300 ; k++){        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
-            gc.strokeLine(0, k,605+x_inicio, k);
-        }
+        gc.setFill(Color.LIGHTGRAY);
+        gc.fillRect(x_inicio,y_inicio,615,300);
+//        for( int k = 0 ; k < 300 ; k++){        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
+//            gc.strokeLine(0, k,605+x_inicio, k);
+//        }
         gc.setFill(Color.GRAY);
         // bucle para rellenar de puntos el rectangulo
 
@@ -83,30 +85,24 @@ public class Dibujador {
 
         // bucle para rellenar el canal central
         x_inicio= 10;
-        gc.setStroke(Color.DARKGRAY);
-        for( int k = 138 ; k < 155 ; k++){        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
-            gc.strokeLine(0, k,605+x_inicio, k);
-        }
+        gc.setFill(Color.DARKGRAY);
+        gc.fillRect(x_inicio-10, 138, 615, 17);
 
         gc.setFont(new Font("Arial", 12));
         // hacer simbolos + y -
         // simbolos -
         gc.setFill(Color.BLUE);
         gc.setStroke(Color.BLUE);
-        x_inicio=2; y_inicio=10;
-        //gc.setFont(new Font("Arial", 40));
-        gc.fillText("-", x_inicio,y_inicio); gc.strokeLine(x_inicio+10,y_inicio -4,600,y_inicio -4) ;
-        y_inicio= 260;
-        gc.fillText("-", x_inicio,y_inicio); gc.strokeLine(x_inicio+10,y_inicio -4,600,y_inicio -4) ;
+        gc.fillText("-", x_inicio-8,y_inicio+10); gc.strokeLine(x_inicio,y_inicio +6,605,y_inicio +6) ;
+//        y_inicio= 260;
+        gc.fillText("-", x_inicio-8,y_inicio+260); gc.strokeLine(x_inicio,y_inicio + 256,605,y_inicio +256) ;
 
 
         // simbolos +
-        y_inicio=42;
         gc.setFill(Color.RED);
         gc.setStroke(Color.RED);
-        gc.fillText("+", x_inicio,y_inicio); gc.strokeLine(x_inicio+10,y_inicio-4,600,y_inicio-4);
-        y_inicio=290;
-        gc.fillText("+", x_inicio,y_inicio); gc.strokeLine(x_inicio+10,y_inicio-4,600,y_inicio-4);
+        gc.fillText("+", x_inicio -8 ,y_inicio + 42); gc.strokeLine(x_inicio,y_inicio + 38,605,y_inicio + 38);
+        gc.fillText("+", x_inicio -8,y_inicio + 290); gc.strokeLine(x_inicio,y_inicio+286,605,y_inicio+286);
 
 
 
@@ -115,7 +111,6 @@ public class Dibujador {
         y_inicio=55;
 
         gc.setFill(Color.BLACK);
-        //gc.setFont(new Font("Arial", 60));
         gc.setTextAlign(TextAlignment.LEFT);
         gc.setTextBaseline(VPos.CENTER);
         for (int i = 1 ; i <=30 ; i++) {
@@ -177,6 +172,7 @@ public class Dibujador {
             gc.setFill(Color.WHITE);
             gc.setFont(new Font("Arial", 15));
             gc.fillText("OFF", x_bateria+15, 140);
+
         }
 
 
