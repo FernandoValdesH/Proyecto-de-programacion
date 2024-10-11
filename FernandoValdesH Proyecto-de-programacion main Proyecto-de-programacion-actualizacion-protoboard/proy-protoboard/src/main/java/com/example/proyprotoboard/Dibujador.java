@@ -136,60 +136,48 @@ public class Dibujador {
         }
     }
 
-    public void dibujarBateria(GraphicsContext gc, double x_bateria, boolean switch_bateria) {
+    public void dibujarBateria(GraphicsContext gc, double x_bateria, double y_bateria, boolean switch_bateria) {
 
 
         // bucle para hacer el rectangulo solo con lineas
 
         gc.setStroke(Color.BLACK);
-        int k=0;
-        for( k = 130 ; k < 220 ; k++){        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
-            gc.strokeLine(x_bateria, k,x_bateria+70, k);
-        } gc.setStroke(Color.BROWN);
-        for ( k=k ; k < 250 ; k++){
-            gc.strokeLine(x_bateria, k,x_bateria+70, k);
-        }
+        gc.setFill(Color.BLACK);
+        gc.fillRect(x_bateria,130,70,90);
+        gc.setFill(Color.BROWN);
+        gc.fillRect(x_bateria,220,70,31);
+        gc.setFill(Color.GRAY);
+        gc.fillRect(x_bateria+8,250,20,10);
+        gc.fillRect(x_bateria+42,250,20,10);
 
-        gc.setStroke(Color.GRAY);
-        for ( k=k ; k < 260 ; k++){ // hacer las puntitas de la bateria
-            gc.strokeLine(x_bateria+10, k,x_bateria+25, k);
-            gc.strokeLine(x_bateria+45, k,x_bateria+60, k);
-        }
 
         // hacer simbolos + y -
         // simbolos -
         gc.setFill(Color.BLUE);
         gc.setFont(new Font("Arial", 30));
-        gc.fillText("-", x_bateria+48,252);
+        gc.fillText("-", x_bateria+48,251);
         gc.setFill(Color.RED);
         gc.setFont(new Font("Arial", 19));
         gc.fillText("+", x_bateria+13,253);
 
-        // dibujar switch para pasar o no corriente
-        gc.setStroke(Color.DARKGRAY);
-        k = 150;
-        for ( k=k ; k < 180 ; k++){
-            gc.strokeLine(x_bateria+10, k,x_bateria+60, k);
-        } k = 155;
+        gc.setFill(Color.DARKGRAY);
+        gc.fillRoundRect(x_bateria+10, 150, 50, 30, 20, 20);
 
         if (switch_bateria){
-            gc.setStroke(Color.GREEN);
-            gc.setLineWidth(3);
-            for ( k=k ; k < 175 ; k++){
-                gc.strokeLine(x_bateria+30, k,x_bateria+59, k);
-            }
+            gc.setFill(Color.GREEN);
+            gc.fillRoundRect(x_bateria+30, 150, 30, 30, 20, 20);
+            gc.setFill(Color.WHITE);
+            gc.setFont(new Font("Arial", 15));
+            gc.fillText("ON", x_bateria+30, 140);
         } else{
-            gc.setStroke(Color.DARKGRAY);
-            for ( k=k ; k < 175 ; k++){
-                gc.strokeLine(x_bateria+30, k,x_bateria+59, k);
-            } k = 155;
-            gc.setLineWidth(3);
-            gc.setStroke(Color.INDIANRED);
-            for ( k=k ; k < 175 ; k++){
-                gc.strokeLine(x_bateria+11, k,x_bateria+34, k);
-            }
+            gc.setFill(Color.DARKGRAY);
+            gc.fillRoundRect(x_bateria+30, 150, 30, 30, 20, 20);
+            gc.setFill(Color.INDIANRED);
+            gc.fillRoundRect(x_bateria+10, 150, 30, 30, 20, 20);
+            gc.setFill(Color.WHITE);
+            gc.setFont(new Font("Arial", 15));
+            gc.fillText("OFF", x_bateria+15, 140);
         }
-
 
 
     }
@@ -207,9 +195,8 @@ public class Dibujador {
     public void dibujarSwitch(GraphicsContext gc, double x_switch, double y_switch) {
         gc.setStroke(Color.GREY);
         gc.setLineWidth(2);
-        for (int k = 0; k < 43; k++) {        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
-            gc.strokeLine(x_switch, y_switch + k , x_switch+46, y_switch + k); //ancho del switch = 48
-        }
+        gc.setFill(Color.GREY);
+        gc.fillRect(x_switch-1, y_switch-1, 48, 45);
         // esquinas del switch
         gc.setFill(Color.DARKSLATEGRAY);
         gc.fillOval(x_switch, y_switch+3,8,8);
@@ -223,11 +210,11 @@ public class Dibujador {
     }
 
     public void dibujarOctoSwitch(double x, double y, GraphicsContext gc, protoboard _protoboard){
-        gc.setStroke(Color.RED);
-        gc.setLineWidth(2);
-        for (int k = 0; k < 45; k++) {
-            gc.strokeLine(x, y + k , x+155, y + k);
-        }
+
+
+        gc.setFill(Color.RED);
+        gc.fillRect(x-1, y-1, 156, 47);
+
         // switches del switch xd
         gc.setStroke(Color.WHITE);
         gc.setFill(Color.WHITE);
@@ -248,170 +235,123 @@ public class Dibujador {
             switch (i){
                 case 0:
                     if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_1.encendido){
-                        for (int k = (int) (y+10); k < y+35; k++){
-                            gc.setStroke(Color.WHITE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
-                        for (int k = (int) (y+20); k < y+35; k++){
-                            gc.setStroke(Color.DARKBLUE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
+                        gc.setLineWidth(2);
+                        gc.setFill(Color.WHITE);
+                        gc.fillRect(x+5, y+10, 12, 25);
+                        gc.setFill(Color.DARKBLUE);
+                        gc.fillRect(x+5, y+21, 12, 14);
+
                     }else{
-                        for (int k = (int) (y+10); k < y+35; k++){
-                            gc.setStroke(Color.DARKBLUE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
-                        for (int k = (int) (y+20); k < y+35; k++){
-                            gc.setStroke(Color.WHITE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
+                        gc.setLineWidth(2);
+                        gc.setFill(Color.DARKBLUE);
+                        gc.fillRect(x+5, y+10, 12, 20);
+                        gc.setFill(Color.WHITE);
+                        gc.fillRect(x+5, y+21, 12, 14);
                     } x+=19;
                     break;
                 case 1:
                     if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_2.encendido){
-                        for (int k = (int) (y+10); k < y+35; k++){
-                            gc.setStroke(Color.WHITE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
-                        for (int k = (int) (y+20); k < y+35; k++){
-                            gc.setStroke(Color.DARKBLUE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
+                        gc.setLineWidth(2);
+                        gc.setFill(Color.WHITE);
+                        gc.fillRect(x+5, y+10, 12, 25);
+                        gc.setFill(Color.DARKBLUE);
+                        gc.fillRect(x+5, y+21, 12, 14);
                     }else{
-                        for (int k = (int) (y+10); k < y+35; k++){
-                            gc.setStroke(Color.DARKBLUE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
-                        for (int k = (int) (y+20); k < y+35; k++){
-                            gc.setStroke(Color.WHITE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
+                        gc.setLineWidth(2);
+                        gc.setFill(Color.DARKBLUE);
+                        gc.fillRect(x+5, y+10, 12, 20);
+                        gc.setFill(Color.WHITE);
+                        gc.fillRect(x+5, y+21, 12, 14);
                     } x+=19;
                     break;
                 case 2:
                     if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_3.encendido){
-                        for (int k = (int) (y+10); k < y+35; k++){
-                            gc.setStroke(Color.WHITE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
-                        for (int k = (int) (y+20); k < y+35; k++){
-                            gc.setStroke(Color.DARKBLUE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
+                        gc.setLineWidth(2);
+                        gc.setFill(Color.WHITE);
+                        gc.fillRect(x+5, y+10, 12, 25);
+                        gc.setFill(Color.DARKBLUE);
+                        gc.fillRect(x+5, y+21, 12, 14);
                     }else{
-                        for (int k = (int) (y+10); k < y+35; k++){
-                            gc.setStroke(Color.DARKBLUE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
-                        for (int k = (int) (y+20); k < y+35; k++){
-                            gc.setStroke(Color.WHITE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
+                        gc.setLineWidth(2);
+                        gc.setFill(Color.DARKBLUE);
+                        gc.fillRect(x+5, y+10, 12, 20);
+                        gc.setFill(Color.WHITE);
+                        gc.fillRect(x+5, y+21, 12, 14);
                     } x+=19;
                     break;
                 case 3:
                     if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_4.encendido){
-                        for (int k = (int) (y+10); k < y+35; k++){
-                            gc.setStroke(Color.WHITE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
-                        for (int k = (int) (y+20); k < y+35; k++){
-                            gc.setStroke(Color.DARKBLUE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
+                        gc.setLineWidth(2);
+                        gc.setFill(Color.WHITE);
+                        gc.fillRect(x+5, y+10, 12, 25);
+                        gc.setFill(Color.DARKBLUE);
+                        gc.fillRect(x+5, y+21, 12, 14);
                     }else{
-                        for (int k = (int) (y+10); k < y+35; k++){
-                            gc.setStroke(Color.DARKBLUE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
-                        for (int k = (int) (y+20); k < y+35; k++){
-                            gc.setStroke(Color.WHITE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
+                        gc.setLineWidth(2);
+                        gc.setFill(Color.DARKBLUE);
+                        gc.fillRect(x+5, y+10, 12, 20);
+                        gc.setFill(Color.WHITE);
+                        gc.fillRect(x+5, y+21, 12, 14);
                     } x+=19;
                     break;
                 case 4:
                     if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_5.encendido){
-                        for (int k = (int) (y+10); k < y+35; k++){
-                            gc.setStroke(Color.WHITE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
-                        for (int k = (int) (y+20); k < y+35; k++){
-                            gc.setStroke(Color.DARKBLUE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
+                        gc.setLineWidth(2);
+                        gc.setFill(Color.WHITE);
+                        gc.fillRect(x+5, y+10, 12, 25);
+                        gc.setFill(Color.DARKBLUE);
+                        gc.fillRect(x+5, y+21, 12, 14);
                     }else{
-                        for (int k = (int) (y+10); k < y+35; k++){
-                            gc.setStroke(Color.DARKBLUE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
-                        for (int k = (int) (y+20); k < y+35; k++){
-                            gc.setStroke(Color.WHITE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
+                        gc.setLineWidth(2);
+                        gc.setFill(Color.DARKBLUE);
+                        gc.fillRect(x+5, y+10, 12, 20);
+                        gc.setFill(Color.WHITE);
+                        gc.fillRect(x+5, y+21, 12, 14);
                     } x+=19;
                     break;
                 case 5:
                     if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_6.encendido){
-                        for (int k = (int) (y+10); k < y+35; k++){
-                            gc.setStroke(Color.WHITE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
-                        for (int k = (int) (y+20); k < y+35; k++){
-                            gc.setStroke(Color.DARKBLUE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
+                        gc.setLineWidth(2);
+                        gc.setFill(Color.WHITE);
+                        gc.fillRect(x+5, y+10, 12, 25);
+                        gc.setFill(Color.DARKBLUE);
+                        gc.fillRect(x+5, y+21, 12, 14);
                     }else{
-                        for (int k = (int) (y+10); k < y+35; k++){
-                            gc.setStroke(Color.DARKBLUE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
-                        for (int k = (int) (y+20); k < y+35; k++){
-                            gc.setStroke(Color.WHITE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
+                        gc.setLineWidth(2);
+                        gc.setFill(Color.DARKBLUE);
+                        gc.fillRect(x+5, y+10, 12, 20);
+                        gc.setFill(Color.WHITE);
+                        gc.fillRect(x+5, y+21, 12, 14);
                     } x+=19;
                     break;
                 case 6:
                     if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_7.encendido){
-                        for (int k = (int) (y+10); k < y+35; k++){
-                            gc.setStroke(Color.WHITE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
-                        for (int k = (int) (y+20); k < y+35; k++){
-                            gc.setStroke(Color.DARKBLUE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
+                        gc.setLineWidth(2);
+                        gc.setFill(Color.WHITE);
+                        gc.fillRect(x+5, y+10, 12, 25);
+                        gc.setFill(Color.DARKBLUE);
+                        gc.fillRect(x+5, y+21, 12, 14);
                     }else{
-                        for (int k = (int) (y+10); k < y+35; k++){
-                            gc.setStroke(Color.DARKBLUE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
-                        for (int k = (int) (y+20); k < y+35; k++){
-                            gc.setStroke(Color.WHITE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
+                        gc.setLineWidth(2);
+                        gc.setFill(Color.DARKBLUE);
+                        gc.fillRect(x+5, y+10, 12, 20);
+                        gc.setFill(Color.WHITE);
+                        gc.fillRect(x+5, y+21, 12, 14);
                     } x+=19;
                     break;
                 case 7:
                     if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_8.encendido){
-                        for (int k = (int) (y+10); k < y+35; k++){
-                            gc.setStroke(Color.WHITE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
-                        for (int k = (int) (y+20); k < y+35; k++){
-                            gc.setStroke(Color.DARKBLUE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
+                        gc.setLineWidth(2);
+                        gc.setFill(Color.WHITE);
+                        gc.fillRect(x+5, y+10, 12, 25);
+                        gc.setFill(Color.DARKBLUE);
+                        gc.fillRect(x+5, y+21, 12, 14);
                     }else{
-                        for (int k = (int) (y+10); k < y+35; k++){
-                            gc.setStroke(Color.DARKBLUE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
-                        for (int k = (int) (y+20); k < y+35; k++){
-                            gc.setStroke(Color.WHITE);
-                            gc.strokeLine(x+5, k, x+15, k);
-                        }
+                        gc.setLineWidth(2);
+                        gc.setFill(Color.DARKBLUE);
+                        gc.fillRect(x+5, y+10, 12, 20);
+                        gc.setFill(Color.WHITE);
+                        gc.fillRect(x+5, y+21, 12, 14);
                     } x+=19;
                     break;
             }
@@ -421,14 +361,7 @@ public class Dibujador {
     }
 
     public void dibujarResistencia(GraphicsContext gc, double x_resistencia, double y_resistencia) {
-        gc.setStroke(Color.BLACK);
-        gc.setLineWidth(2);
-        gc.strokeLine(x_resistencia, y_resistencia, x_resistencia + 10, y_resistencia);
-        gc.strokeLine(x_resistencia + 40, y_resistencia, x_resistencia + 50, y_resistencia);
-        gc.strokeLine(x_resistencia + 10, y_resistencia, x_resistencia + 15, y_resistencia - 10);
-        gc.strokeLine(x_resistencia + 15, y_resistencia - 10, x_resistencia + 35, y_resistencia - 10);
-        gc.strokeLine(x_resistencia + 35, y_resistencia - 10, x_resistencia + 40, y_resistencia);
-        gc.strokeLine(x_resistencia + 15, y_resistencia + 10, x_resistencia + 35, y_resistencia + 10);
+
     }
 
     public void dibujarChip(){}
