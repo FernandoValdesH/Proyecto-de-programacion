@@ -260,17 +260,14 @@ public class Controlador_Protoboard implements Initializable {
         dibujador.dibujarBateria(gc, 660, switch_bateria);
 
         for (int i = 0 ; i < arreglo_coordenadas_leds.size() ; i+=2){
-            int k = 0;
             x_led=arreglo_coordenadas_leds.get(i);
             y_led=arreglo_coordenadas_leds.get(i+1);
             // recuperar coordenadas 2 y 3 del arreglo de patitas de leds, transformarlas a posicion de matriz y chequear y si esa posicion tiene corriente o no
             // si tiene corriente, dibujar el led en rojo, si no, dibujar el led en darkred
 
-            if (i!=0 && i%2==0){
-                k = i - 1;
-            }
-            int posicion1_x = (int) ((arreglo_coordenadas_patitas_leds.get(2+(k)*8) - 15) / 20);
-            int posicion1_y = transformacionY_coordA_Matriz(arreglo_coordenadas_patitas_leds.get(3+(k)*8));
+
+            int posicion1_x = (int) ((arreglo_coordenadas_patitas_leds.get(2+i*4) - 15) / 20);
+            int posicion1_y = transformacionY_coordA_Matriz(arreglo_coordenadas_patitas_leds.get(3+i*4));
             if (_Protoboard_Funcional.protoboard[posicion1_x][posicion1_y]._led.posicion1.coordenadax!=-1) {
                 if (_Protoboard_Funcional.protoboard[posicion1_x][posicion1_y]._led.encendido) {
                    dibujador.dibujarLed(gc, x_led, y_led, Color.RED);
@@ -431,7 +428,7 @@ public class Controlador_Protoboard implements Initializable {
 
 
                     _Protoboard_Funcional.eliminarElemento(_Protoboard_Funcional, posicion1_x, posicion1_y);
-                    _Protoboard_Funcional.eliminarCorriente(_Protoboard_Funcional, posicion1_x, posicion1_y);
+                    _Protoboard_Funcional.eliminarCorriente(_Protoboard_Funcional, posicion1_x, posicion1_y, false);
 
                     for (int fil = 0 ; fil < 30 ; fil++){
                         for (int com = 0 ; com < 15 ; com++){
@@ -701,7 +698,7 @@ public class Controlador_Protoboard implements Initializable {
             for (int i = 0 ; i < 30 ; i++){
                 for (int j = 0 ; j < 15 ; j++){
                     if (_Protoboard_Funcional.protoboard[i][j]._cable != null && _Protoboard_Funcional.protoboard[i][j]._cable.conexionBateria){
-                        _Protoboard_Funcional.eliminarCorriente(_Protoboard_Funcional, i, j);
+                        _Protoboard_Funcional.eliminarCorriente(_Protoboard_Funcional, i, j, true);
                     }
                 }
             }
