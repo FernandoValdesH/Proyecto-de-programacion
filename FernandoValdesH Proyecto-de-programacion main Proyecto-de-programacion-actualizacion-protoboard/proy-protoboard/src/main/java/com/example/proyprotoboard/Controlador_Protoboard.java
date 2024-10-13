@@ -381,70 +381,70 @@ public class Controlador_Protoboard implements Initializable {
                 for (int k = 0; k < 15; k++) {
                     gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
                 }
-                multiplicadorResistencia = Double.parseDouble(banda1 + banda2)*1;
+                multiplicadorResistencia = (Double.parseDouble(banda1)*10+Double.parseDouble(banda2))*1;
                 break;
             case "1":
                 gc.setStroke(Color.SADDLEBROWN);
                 for (int k = 0; k < 15; k++) {
                     gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
                 }
-                multiplicadorResistencia = Double.parseDouble(banda1 + banda2)*10;
+                multiplicadorResistencia = (Double.parseDouble(banda1)*10+Double.parseDouble(banda2))*10;
                 break;
             case "2":
                 gc.setStroke(Color.RED);
                 for (int k = 0; k < 15; k++) {
                     gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
                 }
-                multiplicadorResistencia = Double.parseDouble(banda1 + banda2)*100;
+                multiplicadorResistencia = (Double.parseDouble(banda1)*10+Double.parseDouble(banda2))*100;
                 break;
             case "3":
                 gc.setStroke(Color.DARKORANGE);
                 for (int k = 0; k < 15; k++) {
                     gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
                 }
-                multiplicadorResistencia = Double.parseDouble(banda1 + banda2)*1000;
+                multiplicadorResistencia = (Double.parseDouble(banda1)*10+Double.parseDouble(banda2))*1000;
                 break;
             case "4":
                 gc.setStroke(Color.YELLOW);
                 for (int k = 0; k < 15; k++) {
                     gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
                 }
-                multiplicadorResistencia = Double.parseDouble(banda1 + banda2)*10000;
+                multiplicadorResistencia = (Double.parseDouble(banda1)*10+Double.parseDouble(banda2))*10000;
                 break;
             case "5":
                 gc.setStroke(Color.GREEN);
                 for (int k = 0; k < 15; k++) {
                     gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
                 }
-                multiplicadorResistencia = Double.parseDouble(banda1 + banda2)*100000;
+                multiplicadorResistencia = (Double.parseDouble(banda1)*10+Double.parseDouble(banda2))*100000;
                 break;
             case "6":
                 gc.setStroke(Color.BLUE);
                 for (int k = 0; k < 15; k++) {
                     gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
                 }
-                multiplicadorResistencia = Double.parseDouble(banda1 + banda2)*1000000;
+                multiplicadorResistencia = (Double.parseDouble(banda1)*10+Double.parseDouble(banda2))*1000000;
                 break;
             case "7":
                 gc.setStroke(Color.DARKVIOLET);
                 for (int k = 0; k < 15; k++) {
                     gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
                 }
-                multiplicadorResistencia = Double.parseDouble(banda1 + banda2)*10000000;
+                multiplicadorResistencia = (Double.parseDouble(banda1)*10+Double.parseDouble(banda2))*10000000;
                 break;
             case "8":
                 gc.setStroke(Color.GREY);
                 for (int k = 0; k < 15; k++) {
                     gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
                 }
-                multiplicadorResistencia = Double.parseDouble(banda1 + banda2)*100000000;
+                multiplicadorResistencia = (Double.parseDouble(banda1)*10+Double.parseDouble(banda2))*100000000;
                 break;
             case "9":
                 gc.setStroke(Color.WHITE);
                 for (int k = 0; k < 15; k++) {
                     gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
                 }
-                multiplicadorResistencia = Double.parseDouble(banda1 + banda2)*1000000000;
+                multiplicadorResistencia = (Double.parseDouble(banda1)*10+Double.parseDouble(banda2))*1000000000;
                 break;
         }
         switch(tolerancia){
