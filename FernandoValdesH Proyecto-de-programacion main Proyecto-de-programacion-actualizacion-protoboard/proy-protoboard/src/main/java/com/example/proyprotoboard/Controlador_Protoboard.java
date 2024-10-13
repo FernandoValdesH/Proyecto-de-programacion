@@ -78,14 +78,25 @@ public class Controlador_Protoboard implements Initializable {
     logicalProtoboard[][] Protoboard_logica = new logicalProtoboard[30][15];
     protoboard _Protoboard_Funcional = protoboard.getInstance(Protoboard_logica);
 
+    public void dibujarMotor(GraphicsContext gc , int x, int y){
+
+        // Establecer el color de relleno a gris
+        gc.setFill(Color.GREY);
+        gc.fillOval(x, y, 100, 100);
+        gc.setStroke(Color.BLACK);
+        gc.setLineWidth(2);
+        gc.strokeOval(x, y, 100, 100);
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tablero.setOnMousePressed(this::click);
         tablero.setOnMouseReleased(this::soltarMouse);
 
-        dibujador.dibujarProtoboard(tablero.getGraphicsContext2D(), 10, 10, _Protoboard_Funcional);
-        dibujador.dibujarBateria(tablero.getGraphicsContext2D(), 660, switch_bateria);
-
+        dibujador.dibujarProtoboard(tablero.getGraphicsContext2D(), 0, 0, _Protoboard_Funcional);
+        dibujador.dibujarBateria(tablero.getGraphicsContext2D(), 660, 0, switch_bateria);
+//        dibujarMotor(tablero.getGraphicsContext2D(),30,30);
     }
 
     // metodos de simplificacion de codigo
@@ -141,14 +152,12 @@ public class Controlador_Protoboard implements Initializable {
                         }
                         k--;
                         if (encuentra_patitas) {
-                            System.out.println("encuentra algo");
                             int indice = (k / 8);
                             Led led_encontrado = _protoboard.protoboard[i][j]._led;
                             x_led = arreglo_coordenadas_leds.get(indice * 2);
                             y_led = arreglo_coordenadas_leds.get((indice * 2) + 1);
                             _protoboard.protoboard[led_encontrado.posicion1.coordenadax][led_encontrado.posicion1.coordenaday]._led.revisado = true;
                             _protoboard.protoboard[led_encontrado.posicion2.coordenadax][led_encontrado.posicion2.coordenaday]._led.revisado = true;
-                            System.out.println(led_encontrado.revisado);
                             dibujador.dibujarLed(gc, x_led, y_led, Color.RED);
                             encontro_uno = true;
                         }
@@ -256,8 +265,8 @@ public class Controlador_Protoboard implements Initializable {
     }
     public void dibujarTodo(){
         GraphicsContext gc = tablero.getGraphicsContext2D();
-        dibujador.dibujarProtoboard(gc, 10, 10, _Protoboard_Funcional);
-        dibujador.dibujarBateria(gc, 660, switch_bateria);
+        dibujador.dibujarProtoboard(gc, 0, 0, _Protoboard_Funcional);
+        dibujador.dibujarBateria(gc, 660, 0,switch_bateria);
 
         for (int i = 0 ; i < arreglo_coordenadas_leds.size() ; i+=2){
             x_led=arreglo_coordenadas_leds.get(i);
@@ -288,7 +297,7 @@ public class Controlador_Protoboard implements Initializable {
             int posicion1_y = transformacionY_coordA_Matriz(coord_original_y);
             // ver la matriz a ver si el switch esta prendido o apagado
 
-            if (_Protoboard_Funcional.protoboard[posicion1_x-1][posicion1_y-1]._switch.prendido){
+            if (_Protoboard_Funcional.protoboard[posicion1_x-1][posicion1_y-1]._switch!=null && _Protoboard_Funcional.protoboard[posicion1_x-1][posicion1_y-1]._switch.prendido){
                 dibujador.dibujarSwitch(gc, x_switch, y_switch);
                 gc.setFill(Color.LIMEGREEN);
                 gc.fillOval(x_switch + 8 , y_switch +8 , 30, 30);
@@ -428,7 +437,7 @@ public class Controlador_Protoboard implements Initializable {
 
 
                     _Protoboard_Funcional.eliminarElemento(_Protoboard_Funcional, posicion1_x, posicion1_y);
-                    _Protoboard_Funcional.eliminarCorriente(_Protoboard_Funcional, posicion1_x, posicion1_y, false);
+                    _Protoboard_Funcional.eliminarCorriente(_Protoboard_Funcional, posicion1_x, posicion1_y, true);
 
                     for (int fil = 0 ; fil < 30 ; fil++){
                         for (int com = 0 ; com < 15 ; com++){
