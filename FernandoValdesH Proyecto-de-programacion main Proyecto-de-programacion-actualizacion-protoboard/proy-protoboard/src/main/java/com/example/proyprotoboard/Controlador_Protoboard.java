@@ -241,7 +241,14 @@ public class Controlador_Protoboard implements Initializable {
         GraphicsContext gc = tablero.getGraphicsContext2D();
         gc.setStroke(Color.rgb(250, 228, 185));
         gc.setLineWidth(2);
-        for (int k = 0; k < 15; k++) {        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
+        for (int k = 0; k < 15; k++) {
+            gc.setLineWidth(7);
+            gc.setStroke(Color.GREY);
+            gc.strokeLine(x_resistencia + 7, y_resistencia + 12, x_resistencia + 43, y_resistencia + 12);
+        }
+        gc.setStroke(Color.rgb(250, 228, 185));
+        for (int k = 0; k < 15; k++) {
+            gc.setLineWidth(2);
             gc.strokeLine(x_resistencia+10, y_resistencia +5+ k, x_resistencia + 40, y_resistencia +5+ k); //ancho del switch = 48
         }
         switch(banda1){
