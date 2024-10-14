@@ -1,5 +1,6 @@
 package com.example.proyprotoboard;
 
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import javafx.util.Duration;
 
 import javax.swing.*;
 import java.net.URL;
@@ -30,6 +32,8 @@ public class Controlador_Protoboard implements Initializable {
     private ArrayList<Double> arreglo_coordenadas_cables = new ArrayList<>();
     private ArrayList<Double> arreglo_coordenadas_patitas_leds = new ArrayList<>();
     private ArrayList<Double> arreglo_coordenadas_OctoSwitch = new ArrayList<>();
+    private ArrayList<Double> arreglo_coordenadas_resistencias = new ArrayList<>();
+    private ArrayList<Double> arreglo_coordenadas_resistencias_patitas = new ArrayList<>();
     private double punto_inicio_x_patita=0;
     private double punto_inicio_y_patita=0;
     private double punto_final_x_patita=0;
@@ -58,6 +62,9 @@ public class Controlador_Protoboard implements Initializable {
     private double multiplicadorResistencia;
     private String tolerancia;
 
+
+
+
     int x=10,y=10;
 
     @FXML
@@ -76,7 +83,6 @@ public class Controlador_Protoboard implements Initializable {
 
     @FXML
     private Canvas tablero;
-
     private Dibujador dibujador = new Dibujador();
     int contador_cables;
 
@@ -190,6 +196,7 @@ public class Controlador_Protoboard implements Initializable {
         banda2 = JOptionPane.showInputDialog(null,"ingrese valor del 0 al 9");
         multiplicador = JOptionPane.showInputDialog(null,"ingrese valor del 0 al 9");
         tolerancia = JOptionPane.showInputDialog(null,"ingrese valor del 1 al 2");
+        JOptionPane.showMessageDialog(null,"indicar posición resistencia");
         btnAgregarCable.setDisable(true);
         btnAgregarLed.setDisable(true);
         btnAgregarSwitch.setDisable(true);
@@ -237,15 +244,17 @@ public class Controlador_Protoboard implements Initializable {
     }
 
     // metodos distintos
-    public void dibujarResistencia(int x_resistencia,int y_resistencia) {
+    public void dibujarResistencia(double x_resistencia,double y_resistencia,double patita_x1,double patita_y1,double patita_x2,double patita_y2) {
         GraphicsContext gc = tablero.getGraphicsContext2D();
-        gc.setStroke(Color.rgb(250, 228, 185));
-        gc.setLineWidth(2);
-        for (int k = 0; k < 15; k++) {
+        gc.setStroke(Color.GREY);
+        gc.setLineWidth(4);
+       /* for (int k = 0; k < 15; k++) {
             gc.setLineWidth(7);
             gc.setStroke(Color.GREY);
             gc.strokeLine(x_resistencia + 7, y_resistencia + 12, x_resistencia + 43, y_resistencia + 12);
-        }
+        }*/
+        gc.strokeLine(x_resistencia+10,y_resistencia+13,patita_x1+13,patita_y1+13);
+        gc.strokeLine(x_resistencia+40,y_resistencia+13,patita_x2+13,patita_y2+13);
         gc.setStroke(Color.rgb(250, 228, 185));
         for (int k = 0; k < 15; k++) {
             gc.setLineWidth(2);
@@ -826,7 +835,10 @@ public class Controlador_Protoboard implements Initializable {
         // restablecer lo revisado del led
 
     }
-
+    boolean agregar_patita_1=false;
+    boolean agregar_patita_2=false;
+    boolean resistencia_puesta=false;
+    int click_count=0;
     private void click(MouseEvent event) {
         Color color_click_switch = getColor(event.getX(), event.getY());;
         // si el click es del color del boton
@@ -979,24 +991,98 @@ public class Controlador_Protoboard implements Initializable {
             tablero.getGraphicsContext2D().clearRect(0,0,tablero.getWidth(),tablero.getHeight());
             dibujarTodo();
         }
-        if(agregar_resistencia){
+
+        double x_resistencia = 0;
+        double y_resistencia = 0;
+
+        if(agregar_resistencia&&click_count==0){
             agregar_resistencia=false;
+
+
             GraphicsContext gc = tablero.getGraphicsContext2D();
-            int x_resistencia= (int) event.getX();
-            int y_resistencia= (int) event.getY();
+             x_resistencia= (int) event.getX();
+             y_resistencia= (int) event.getY();
+
+            System.out.println("resistencia "+x_resistencia +" "+  y_resistencia);
             double[] puntoCercano = alcanzarPuntoCercano(x_resistencia, y_resistencia);
             if (puntoCercano != null) {
                 x_resistencia = (int) (puntoCercano[0]-15);
                 y_resistencia = (int) (puntoCercano[1]-15);
-            } //arreglo_coordenadas_leds.add(x_led); arreglo_coordenadas_leds.add(y_led); // agregar al arreglo
-            dibujarResistencia(x_resistencia,y_resistencia);
-            //dibujador.dibujarRes(gc, x_led, y_led, Color.DARKRED);
+            }
+            arreglo_coordenadas_resistencias.add(x_resistencia);
+            arreglo_coordenadas_resistencias.add(y_resistencia);
+            resistencia_puesta=true;
+            PauseTransition pause = new PauseTransition(Duration.seconds(0.1));
+            pause.setOnFinished(e -> click_count++);
+            pause.play();
+            JOptionPane.showMessageDialog(null, "Indicar posición 1");
+
+            //dibujador.dibujarResistencia(gc, x_led, y_led);
             btnAgregarCable.setDisable(false);
             btnAgregarLed.setDisable(false);
             btnAgregarSwitch.setDisable(false);
+            btnAgregarOctoSwitch.setDisable(false);
             btnEliminarObj.setDisable(false);
             btnAgregarResistencia.setDisable(false);
 
+        }
+        if(resistencia_puesta && !agregar_patita_1){
+            agregar_patita_1=true;
+        }
+        double patitas_x_resistencia=0;
+        double patitas_y_resistencia=0;
+        double patitas_x_resistencia_2=0;
+        double patitas_y_resistencia_2=0;
+
+        if(agregar_patita_1&&click_count==1) {
+
+
+            patitas_x_resistencia = (int) event.getX();
+            patitas_y_resistencia = (int) event.getY();
+
+            System.out.println("patita 1 "+patitas_x_resistencia +" "+ patitas_y_resistencia);
+            double[] puntoCercano = alcanzarPuntoCercano(patitas_x_resistencia,patitas_y_resistencia);
+
+            if (puntoCercano != null) {
+
+                patitas_x_resistencia = (int) (puntoCercano[0] - 15);
+                patitas_y_resistencia = (int) (puntoCercano[1] - 15);
+
+            }
+            arreglo_coordenadas_resistencias_patitas.add(patitas_x_resistencia);
+            arreglo_coordenadas_resistencias_patitas.add(patitas_y_resistencia);
+            PauseTransition pause = new PauseTransition(Duration.seconds(0.1));
+            pause.setOnFinished(e -> click_count++);
+            pause.play();
+            JOptionPane.showMessageDialog(null, "Indicar posición 2");
+            agregar_patita_1=false;
+            agregar_patita_2=true;
+        }
+        if (agregar_patita_2&&click_count==2) {
+
+
+
+
+            patitas_x_resistencia_2 = (int) event.getX();
+            patitas_y_resistencia_2 = (int) event.getY();
+            System.out.println("patita 2 "+patitas_x_resistencia_2 +" "+ patitas_y_resistencia_2);
+            double[] puntoCercano = alcanzarPuntoCercano(patitas_x_resistencia_2,patitas_y_resistencia_2);
+            if (puntoCercano != null) {
+                patitas_x_resistencia_2 = (int) (puntoCercano[0] - 15);
+                patitas_y_resistencia_2 = (int) (puntoCercano[1] - 15);
+            }
+            arreglo_coordenadas_resistencias_patitas.add(patitas_x_resistencia_2);
+            arreglo_coordenadas_resistencias_patitas.add(patitas_y_resistencia_2);
+            click_count=0;
+            int tamaño = arreglo_coordenadas_resistencias.size();
+            int tamaño_patitas=arreglo_coordenadas_resistencias_patitas.size();
+            x_resistencia=arreglo_coordenadas_resistencias.get(tamaño-2);
+            y_resistencia=arreglo_coordenadas_resistencias.get(tamaño-1);
+            patitas_x_resistencia=arreglo_coordenadas_resistencias_patitas.get(tamaño_patitas-4);
+            patitas_y_resistencia=arreglo_coordenadas_resistencias_patitas.get(tamaño_patitas-3);
+
+            System.out.println(x_resistencia+" "+y_resistencia+" patita "+patitas_x_resistencia+" "+patitas_y_resistencia+"patita 2 "+patitas_x_resistencia_2+" "+patitas_y_resistencia_2);
+            dibujarResistencia(x_resistencia,y_resistencia,patitas_x_resistencia,patitas_y_resistencia,patitas_x_resistencia_2,patitas_y_resistencia_2);
         }
         if (agrega_octo_switch){
             double inicio_x = event.getX();
