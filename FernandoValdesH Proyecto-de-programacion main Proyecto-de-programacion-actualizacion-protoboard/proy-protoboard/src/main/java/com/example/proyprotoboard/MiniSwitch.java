@@ -5,7 +5,7 @@ public class MiniSwitch {
     public Posicion posicion;
 
     public MiniSwitch() {
-        this.encendido = true;
+        this.encendido = false;
         this.posicion = new Posicion();
     }
 

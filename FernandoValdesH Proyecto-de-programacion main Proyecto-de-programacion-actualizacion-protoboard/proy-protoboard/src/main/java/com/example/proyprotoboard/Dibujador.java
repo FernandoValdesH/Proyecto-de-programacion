@@ -356,8 +356,229 @@ public class Dibujador {
 
     }
 
-    public void dibujarResistencia(GraphicsContext gc, double x_resistencia, double y_resistencia) {
+    public void dibujarResistencia(GraphicsContext gc, double x_resistencia,double y_resistencia,double patita_x1,double patita_y1,double patita_x2,double patita_y2, int banda1, int banda2, int multiplicador, int tolerancia){ {
+        int multiplicadorResistencia = 0;
+        gc.setStroke(Color.GREY);
+        gc.setLineWidth(4);
+        gc.strokeLine(x_resistencia+10,y_resistencia+13,patita_x1+13,patita_y1+13);
+        gc.strokeLine(x_resistencia+40,y_resistencia+13,patita_x2+13,patita_y2+13);
+        gc.setStroke(Color.rgb(250, 228, 185));
+        for (int k = 0; k < 15; k++) {
+            gc.setLineWidth(2);
+            gc.strokeLine(x_resistencia+10, y_resistencia +5+ k, x_resistencia + 40, y_resistencia +5+ k); //ancho del switch = 48
+        }
+        switch(banda1){
+            case 0:
+                gc.setStroke(Color.BLACK);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia + 12, y_resistencia + 5 + k, x_resistencia + 14, y_resistencia + 5 + k);
+                }
+                break;
+            case 1:
+                gc.setStroke(Color.SADDLEBROWN);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia + 12, y_resistencia + 5 + k, x_resistencia + 14, y_resistencia + 5 + k);
+                }
+                break;
+            case 2:
+                gc.setStroke(Color.RED);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia + 12, y_resistencia + 5 + k, x_resistencia + 14, y_resistencia + 5 + k);
+                }
+                break;
+            case 3:
+                gc.setStroke(Color.DARKORANGE);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia + 12, y_resistencia + 5 + k, x_resistencia + 14, y_resistencia + 5 + k);
+                }
+                break;
+            case 4:
+                gc.setStroke(Color.YELLOW);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia + 12, y_resistencia + 5 + k, x_resistencia + 14, y_resistencia + 5 + k);
+                }
+                break;
+            case 5:
+                gc.setStroke(Color.GREEN);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia + 12, y_resistencia + 5 + k, x_resistencia + 14, y_resistencia + 5 + k);
+                }
+                break;
+            case 6:
+                gc.setStroke(Color.BLUE);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia + 12, y_resistencia + 5 + k, x_resistencia + 14, y_resistencia + 5 + k);
+                }
+                break;
+            case 7:
+                gc.setStroke(Color.DARKVIOLET);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia + 12, y_resistencia + 5 + k, x_resistencia + 14, y_resistencia + 5 + k);
+                }
+                break;
+            case 8:
+                gc.setStroke(Color.GREY);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia + 12, y_resistencia + 5 + k, x_resistencia + 14, y_resistencia + 5 + k);
+                }
+                break;
+            case 9:
+                gc.setStroke(Color.WHITE);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia + 12, y_resistencia + 5 + k, x_resistencia + 14, y_resistencia + 5 + k);
+                }
+                break;
+        }
+        switch(banda2){
+            case 0:
+                gc.setStroke(Color.BLACK);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia+19, y_resistencia +5+ k, x_resistencia + 21, y_resistencia +5+ k);
+                }
+                break;
+            case 1:
+                gc.setStroke(Color.SADDLEBROWN);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia+19, y_resistencia +5+ k, x_resistencia + 21, y_resistencia +5+ k);
+                }
+                break;
+            case 2:
+                gc.setStroke(Color.RED);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia+19, y_resistencia +5+ k, x_resistencia + 21, y_resistencia +5+ k);
+                }
+                break;
+            case 3:
+                gc.setStroke(Color.DARKORANGE);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia+19, y_resistencia +5+ k, x_resistencia + 21, y_resistencia +5+ k);
+                }
+                break;
+            case 4:
+                gc.setStroke(Color.YELLOW);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia+19, y_resistencia +5+ k, x_resistencia + 21, y_resistencia +5+ k);
+                }
+                break;
+            case 5:
+                gc.setStroke(Color.GREEN);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia+19, y_resistencia +5+ k, x_resistencia + 21, y_resistencia +5+ k);
+                }
+                break;
+            case 6:
+                gc.setStroke(Color.BLUE);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia+19, y_resistencia +5+ k, x_resistencia + 21, y_resistencia +5+ k);
+                }
+                break;
+            case 7:
+                gc.setStroke(Color.DARKVIOLET);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia+19, y_resistencia +5+ k, x_resistencia + 21, y_resistencia +5+ k);
+                }
+                break;
+            case 8:
+                gc.setStroke(Color.GREY);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia+19, y_resistencia +5+ k, x_resistencia + 21, y_resistencia +5+ k);
+                }
+                break;
+            case 9:
+                gc.setStroke(Color.WHITE);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia+19, y_resistencia +5+ k, x_resistencia + 21, y_resistencia +5+ k);
+                }
+                break;
+        }
 
+        switch(multiplicador){
+            case 0:
+
+                gc.setStroke(Color.BLACK);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
+                }
+                multiplicadorResistencia = ((banda1)*10)+(banda2);
+                break;
+            case 1:
+                gc.setStroke(Color.SADDLEBROWN);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
+                }
+                multiplicadorResistencia = (((banda1)*10)+(banda2*10));
+                break;
+            case 2:
+                gc.setStroke(Color.RED);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
+                }
+                multiplicadorResistencia = (((banda1)*10)+(banda2*100));
+                break;
+            case 3:
+                gc.setStroke(Color.DARKORANGE);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
+                }
+                multiplicadorResistencia = (((banda1)*10)+(banda2*1000));
+                break;
+            case 4:
+                gc.setStroke(Color.YELLOW);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
+                }
+                multiplicadorResistencia =(((banda1)*10)+(banda2*10000));
+                break;
+            case 5:
+                gc.setStroke(Color.GREEN);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
+                }
+                multiplicadorResistencia = (((banda1)*10)+(banda2*100000));
+                break;
+            case 6:
+                gc.setStroke(Color.BLUE);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
+                }
+                multiplicadorResistencia = (((banda1)*10)+(banda2*1000000));
+                break;
+            case 7:
+                gc.setStroke(Color.DARKVIOLET);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
+                }
+                multiplicadorResistencia = (((banda1)*10)+(banda2*10000000));
+                break;
+            case 8:
+                gc.setStroke(Color.GREY);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
+                }
+                multiplicadorResistencia = (((banda1)*10)+(banda2*100000000));
+                break;
+            case 9:
+                gc.setStroke(Color.WHITE);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
+                }
+                multiplicadorResistencia = (((banda1)*10)+(banda2*1000000000));
+                break;
+        }
+        switch(tolerancia){
+            case 1:
+                gc.setStroke(Color.SADDLEBROWN);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia+36, y_resistencia +5+ k, x_resistencia + 37, y_resistencia +5+ k);
+                }
+                break;
+            case 2:
+                gc.setStroke(Color.RED);
+                for (int k = 0; k < 15; k++) {
+                    gc.strokeLine(x_resistencia+36, y_resistencia +5+ k, x_resistencia + 37, y_resistencia +5+ k);
+                }
+                break;
+        }}
     }
 
     public void dibujarChip(){}

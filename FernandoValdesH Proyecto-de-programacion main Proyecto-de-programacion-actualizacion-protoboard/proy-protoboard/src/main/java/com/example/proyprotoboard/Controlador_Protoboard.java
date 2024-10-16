@@ -57,13 +57,6 @@ public class Controlador_Protoboard implements Initializable {
     private boolean agrega_octo_switch=false;
     private Boolean agregar_resistencia = false;
 
-    private String banda1;
-    private String banda2;
-    private String multiplicador;
-    private double multiplicadorResistencia;
-    private String tolerancia;
-
-
     @FXML
     Button btnAgregarCable;
     @FXML
@@ -178,21 +171,12 @@ public class Controlador_Protoboard implements Initializable {
 
     // metodos que se activan al presionar boton
     public void AgregarResistencia() {
-
-        banda1 = JOptionPane.showInputDialog(null,"ingrese valor del 0 al 9");
-        banda2 = JOptionPane.showInputDialog(null,"ingrese valor del 0 al 9");
-        multiplicador = JOptionPane.showInputDialog(null,"ingrese valor del 0 al 9");
-        tolerancia = JOptionPane.showInputDialog(null,"ingrese valor del 1 al 2");
         JOptionPane.showMessageDialog(null,"indicar posición resistencia");
-
-
         btnAgregarCable.setDisable(true);
         btnAgregarLed.setDisable(true);
         btnAgregarSwitch.setDisable(true);
         btnEliminarObj.setDisable(true);
         btnAgregarOctoSwitch.setDisable(true);
-        agregar_resistencia = true;
-        btnAgregarResistencia.setDisable(true);
         agregar_resistencia = true;
     }
 
@@ -262,233 +246,7 @@ public class Controlador_Protoboard implements Initializable {
 
     // metodos distintos
 
-    public void dibujarResistencia(double x_resistencia,double y_resistencia,double patita_x1,double patita_y1,double patita_x2,double patita_y2) {
-        GraphicsContext gc = tablero.getGraphicsContext2D();
-        gc.setStroke(Color.GREY);
-        gc.setLineWidth(4);
-       /* for (int k = 0; k < 15; k++) {
-            gc.setLineWidth(7);
-            gc.setStroke(Color.GREY);
-            gc.strokeLine(x_resistencia + 7, y_resistencia + 12, x_resistencia + 43, y_resistencia + 12);
-        }*/
-        gc.strokeLine(x_resistencia+10,y_resistencia+13,patita_x1+13,patita_y1+13);
-        gc.strokeLine(x_resistencia+40,y_resistencia+13,patita_x2+13,patita_y2+13);
-        gc.setStroke(Color.rgb(250, 228, 185));
-        for (int k = 0; k < 15; k++) {
-            gc.setLineWidth(2);
-            gc.strokeLine(x_resistencia+10, y_resistencia +5+ k, x_resistencia + 40, y_resistencia +5+ k); //ancho del switch = 48
-        }
-        switch(banda1){
-            case "0":
-                gc.setStroke(Color.BLACK);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia + 12, y_resistencia + 5 + k, x_resistencia + 14, y_resistencia + 5 + k);
-                }
-                break;
-            case "1":
-                gc.setStroke(Color.SADDLEBROWN);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia + 12, y_resistencia + 5 + k, x_resistencia + 14, y_resistencia + 5 + k);
-                }
-                break;
-            case "2":
-                gc.setStroke(Color.RED);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia + 12, y_resistencia + 5 + k, x_resistencia + 14, y_resistencia + 5 + k);
-                }
-                break;
-            case "3":
-                gc.setStroke(Color.DARKORANGE);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia + 12, y_resistencia + 5 + k, x_resistencia + 14, y_resistencia + 5 + k);
-                }
-                break;
-            case "4":
-                gc.setStroke(Color.YELLOW);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia + 12, y_resistencia + 5 + k, x_resistencia + 14, y_resistencia + 5 + k);
-                }
-                break;
-            case "5":
-                gc.setStroke(Color.GREEN);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia + 12, y_resistencia + 5 + k, x_resistencia + 14, y_resistencia + 5 + k);
-                }
-                break;
-            case "6":
-                gc.setStroke(Color.BLUE);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia + 12, y_resistencia + 5 + k, x_resistencia + 14, y_resistencia + 5 + k);
-                }
-                break;
-            case "7":
-                gc.setStroke(Color.DARKVIOLET);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia + 12, y_resistencia + 5 + k, x_resistencia + 14, y_resistencia + 5 + k);
-                }
-                break;
-            case "8":
-                gc.setStroke(Color.GREY);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia + 12, y_resistencia + 5 + k, x_resistencia + 14, y_resistencia + 5 + k);
-                }
-                break;
-            case "9":
-                gc.setStroke(Color.WHITE);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia + 12, y_resistencia + 5 + k, x_resistencia + 14, y_resistencia + 5 + k);
-                }
-                break;
-        }
-        switch(banda2){
-            case "0":
-                gc.setStroke(Color.BLACK);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia+19, y_resistencia +5+ k, x_resistencia + 21, y_resistencia +5+ k);
-                }
-                break;
-            case "1":
-                gc.setStroke(Color.SADDLEBROWN);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia+19, y_resistencia +5+ k, x_resistencia + 21, y_resistencia +5+ k);
-                }
-                break;
-            case "2":
-                gc.setStroke(Color.RED);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia+19, y_resistencia +5+ k, x_resistencia + 21, y_resistencia +5+ k);
-                }
-                break;
-            case "3":
-                gc.setStroke(Color.DARKORANGE);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia+19, y_resistencia +5+ k, x_resistencia + 21, y_resistencia +5+ k);
-                }
-                break;
-            case "4":
-                gc.setStroke(Color.YELLOW);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia+19, y_resistencia +5+ k, x_resistencia + 21, y_resistencia +5+ k);
-                }
-                break;
-            case "5":
-                gc.setStroke(Color.GREEN);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia+19, y_resistencia +5+ k, x_resistencia + 21, y_resistencia +5+ k);
-                }
-                break;
-            case "6":
-                gc.setStroke(Color.BLUE);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia+19, y_resistencia +5+ k, x_resistencia + 21, y_resistencia +5+ k);
-                }
-                break;
-            case "7":
-                gc.setStroke(Color.DARKVIOLET);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia+19, y_resistencia +5+ k, x_resistencia + 21, y_resistencia +5+ k);
-                }
-                break;
-            case "8":
-                gc.setStroke(Color.GREY);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia+19, y_resistencia +5+ k, x_resistencia + 21, y_resistencia +5+ k);
-                }
-                break;
-            case "9":
-                gc.setStroke(Color.WHITE);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia+19, y_resistencia +5+ k, x_resistencia + 21, y_resistencia +5+ k);
-                }
-                break;
-        }
-        switch(multiplicador){
-            case "0":
-                gc.setStroke(Color.BLACK);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
-                }
-                multiplicadorResistencia = (Double.parseDouble(banda1)*10+Double.parseDouble(banda2))*1;
-                break;
-            case "1":
-                gc.setStroke(Color.SADDLEBROWN);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
-                }
-                multiplicadorResistencia = (Double.parseDouble(banda1)*10+Double.parseDouble(banda2))*10;
-                break;
-            case "2":
-                gc.setStroke(Color.RED);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
-                }
-                multiplicadorResistencia = (Double.parseDouble(banda1)*10+Double.parseDouble(banda2))*100;
-                break;
-            case "3":
-                gc.setStroke(Color.DARKORANGE);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
-                }
-                multiplicadorResistencia = (Double.parseDouble(banda1)*10+Double.parseDouble(banda2))*1000;
-                break;
-            case "4":
-                gc.setStroke(Color.YELLOW);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
-                }
-                multiplicadorResistencia = (Double.parseDouble(banda1)*10+Double.parseDouble(banda2))*10000;
-                break;
-            case "5":
-                gc.setStroke(Color.GREEN);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
-                }
-                multiplicadorResistencia = (Double.parseDouble(banda1)*10+Double.parseDouble(banda2))*100000;
-                break;
-            case "6":
-                gc.setStroke(Color.BLUE);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
-                }
-                multiplicadorResistencia = (Double.parseDouble(banda1)*10+Double.parseDouble(banda2))*1000000;
-                break;
-            case "7":
-                gc.setStroke(Color.DARKVIOLET);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
-                }
-                multiplicadorResistencia = (Double.parseDouble(banda1)*10+Double.parseDouble(banda2))*10000000;
-                break;
-            case "8":
-                gc.setStroke(Color.GREY);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
-                }
-                multiplicadorResistencia = (Double.parseDouble(banda1)*10+Double.parseDouble(banda2))*100000000;
-                break;
-            case "9":
-                gc.setStroke(Color.WHITE);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia+26, y_resistencia +5+ k, x_resistencia + 28, y_resistencia +5+ k);
-                }
-                multiplicadorResistencia = (Double.parseDouble(banda1)*10+Double.parseDouble(banda2))*1000000000;
-                break;
-        }
-        switch(tolerancia){
-            case "1":
-                gc.setStroke(Color.SADDLEBROWN);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia+36, y_resistencia +5+ k, x_resistencia + 37, y_resistencia +5+ k);
-                }
-                break;
-            case "2":
-                gc.setStroke(Color.RED);
-                for (int k = 0; k < 15; k++) {
-                    gc.strokeLine(x_resistencia+36, y_resistencia +5+ k, x_resistencia + 37, y_resistencia +5+ k);
-                }
-                break;
-        }
-    }
+
     public void dibujarTodo(){
         GraphicsContext gc = tablero.getGraphicsContext2D();
         dibujador.dibujarProtoboard(gc, 0, 0, _Protoboard_Funcional);
@@ -505,7 +263,7 @@ public class Controlador_Protoboard implements Initializable {
             int posicion1_y = transformacionY_coordA_Matriz(arreglo_coordenadas_patitas_leds.get(3+i*4));
             if (_Protoboard_Funcional.protoboard[posicion1_x][posicion1_y]._led.posicion1.coordenadax!=-1) {
                 if (_Protoboard_Funcional.protoboard[posicion1_x][posicion1_y]._led.encendido) {
-                   dibujador.dibujarLed(gc, x_led, y_led, Color.RED);
+                    dibujador.dibujarLed(gc, x_led, y_led, Color.RED);
                 } else {
                     dibujador.dibujarLed(gc, x_led, y_led, Color.DARKRED);
                 }
@@ -559,6 +317,19 @@ public class Controlador_Protoboard implements Initializable {
             double y_Octo_switch=arreglo_coordenadas_OctoSwitch.get(i+1);
             dibujador.dibujarOctoSwitch(x_Octo_switch, y_Octo_switch, gc, _Protoboard_Funcional);
         }
+        for (int i = 0 ; i < arreglo_coordenadas_resistencias.size(); i+=2){
+            double x_resistencia = arreglo_coordenadas_resistencias.get(i);
+            double y_resistencia = arreglo_coordenadas_resistencias.get(i+1);
+            double patita_x1 = arreglo_coordenadas_resistencias_patitas.get(i);
+            double patita_y1 = arreglo_coordenadas_resistencias_patitas.get(i+1);
+            double patita_x2 = arreglo_coordenadas_resistencias_patitas.get(i+2);
+            double patita_y2 = arreglo_coordenadas_resistencias_patitas.get(i+3);
+            int banda1 = (int) Math.floor(Math.random()*10);
+            int banda2 = (int) Math.floor(Math.random()*10);
+            int multiplicador = (int) Math.floor(Math.random()*10);
+            int tolerancia = (int) Math.floor(Math.random()*3);
+            dibujador.dibujarResistencia(gc, x_resistencia,y_resistencia,patita_x1,patita_y1,patita_x2,patita_y2,banda1,banda2,multiplicador,tolerancia);
+        }
     }
 
     public void eliminarElemento(double x, double y){
@@ -568,6 +339,8 @@ public class Controlador_Protoboard implements Initializable {
         boolean cent_switch=false;
         boolean cent_cable=false;
         boolean cent_octo_switch=false;
+        boolean cent_resistencia=false;
+        boolean cent_chip = false;
         int i=0;
         for ( i = 0 ; i < arreglo_coordenadas_leds.size() && !cent_led; i+=2){
             if ((calcularDistanciaPuntos(x, arreglo_coordenadas_leds.get(i), 20 )) && (calcularDistanciaPuntos(y, arreglo_coordenadas_leds.get(i+1), 20 ))){
@@ -686,7 +459,6 @@ public class Controlador_Protoboard implements Initializable {
                     dibujarTodo();
                 } else{
                     // borrar octoswitch
-                    i=0;
                     for ( i = 0 ; i < arreglo_coordenadas_OctoSwitch.size() && !cent_octo_switch; i+=2){
                         if ((calcularDistanciaPuntos(x, arreglo_coordenadas_OctoSwitch.get(i), 40 )) && (calcularDistanciaPuntos(y, arreglo_coordenadas_OctoSwitch.get(i+1), 40 ))){
                             cent_octo_switch = true;
@@ -707,6 +479,36 @@ public class Controlador_Protoboard implements Initializable {
 
                         gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
                         dibujarTodo();
+                    } else{
+                        // borrar resistencia
+                        for (i = 0 ; i < arreglo_coordenadas_resistencias.size() && !cent_resistencia; i+=2){
+                            if ((calcularDistanciaPuntos(x, arreglo_coordenadas_resistencias.get(i), 40 )) && (calcularDistanciaPuntos(y, arreglo_coordenadas_resistencias.get(i+1), 40 ))){
+                                cent_resistencia = true;
+                            }
+                        } i = i-2;
+                        if (cent_resistencia){
+                            int posicion1_x = (int) (((arreglo_coordenadas_resistencias_patitas.get(i))) / 20);
+                            int posicion1_y = (arreglo_coordenadas_resistencias_patitas.get(i+1).intValue());
+                            posicion1_y = transformacionY_coordA_Matriz(posicion1_y+15);
+
+                            arreglo_coordenadas_resistencias.remove(i);
+                            arreglo_coordenadas_resistencias.remove(i);
+
+                            arreglo_coordenadas_resistencias_patitas.remove(i);
+                            arreglo_coordenadas_resistencias_patitas.remove(i);
+                            arreglo_coordenadas_resistencias_patitas.remove(i);
+                            arreglo_coordenadas_resistencias_patitas.remove(i);
+
+                            _Protoboard_Funcional.eliminarElemento(_Protoboard_Funcional, posicion1_x, posicion1_y);
+
+                            gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
+                            dibujarTodo();
+                        }
+                        else{
+
+                        }
+
+
                     }
 
                 }
@@ -857,6 +659,7 @@ public class Controlador_Protoboard implements Initializable {
     boolean resistencia_puesta=false;
     int click_count=0;
     private void click(MouseEvent event) {
+        GraphicsContext gc = tablero.getGraphicsContext2D();
         Color color_click_switch = getColor(event.getX(), event.getY());;
         // si el click es del color del boton
         if (color_click_switch.equals(Color.BLACK) && !activar_eliminacion || color_click_switch.equals(Color.LIMEGREEN) && !activar_eliminacion){
@@ -902,7 +705,6 @@ public class Controlador_Protoboard implements Initializable {
 
                     _switch.prendido=true;
                     System.out.println("Switch apretado");
-                    GraphicsContext gc = tablero.getGraphicsContext2D();
                     // pasar la corriente del switch
                     _Protoboard_Funcional.toggleSwitch(_Protoboard_Funcional, _switch, _switch.prendido);
                     revisarLedsEncendidos(_Protoboard_Funcional, gc);
@@ -911,7 +713,6 @@ public class Controlador_Protoboard implements Initializable {
                 } else {
                     _switch.prendido=false;
                     System.out.println("Switch soltado");
-                    GraphicsContext gc = tablero.getGraphicsContext2D();
                     // pasar la corriente del switch a la columna "original"
                     _Protoboard_Funcional.toggleSwitch(_Protoboard_Funcional, _switch, _switch.prendido);
                     revisarLedsEncendidos(_Protoboard_Funcional, gc);
@@ -928,7 +729,6 @@ public class Controlador_Protoboard implements Initializable {
 
         if (color_click_switch.equals(Color.GREEN) && !activar_eliminacion){
             switch_bateria=false;
-            GraphicsContext gc = tablero.getGraphicsContext2D();
             gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
             dibujarTodo();
             System.out.println("se apago la bateria");
@@ -946,7 +746,6 @@ public class Controlador_Protoboard implements Initializable {
         } else if (color_click_switch.equals(Color.INDIANRED) && !activar_eliminacion){
             System.out.println("se prendio la bateria");
             switch_bateria=true;
-            GraphicsContext gc = tablero.getGraphicsContext2D();
             gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
             dibujarTodo();
             // buscamos el o los cables conectados a la bateria y pasamos corriente
@@ -1004,32 +803,25 @@ public class Controlador_Protoboard implements Initializable {
             tablero.getGraphicsContext2D().clearRect(0,0,tablero.getWidth(),tablero.getHeight());
             dibujarTodo();
         }
-
         double x_resistencia = 0;
         double y_resistencia = 0;
+
 
         if(agregar_resistencia&&click_count==0){
             agregar_resistencia=false;
 
 
-            GraphicsContext gc = tablero.getGraphicsContext2D();
             x_resistencia= (int) event.getX();
             y_resistencia= (int) event.getY();
 
             System.out.println("resistencia "+x_resistencia +" "+  y_resistencia);
-
-        if(agregar_resistencia){
-            agregar_resistencia=false;
-            GraphicsContext gc = tablero.getGraphicsContext2D();
-            int x_resistencia= (int) event.getX();
-            int y_resistencia= (int) event.getY();
-
             double[] puntoCercano = alcanzarPuntoCercano(x_resistencia, y_resistencia);
             if (puntoCercano != null) {
                 x_resistencia = (int) (puntoCercano[0]-15);
                 y_resistencia = (int) (puntoCercano[1]-15);
-
             }
+
+
             arreglo_coordenadas_resistencias.add(x_resistencia);
             arreglo_coordenadas_resistencias.add(y_resistencia);
             resistencia_puesta=true;
@@ -1102,20 +894,34 @@ public class Controlador_Protoboard implements Initializable {
             patitas_x_resistencia=arreglo_coordenadas_resistencias_patitas.get(tamaño_patitas-4);
             patitas_y_resistencia=arreglo_coordenadas_resistencias_patitas.get(tamaño_patitas-3);
 
+            String entrada_1 = JOptionPane.showInputDialog(null, "Ingrese valor del 0 al 9");
+            String entrada_2 = JOptionPane.showInputDialog(null, "Ingrese valor del 0 al 9");
+            String entrada_3 = JOptionPane.showInputDialog(null, "Ingrese valor del 0 al 9");
+            String entrada_4 = JOptionPane.showInputDialog(null, "Ingrese valor del 1 al 2");
+
+            int banda1=0;
+            int banda2=0;
+            int multiplicador=0;
+            int tolerancia=0;
+
+            try {
+                banda1 = Integer.parseInt(entrada_1);
+                banda2 = Integer.parseInt(entrada_2);
+                multiplicador = Integer.parseInt(entrada_3);
+                tolerancia = Integer.parseInt(entrada_4);
+
+            } catch (Exception e){
+                JOptionPane.showMessageDialog(null, "Ingrese valores validos");
+            }
+            int transformacion_pos_1_x = (int) ((patitas_x_resistencia ) / 20);
+            int transformacion_pos_1_y = transformacionY_coordA_Matriz(patitas_y_resistencia+15);
+            int transformacion_pos_2_x = (int) ((patitas_x_resistencia_2) / 20);
+            int transformacion_pos_2_y = transformacionY_coordA_Matriz(patitas_y_resistencia_2+15);
             System.out.println(x_resistencia+" "+y_resistencia+" patita "+patitas_x_resistencia+" "+patitas_y_resistencia+"patita 2 "+patitas_x_resistencia_2+" "+patitas_y_resistencia_2);
-            dibujarResistencia(x_resistencia,y_resistencia,patitas_x_resistencia,patitas_y_resistencia,patitas_x_resistencia_2,patitas_y_resistencia_2);
-        }
-
-            } //arreglo_coordenadas_leds.add(x_led); arreglo_coordenadas_leds.add(y_led); // agregar al arreglo
-            dibujarResistencia(x_resistencia,y_resistencia);
-            //dibujador.dibujarRes(gc, x_led, y_led, Color.DARKRED);
-            btnAgregarCable.setDisable(false);
-            btnAgregarLed.setDisable(false);
-            btnAgregarSwitch.setDisable(false);
-            btnEliminarObj.setDisable(false);
-            btnAgregarResistencia.setDisable(false);
-            btnAgregarOctoSwitch.setDisable(false);
-
+            _Protoboard_Funcional.resistenciaSet(_Protoboard_Funcional, transformacion_pos_1_x, transformacion_pos_1_y, transformacion_pos_2_x, transformacion_pos_2_y, banda1, banda2, multiplicador, tolerancia);
+            dibujador.dibujarResistencia(gc, x_resistencia,y_resistencia,patitas_x_resistencia,patitas_y_resistencia,patitas_x_resistencia_2,patitas_y_resistencia_2, banda1, banda2, multiplicador, tolerancia);
+            gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
+            dibujarTodo();
         }
 
 
@@ -1206,7 +1012,6 @@ public class Controlador_Protoboard implements Initializable {
 
         }
         if (agrega_led){ // agrega un led al hacer click en una posicion // verificaciones y demas
-            GraphicsContext gc = tablero.getGraphicsContext2D();
             x_led= event.getX();
             y_led= event.getY();
             double[] puntoCercano = alcanzarPuntoCercano(x_led, y_led);
