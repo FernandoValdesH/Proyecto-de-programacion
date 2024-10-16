@@ -12,6 +12,7 @@
     </padding>
 
     <Canvas fx:id="tablero" height="320.0" width="800.0" />
+
    <HBox prefHeight="0.0" prefWidth="844.0">
       <children>
       
@@ -23,4 +24,5 @@
          <Button fx:id="btnEliminarObj" mnemonicParsing="false" onAction="#activarEliminacion" text="Eliminar" />
       </children>
    </HBox>
+
 </VBox>

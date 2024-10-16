@@ -56,14 +56,13 @@ public class Controlador_Protoboard implements Initializable {
     private boolean switch_bateria=true;
     private boolean agrega_octo_switch=false;
     private Boolean agregar_resistencia = false;
+
     private String banda1;
     private String banda2;
     private String multiplicador;
     private double multiplicadorResistencia;
     private String tolerancia;
 
-
-    int x=10,y=10;
 
     @FXML
     Button btnAgregarCable;
@@ -179,16 +178,21 @@ public class Controlador_Protoboard implements Initializable {
 
     // metodos que se activan al presionar boton
     public void AgregarResistencia() {
+
         banda1 = JOptionPane.showInputDialog(null,"ingrese valor del 0 al 9");
         banda2 = JOptionPane.showInputDialog(null,"ingrese valor del 0 al 9");
         multiplicador = JOptionPane.showInputDialog(null,"ingrese valor del 0 al 9");
         tolerancia = JOptionPane.showInputDialog(null,"ingrese valor del 1 al 2");
         JOptionPane.showMessageDialog(null,"indicar posición resistencia");
+
+
         btnAgregarCable.setDisable(true);
         btnAgregarLed.setDisable(true);
         btnAgregarSwitch.setDisable(true);
         btnEliminarObj.setDisable(true);
         btnAgregarOctoSwitch.setDisable(true);
+        agregar_resistencia = true;
+        btnAgregarResistencia.setDisable(true);
         agregar_resistencia = true;
     }
 
@@ -257,6 +261,7 @@ public class Controlador_Protoboard implements Initializable {
     }
 
     // metodos distintos
+
     public void dibujarResistencia(double x_resistencia,double y_resistencia,double patita_x1,double patita_y1,double patita_x2,double patita_y2) {
         GraphicsContext gc = tablero.getGraphicsContext2D();
         gc.setStroke(Color.GREY);
@@ -484,7 +489,6 @@ public class Controlador_Protoboard implements Initializable {
                 break;
         }
     }
-
     public void dibujarTodo(){
         GraphicsContext gc = tablero.getGraphicsContext2D();
         dibujador.dibujarProtoboard(gc, 0, 0, _Protoboard_Funcional);
@@ -1000,6 +1004,7 @@ public class Controlador_Protoboard implements Initializable {
             tablero.getGraphicsContext2D().clearRect(0,0,tablero.getWidth(),tablero.getHeight());
             dibujarTodo();
         }
+
         double x_resistencia = 0;
         double y_resistencia = 0;
 
@@ -1012,10 +1017,18 @@ public class Controlador_Protoboard implements Initializable {
             y_resistencia= (int) event.getY();
 
             System.out.println("resistencia "+x_resistencia +" "+  y_resistencia);
+
+        if(agregar_resistencia){
+            agregar_resistencia=false;
+            GraphicsContext gc = tablero.getGraphicsContext2D();
+            int x_resistencia= (int) event.getX();
+            int y_resistencia= (int) event.getY();
+
             double[] puntoCercano = alcanzarPuntoCercano(x_resistencia, y_resistencia);
             if (puntoCercano != null) {
                 x_resistencia = (int) (puntoCercano[0]-15);
                 y_resistencia = (int) (puntoCercano[1]-15);
+
             }
             arreglo_coordenadas_resistencias.add(x_resistencia);
             arreglo_coordenadas_resistencias.add(y_resistencia);
@@ -1091,6 +1104,18 @@ public class Controlador_Protoboard implements Initializable {
 
             System.out.println(x_resistencia+" "+y_resistencia+" patita "+patitas_x_resistencia+" "+patitas_y_resistencia+"patita 2 "+patitas_x_resistencia_2+" "+patitas_y_resistencia_2);
             dibujarResistencia(x_resistencia,y_resistencia,patitas_x_resistencia,patitas_y_resistencia,patitas_x_resistencia_2,patitas_y_resistencia_2);
+        }
+
+            } //arreglo_coordenadas_leds.add(x_led); arreglo_coordenadas_leds.add(y_led); // agregar al arreglo
+            dibujarResistencia(x_resistencia,y_resistencia);
+            //dibujador.dibujarRes(gc, x_led, y_led, Color.DARKRED);
+            btnAgregarCable.setDisable(false);
+            btnAgregarLed.setDisable(false);
+            btnAgregarSwitch.setDisable(false);
+            btnEliminarObj.setDisable(false);
+            btnAgregarResistencia.setDisable(false);
+            btnAgregarOctoSwitch.setDisable(false);
+
         }
 
 
