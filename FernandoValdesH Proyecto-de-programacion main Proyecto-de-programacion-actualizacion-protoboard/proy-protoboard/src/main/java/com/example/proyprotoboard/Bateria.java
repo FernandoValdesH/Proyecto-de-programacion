@@ -1,5 +1,5 @@
 package com.example.proyprotoboard;
-
+//si
 public class Bateria{
     double voltaje = 2.4;
     int conectorPositivox = -2;
