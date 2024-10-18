@@ -542,6 +542,7 @@ public class Controlador_Protoboard implements Initializable {
 
 //            if (punto_final_x_cable - punto_inicio_x_cable > 150 || punto_inicio_y_cable - punto_final_y_cable > 100){ comentado para probar otras cosas
 //                JOptionPane.showMessageDialog(null, "Haga el cable mas corto."); { else
+            if((posicion1_x != posicion2_x ) || (posicion1_y != posicion2_y)){
             if (punto_final_x_cable <= 0  || punto_inicio_y_cable >= 285 || punto_final_y_cable<=0 || punto_final_y_cable >=285){
                 JOptionPane.showMessageDialog(null, "Ingrese el cable dentro del protoboard");
 
@@ -550,7 +551,8 @@ public class Controlador_Protoboard implements Initializable {
             }
             else{
                 // agregar las coordenadas al arreglo
-                arreglo_coordenadas_cables.add(punto_inicio_x_cable); arreglo_coordenadas_cables.add(punto_inicio_y_cable);arreglo_coordenadas_cables.add(punto_final_x_cable);  arreglo_coordenadas_cables.add(punto_final_y_cable);
+
+
 
                 if ((punto_final_x_cable == 675 && punto_final_y_cable== 255)){
                     posicion2_x = -2; posicion2_y = -2;
@@ -565,9 +567,77 @@ public class Controlador_Protoboard implements Initializable {
                     posicion1_x = -3; posicion1_y = -3;
                     conectado_bateria=true;
                 }
+                if(conectado_bateria){
+                    if(posicion1_x == -3 || posicion1_x == -2){
+                        if(!_Protoboard_Funcional.protoboard[posicion2_x][posicion2_y].conexion) {
+                            arreglo_coordenadas_cables.add(punto_inicio_x_cable);
+                            arreglo_coordenadas_cables.add(punto_inicio_y_cable);
+                            arreglo_coordenadas_cables.add(punto_final_x_cable);
+                            arreglo_coordenadas_cables.add(punto_final_y_cable);
+                            // guarda el cable
+                            _Protoboard_Funcional.cableSet(_Protoboard_Funcional, posicion1_x, posicion1_y, posicion2_x, posicion2_y, conectado_bateria);
 
-                // guarda el cable
-                _Protoboard_Funcional.cableSet(_Protoboard_Funcional, posicion1_x, posicion1_y, posicion2_x, posicion2_y,conectado_bateria);
+                            // luego de poner un cable, chequear si paso corriente a un led, para esto buscamos en el protoboard a ver si hay un led encendido, y lo dibujamos rojo
+                            // si no, lo dibujamos en darkred
+                            revisarLedsEncendidos(_Protoboard_Funcional, gc);
+
+                            gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
+                            dibujarTodo();
+
+
+                            // dibujar el cable
+                            dibujador.dibujarCable(gc, (int) punto_inicio_x_cable, (int) punto_inicio_y_cable, (int) punto_final_x_cable, (int) punto_final_y_cable);
+                            contador_cables++;
+                            movible_cable = false;
+
+
+                            btnAgregarCable.setDisable(false);
+                            btnAgregarLed.setDisable(false);
+                            btnAgregarSwitch.setDisable(false);
+                            btnEliminarObj.setDisable(false);
+                            btnAgregarOctoSwitch.setDisable(false);
+                            btnAgregarResistencia.setDisable(false);
+                        }
+                    }
+                    if(posicion2_x == -3 || posicion2_x == -2){
+                        if(!_Protoboard_Funcional.protoboard[posicion1_x][posicion1_y].conexion) {
+                            arreglo_coordenadas_cables.add(punto_inicio_x_cable);
+                            arreglo_coordenadas_cables.add(punto_inicio_y_cable);
+                            arreglo_coordenadas_cables.add(punto_final_x_cable);
+                            arreglo_coordenadas_cables.add(punto_final_y_cable);
+                            // guarda el cable
+                            _Protoboard_Funcional.cableSet(_Protoboard_Funcional, posicion1_x, posicion1_y, posicion2_x, posicion2_y, conectado_bateria);
+
+                            // luego de poner un cable, chequear si paso corriente a un led, para esto buscamos en el protoboard a ver si hay un led encendido, y lo dibujamos rojo
+                            // si no, lo dibujamos en darkred
+                            revisarLedsEncendidos(_Protoboard_Funcional, gc);
+
+                            gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
+                            dibujarTodo();
+
+
+                            // dibujar el cable
+                            dibujador.dibujarCable(gc, (int) punto_inicio_x_cable, (int) punto_inicio_y_cable, (int) punto_final_x_cable, (int) punto_final_y_cable);
+                            contador_cables++;
+                            movible_cable = false;
+
+
+                            btnAgregarCable.setDisable(false);
+                            btnAgregarLed.setDisable(false);
+                            btnAgregarSwitch.setDisable(false);
+                            btnEliminarObj.setDisable(false);
+                            btnAgregarOctoSwitch.setDisable(false);
+                            btnAgregarResistencia.setDisable(false);
+                        }
+                    }
+                } else
+                if(!_Protoboard_Funcional.protoboard[posicion1_x][posicion1_y].conexion && !_Protoboard_Funcional.protoboard[posicion2_x][posicion2_y].conexion) {
+                    arreglo_coordenadas_cables.add(punto_inicio_x_cable);
+                    arreglo_coordenadas_cables.add(punto_inicio_y_cable);
+                    arreglo_coordenadas_cables.add(punto_final_x_cable);
+                    arreglo_coordenadas_cables.add(punto_final_y_cable);
+                    // guarda el cable
+                    _Protoboard_Funcional.cableSet(_Protoboard_Funcional, posicion1_x, posicion1_y, posicion2_x, posicion2_y, conectado_bateria);
 
                 // luego de poner un cable, chequear si paso corriente a un led, para esto buscamos en el protoboard a ver si hay un led encendido, y lo dibujamos rojo
                 // si no, lo dibujamos en darkred
@@ -589,7 +659,7 @@ public class Controlador_Protoboard implements Initializable {
                 btnEliminarObj.setDisable(false);
                 btnAgregarOctoSwitch.setDisable(false);
                 btnAgregarResistencia.setDisable(false);
-            }
+            }}}
 
 
         } else if (patita_led_1 && cantidad_patitas<2 && dibujar_patitas){
@@ -815,28 +885,29 @@ public class Controlador_Protoboard implements Initializable {
             y_resistencia= (int) event.getY();
 
             System.out.println("resistencia "+x_resistencia +" "+  y_resistencia);
-            double[] puntoCercano = alcanzarPuntoCercano(x_resistencia, y_resistencia);
-            if (puntoCercano != null) {
-                x_resistencia = (int) (puntoCercano[0]-15);
-                y_resistencia = (int) (puntoCercano[1]-15);
-            }
+
+                double[] puntoCercano = alcanzarPuntoCercano(x_resistencia, y_resistencia);
+                if (puntoCercano != null) {
+                    x_resistencia = (int) (puntoCercano[0] - 15);
+                    y_resistencia = (int) (puntoCercano[1] - 15);
+                }
 
 
-            arreglo_coordenadas_resistencias.add(x_resistencia);
-            arreglo_coordenadas_resistencias.add(y_resistencia);
-            resistencia_puesta=true;
-            PauseTransition pause = new PauseTransition(Duration.seconds(0.1));
-            pause.setOnFinished(e -> click_count++);
-            pause.play();
-            JOptionPane.showMessageDialog(null, "Indicar posición 1");
+                arreglo_coordenadas_resistencias.add(x_resistencia);
+                arreglo_coordenadas_resistencias.add(y_resistencia);
+                resistencia_puesta = true;
+                PauseTransition pause = new PauseTransition(Duration.seconds(0.1));
+                pause.setOnFinished(e -> click_count++);
+                pause.play();
+                JOptionPane.showMessageDialog(null, "Indicar posición 1");
 
-            //dibujador.dibujarResistencia(gc, x_led, y_led);
-            btnAgregarCable.setDisable(false);
-            btnAgregarLed.setDisable(false);
-            btnAgregarSwitch.setDisable(false);
-            btnAgregarOctoSwitch.setDisable(false);
-            btnEliminarObj.setDisable(false);
-            btnAgregarResistencia.setDisable(false);
+                //dibujador.dibujarResistencia(gc, x_led, y_led);
+                btnAgregarCable.setDisable(false);
+                btnAgregarLed.setDisable(false);
+                btnAgregarSwitch.setDisable(false);
+                btnAgregarOctoSwitch.setDisable(false);
+                btnEliminarObj.setDisable(false);
+                btnAgregarResistencia.setDisable(false);
 
         }
         if(resistencia_puesta && !agregar_patita_1){
@@ -854,6 +925,7 @@ public class Controlador_Protoboard implements Initializable {
             patitas_y_resistencia = (int) event.getY();
 
             System.out.println("patita 1 "+patitas_x_resistencia +" "+ patitas_y_resistencia);
+            if(!_Protoboard_Funcional.protoboard[(int)patitas_x_resistencia][(int)patitas_y_resistencia].conexion){
             double[] puntoCercano = alcanzarPuntoCercano(patitas_x_resistencia,patitas_y_resistencia);
 
             if (puntoCercano != null) {
@@ -869,7 +941,7 @@ public class Controlador_Protoboard implements Initializable {
             pause.play();
             JOptionPane.showMessageDialog(null, "Indicar posición 2");
             agregar_patita_1=false;
-            agregar_patita_2=true;
+            agregar_patita_2=true;}
         }
         if (agregar_patita_2&&click_count==2) {
 
@@ -879,6 +951,7 @@ public class Controlador_Protoboard implements Initializable {
             patitas_x_resistencia_2 = (int) event.getX();
             patitas_y_resistencia_2 = (int) event.getY();
             System.out.println("patita 2 "+patitas_x_resistencia_2 +" "+ patitas_y_resistencia_2);
+            if(_Protoboard_Funcional.protoboard[(int)patitas_x_resistencia_2][(int)patitas_y_resistencia_2].conexion){
             double[] puntoCercano = alcanzarPuntoCercano(patitas_x_resistencia_2,patitas_y_resistencia_2);
             if (puntoCercano != null) {
                 patitas_x_resistencia_2 = (int) (puntoCercano[0] - 15);
@@ -922,6 +995,7 @@ public class Controlador_Protoboard implements Initializable {
             dibujador.dibujarResistencia(gc, x_resistencia,y_resistencia,patitas_x_resistencia,patitas_y_resistencia,patitas_x_resistencia_2,patitas_y_resistencia_2, banda1, banda2, multiplicador, tolerancia);
             gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
             dibujarTodo();
+        }
         }
 
 
