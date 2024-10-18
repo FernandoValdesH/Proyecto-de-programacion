@@ -332,9 +332,19 @@ public class Controlador_Protoboard implements Initializable {
             punto_inicio_y_patita = arreglo_coordenadas_patitas_leds.get(i+1);
             punto_final_x_patita = arreglo_coordenadas_patitas_leds.get(i+2);
             punto_final_y_patita = arreglo_coordenadas_patitas_leds.get(i+3);
-            gc.setStroke(Color.GRAY);
+
+//            gc.setStroke(Color.GRAY);
+
+
+            if ((i/4) %2==0){
+                gc.setStroke(Color.RED);
+
+            } else{
+                gc.setStroke(Color.BLUE);
+            }
             gc.setLineWidth(3);
             gc.strokeLine(punto_inicio_x_patita,punto_inicio_y_patita,punto_final_x_patita,punto_final_y_patita);
+
 
 
         }
@@ -380,19 +390,15 @@ public class Controlador_Protoboard implements Initializable {
         }    i=i-2;
         if (cent_led){
 
-            int k = 0 ;
             arreglo_coordenadas_leds.remove(i);
             arreglo_coordenadas_leds.remove(i);
 
             // calcular que patitas son : 2*i + los 3 siguientes a ese
 
 
-            if (i!=0 && i%2==0){
-                k = i - 1;
-            }
 
-            int indice_1 = 2 + k * 8;
-            int indice_2 = 3 + k * 8;
+            int indice_1 = 2 + i * 4;
+            int indice_2 = 3 + i * 4;
             // transformar coordenadas a posiciones de la matriz para eliminar el cable y la corriente que llevaba este
             int posicion1_x = (int) ((arreglo_coordenadas_patitas_leds.get(indice_1) - 15) / 20);
             int posicion1_y = transformacionY_coordA_Matriz(arreglo_coordenadas_patitas_leds.get(indice_2));
@@ -741,7 +747,12 @@ public class Controlador_Protoboard implements Initializable {
                 }
 
                 // dibujar patitas
-                gc.setStroke(Color.GRAY);
+                if (cantidad_patitas==1){
+                    gc.setStroke(Color.RED);
+                } else{
+                    gc.setStroke(Color.DARKBLUE);
+                }
+//                gc.setStroke(Color.GRAY);
                 gc.setLineWidth(3);
                 gc.strokeLine(punto_inicio_x_patita, punto_inicio_y_patita, punto_final_x_patita, punto_final_y_patita);
                 patita_led_1=false;
