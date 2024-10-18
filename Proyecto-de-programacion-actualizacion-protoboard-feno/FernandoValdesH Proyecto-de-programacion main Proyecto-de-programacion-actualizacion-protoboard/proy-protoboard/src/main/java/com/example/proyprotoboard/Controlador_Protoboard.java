@@ -542,7 +542,7 @@ public class Controlador_Protoboard implements Initializable {
 
 //            if (punto_final_x_cable - punto_inicio_x_cable > 150 || punto_inicio_y_cable - punto_final_y_cable > 100){ comentado para probar otras cosas
 //                JOptionPane.showMessageDialog(null, "Haga el cable mas corto."); { else
-            if(!(posicion1_x == posicion2_x || posicion1_y == posicion2_y)){
+            if((posicion1_x != posicion2_x ) || (posicion1_y != posicion2_y)){
             if (punto_final_x_cable <= 0  || punto_inicio_y_cable >= 285 || punto_final_y_cable<=0 || punto_final_y_cable >=285){
                 JOptionPane.showMessageDialog(null, "Ingrese el cable dentro del protoboard");
 
