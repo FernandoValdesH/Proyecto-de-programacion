@@ -653,6 +653,7 @@ public class Controlador_Protoboard implements Initializable {
                                 btnAgregarOctoSwitch.setDisable(false);
                                 btnAgregarResistencia.setDisable(false);
                                 btnAgregarChip.setDisable(false);
+
                             }
                         }
                         if(posicion2_x == -3 || posicion2_x == -2){
@@ -718,6 +719,14 @@ public class Controlador_Protoboard implements Initializable {
                         btnAgregarResistencia.setDisable(false);
                         btnAgregarChip.setDisable(false);
                     }}}
+            for (int fil = 0; fil < 30; fil++) {
+                for (int com = 0; com < 15; com++) {
+                    if (_Protoboard_Funcional.protoboard[fil][com]._cable!=null){
+                        _Protoboard_Funcional.protoboard[fil][com]._cable.procesado=false;
+                    }
+
+                }
+            }
 
 
         } else if (patita_led_1 && cantidad_patitas<2 && dibujar_patitas){
@@ -870,6 +879,14 @@ public class Controlador_Protoboard implements Initializable {
             dibujarTodo();
             System.out.println("se apago la bateria");
             // buscamos el o los cables conectados a la bateria y eliminamos corriente
+            for (int fil = 0; fil < 30; fil++) {
+                for (int com = 0; com < 15; com++) {
+                    if (_Protoboard_Funcional.protoboard[fil][com]._cable!=null){
+                        _Protoboard_Funcional.protoboard[fil][com]._cable.procesado=false;
+                    }
+
+                }
+            }
             for (int i = 0 ; i < 30 ; i++){
                 for (int j = 0 ; j < 15 ; j++){
                     if (_Protoboard_Funcional.protoboard[i][j]._cable != null && _Protoboard_Funcional.protoboard[i][j]._cable.conexionBateria){
@@ -886,6 +903,14 @@ public class Controlador_Protoboard implements Initializable {
             gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
             dibujarTodo();
             // buscamos el o los cables conectados a la bateria y pasamos corriente
+            for (int fil = 0; fil < 30; fil++) {
+                for (int com = 0; com < 15; com++) {
+                    if (_Protoboard_Funcional.protoboard[fil][com]._cable!=null){
+                        _Protoboard_Funcional.protoboard[fil][com]._cable.procesado=false;
+                    }
+
+                }
+            }
             for (int i = 0 ; i < 30 ; i++){
                 for (int j = 0 ; j < 15 ; j++){
                     if (_Protoboard_Funcional.protoboard[i][j]._cable != null && _Protoboard_Funcional.protoboard[i][j]._cable.posicion1.coordenadax!=-1 && _Protoboard_Funcional.protoboard[i][j]._cable.conexionBateria){
@@ -893,8 +918,16 @@ public class Controlador_Protoboard implements Initializable {
                         _Protoboard_Funcional.pasarCorriente(_Protoboard_Funcional, _cable);
                     }
                 }
-
             }
+            for (int fil = 0; fil < 30; fil++) {
+                for (int com = 0; com < 15; com++) {
+                    if (_Protoboard_Funcional.protoboard[fil][com]._cable!=null){
+                        _Protoboard_Funcional.protoboard[fil][com]._cable.procesado=false;
+                    }
+
+                }
+            }
+
             gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
             dibujarTodo();
 
