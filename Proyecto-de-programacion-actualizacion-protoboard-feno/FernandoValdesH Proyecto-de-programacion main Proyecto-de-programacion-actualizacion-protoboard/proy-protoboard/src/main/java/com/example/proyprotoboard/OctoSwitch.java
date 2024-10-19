@@ -457,7 +457,14 @@ public class OctoSwitch extends Switch{
             }
         }
 
+        for (int fil = 0; fil < 30; fil++) {
+            for (int com = 0; com < 15; com++) {
+                if (_protoboard.protoboard[fil][com]._cable!=null){
+                    _protoboard.protoboard[fil][com]._cable.procesado=false;
+                }
 
+            }
+        }
     }
 
     public void eliminarCorrientePosicion(protoboard _protoboard, int posicion_switch_x, int posicion_switch_y) {
@@ -480,7 +487,7 @@ public class OctoSwitch extends Switch{
                 int guarda_fil_cable = 0;// canal central
                 int j = 2;
                 for (j = 2; j < 7; j++) {
-                    if (_protoboard.protoboard[coord_x][j]._posicion.corriente && _protoboard.protoboard[coord_x][j]._cable != null && _protoboard.protoboard[coord_x][j]._cable.posicion1.coordenadax!=-1 && ((_protoboard.protoboard[coord_x][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[coord_x][j]._cable.posicion1.coordenaday > 12) || (_protoboard.protoboard[coord_x][j]._cable.posicion2.coordenaday <2  || _protoboard.protoboard[coord_x][j]._cable.posicion2.coordenaday > 12))) {
+                    if (_protoboard.protoboard[coord_x][j]._posicion.corriente && _protoboard.protoboard[coord_x][j]._cable != null && _protoboard.protoboard[coord_x][j]._cable.posicion1.coordenadax!=-1 && ((_protoboard.protoboard[coord_x][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[coord_x][j]._cable.posicion1.coordenaday > 12) || (_protoboard.protoboard[coord_x][j]._cable.posicion2.coordenaday <2  || _protoboard.protoboard[coord_x][j]._cable.posicion2.coordenaday > 12 ) ) ) {
                         guarda_col_cable = j;
                         guarda_fil_cable = coord_x;
                         break;
@@ -490,14 +497,13 @@ public class OctoSwitch extends Switch{
                     _protoboard.eliminarCorriente(_protoboard, guarda_fil_cable, 8, false);
                 } else {
                     for (j = 8; j < 13; j++) {
-                        if (_protoboard.protoboard[coord_x][j]._cable != null && _protoboard.protoboard[coord_x][j]._cable.posicion1.corriente && ((_protoboard.protoboard[coord_x][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[coord_x][j]._cable.posicion1.coordenaday > 12) || (_protoboard.protoboard[coord_x][j]._cable.posicion2.coordenaday <2  || _protoboard.protoboard[coord_x][j]._cable.posicion2.coordenaday > 12))) {
+                        if (_protoboard.protoboard[coord_x][j]._cable != null && _protoboard.protoboard[coord_x][j]._cable.posicion1.corriente && ((_protoboard.protoboard[coord_x][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[coord_x][j]._cable.posicion1.coordenaday > 12) || (_protoboard.protoboard[coord_x][j]._cable.posicion2.coordenaday <2  || _protoboard.protoboard[coord_x][j]._cable.posicion2.coordenaday > 12)  ) ) {
                             guarda_col_cable = j;
                             guarda_fil_cable = coord_x;
                             break;
                         }
                     }
                     if (guarda_col_cable != 0) {
-
                         _protoboard.eliminarCorriente(_protoboard, guarda_fil_cable, 2, false);
 
                     }
@@ -526,7 +532,6 @@ public class OctoSwitch extends Switch{
             _octoSwitch.mini_switch_2.encendido = false;
             int coord_x = _octoSwitch.mini_switch_2.posicion.coordenadax;
             int coord_y = _octoSwitch.mini_switch_2.posicion.coordenaday;
-            System.out.println("coord_x: n2" + coord_x + " coord_y: " + coord_y);
             if (coord_y == 7){ // canal central
                 int j = 2;
                 for (j = 2; j < 7; j++) {
@@ -858,7 +863,83 @@ public class OctoSwitch extends Switch{
                 }
             }
         }
+        for (int fil = 0; fil < 30; fil++) {
+            for (int com = 0; com < 15; com++) {
+                if (_protoboard.protoboard[fil][com]._cable!=null){
+                    _protoboard.protoboard[fil][com]._cable.procesado=false;
+                }
+
+            }
+        }
     }
+    public void pasarCorrienteAlEncontrar(protoboard _protoboard, int pos_x, int pos_y, int pos_inicio_x, int pos_inicio_y){
+        if (pos_y>7){
+            for (int l = 2; l < 7; l++) {
+                _protoboard.protoboard[pos_x][l]._posicion.corriente = true;
+                _protoboard.protoboard[pos_x][l]._posicion.polaridad = _protoboard.protoboard[pos_inicio_x][pos_inicio_y]._posicion.polaridad;
+                if (_protoboard.protoboard[pos_x][l]._led != null && _protoboard.protoboard[pos_x][l]._led.posicion1.coordenadax != -1) {
+                    _protoboard.protoboard[pos_x][l]._posicion.corriente = true;
+                    Led _led = _protoboard.protoboard[pos_x][l]._led;
+                    _protoboard.cambiarEstadoLed(_protoboard, _led);
+                }
+                if (_protoboard.protoboard[pos_x][l]._cable != null && !_protoboard.protoboard[pos_x][l]._cable.procesado && _protoboard.protoboard[pos_x][l]._cable.posicion1.coordenadax != -1) {
+                    _protoboard.protoboard[pos_x][l]._cable.procesado = true;
+                    // pasar corriente recibe protoboard y un cable
+                    _protoboard.pasarCorriente(_protoboard, _protoboard.protoboard[pos_x][l]._cable);
+                }
+            }
+        } else if (pos_y<7){
+            for (int l = 8; l < 13; l++) {
+                _protoboard.protoboard[pos_x][l]._posicion.corriente = true;
+                _protoboard.protoboard[pos_x][l]._posicion.polaridad = _protoboard.protoboard[pos_inicio_x][pos_inicio_y]._posicion.polaridad;
+                if (_protoboard.protoboard[pos_x][l]._led != null && _protoboard.protoboard[pos_x][l]._led.posicion1.coordenadax != -1) {
+                    _protoboard.protoboard[pos_x][l]._posicion.corriente = true;
+                    Led _led = _protoboard.protoboard[pos_x][l]._led;
+                    _protoboard.cambiarEstadoLed(_protoboard, _led);
+                }
+                if (_protoboard.protoboard[pos_x][l]._cable != null && !_protoboard.protoboard[pos_x][l]._cable.procesado && _protoboard.protoboard[pos_x][l]._cable.posicion1.coordenadax != -1) {
+                    _protoboard.protoboard[pos_x][l]._cable.procesado = true;
+                    _protoboard.pasarCorriente(_protoboard, _protoboard.protoboard[pos_x][l]._cable);
+                }
+            }
+        }
+    }
+    public void eliminarCorrienteAlEncontrar(protoboard _protoboard, int pos_x, int pos_y, boolean switch_bateria){
+        if (pos_y>7){
+            for (int l = 2; l < 7; l++) {
+                _protoboard.protoboard[pos_x][l]._posicion.corriente = false;
+                if (_protoboard.protoboard[pos_x][l]._led != null && _protoboard.protoboard[pos_x][l]._led.posicion1.coordenadax != -1) {
+                    _protoboard.protoboard[pos_x][l]._posicion.corriente = false;
+                    Led _led = _protoboard.protoboard[pos_x][l]._led;
+                    _protoboard.cambiarEstadoLed(_protoboard, _led);
+                }
+                if (_protoboard.protoboard[pos_x][l]._cable != null && !_protoboard.protoboard[pos_x][l]._cable.procesado && _protoboard.protoboard[pos_x][l]._cable.posicion1.coordenadax != -1) {
+                    _protoboard.protoboard[pos_x][l]._cable.procesado = true;
+                    int pos_final_x = _protoboard.protoboard[pos_x][l]._cable.posicion2.coordenadax;
+                    int pos_final_y = _protoboard.protoboard[pos_x][l]._cable.posicion2.coordenaday;
+                    _protoboard.eliminarCorriente(_protoboard, pos_final_x, pos_final_y, switch_bateria);
+                }
+            }
+        } else if (pos_y<7){
+            for (int l = 8; l < 13; l++) {
+                _protoboard.protoboard[pos_x][l]._posicion.corriente = false;
+                if (_protoboard.protoboard[pos_x][l]._led != null && _protoboard.protoboard[pos_x][l]._led.posicion1.coordenadax != -1) {
+                    _protoboard.protoboard[pos_x][l]._posicion.corriente = false;
+                    Led _led = _protoboard.protoboard[pos_x][l]._led;
+                    _protoboard.cambiarEstadoLed(_protoboard, _led);
+                }
+                if (_protoboard.protoboard[pos_x][l]._cable != null && !_protoboard.protoboard[pos_x][l]._cable.procesado && _protoboard.protoboard[pos_x][l]._cable.posicion1.coordenadax != -1) {
+                    _protoboard.protoboard[pos_x][l]._cable.procesado = true;
+                    int pos_final_x = _protoboard.protoboard[pos_x][l]._cable.posicion2.coordenadax;
+                    int pos_final_y = _protoboard.protoboard[pos_x][l]._cable.posicion2.coordenaday;
+                    _protoboard.eliminarCorriente(_protoboard, pos_final_x, pos_final_y, switch_bateria);
+                }
+            }
+        }
+
+    }
+
+
 
 
 }
