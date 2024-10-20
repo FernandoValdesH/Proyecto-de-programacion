@@ -581,7 +581,21 @@ public class Dibujador {
         }}
     }
 
-    public void dibujarChip(){}
+    public void dibujarChip(GraphicsContext gc, int x, int y){
+        gc.setFill(Color.rgb(3,4,4));
+        gc.fillRect(x-1, y-1, 75, 44);
+
+        gc.setFill(Color.rgb(113,115,114));
+        gc.fillRect(x+4, y-4, 5, 10);
+        gc.fillRect(x+24, y-4, 5, 10);
+        gc.fillRect(x+44, y-4, 5, 10);
+        gc.fillRect(x+64, y-4, 5, 10);
+
+        gc.fillRect(x+4, y+35, 5, 10);
+        gc.fillRect(x+24, y+35, 5, 10);
+        gc.fillRect(x+44, y+35, 5, 10);
+        gc.fillRect(x+64, y+35, 5, 10);
+    }
 
     public void dibujarDisplay(){}
 }
