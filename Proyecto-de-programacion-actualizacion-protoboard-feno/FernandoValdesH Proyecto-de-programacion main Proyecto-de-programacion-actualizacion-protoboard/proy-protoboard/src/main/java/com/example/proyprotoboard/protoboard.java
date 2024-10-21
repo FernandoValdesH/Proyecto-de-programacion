@@ -243,7 +243,6 @@ public class protoboard {
         if (pos_y <= 1 || pos_y > 12) {
             int j = pos_y;
             int i = 0;
-            System.out.println("entro a el bus");
             while (i < 30) {
 
                 _Protoboard.protoboard[i][j]._posicion.corriente = false;
@@ -258,7 +257,6 @@ public class protoboard {
                     _Protoboard.protoboard[i][j]._cable.procesado = true;
                     int pos_final_x = _Protoboard.protoboard[i][j]._cable.posicion2.coordenadax;
                     int pos_final_y = _Protoboard.protoboard[i][j]._cable.posicion2.coordenaday;
-                    System.out.println("encontro un cable en la posicion " + pos_final_x + " " + pos_final_y);
                     eliminarCorriente(_Protoboard, pos_final_x, pos_final_y, switch_bateria);
                 }
 
@@ -267,7 +265,6 @@ public class protoboard {
         } else if (pos_y > 1 && pos_y < 7) {
             int j = 2;
             int i = pos_x;
-            System.out.println("entro columnas de arriba");
             while (j < 7) {
 
                 _Protoboard.protoboard[i][j]._posicion.corriente = false;
@@ -328,7 +325,6 @@ public class protoboard {
         } else if (pos_y > 7) {
             int j = 8;
             int i = pos_x;
-            System.out.println("entro columnas de abajo");
             while (j < 13) {
 
                 _Protoboard.protoboard[i][j]._posicion.corriente = false;
@@ -976,10 +972,14 @@ public class protoboard {
             if (_Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.corriente && (posicion_final_y > 7 && posicion_final_y < 13)) {
                 int j = 8;
                 // primero pasa corriente
+                _cable.posicion1.polaridad = _Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.polaridad;
+                _cable.posicion1.corriente=true;
+                _cable.posicion2.corriente=true;
+                _cable.posicion2.polaridad = _Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.polaridad;
                 while (j < 13) {
                     _Protoboard.protoboard[posicion_final_x][j]._posicion.corriente = true;
                     _Protoboard.protoboard[posicion_final_x][j]._posicion.polaridad = _Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.polaridad;
-                    _cable.posicion1.polaridad = _Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.polaridad;
+
 
                     _Protoboard.protoboard[_cable.posicion1.coordenadax][_cable.posicion1.coordenaday]._cable.procesado = true;
                     _Protoboard.protoboard[_cable.posicion2.coordenadax][_cable.posicion2.coordenaday]._cable.procesado = true;
@@ -1076,6 +1076,11 @@ public class protoboard {
             } else if (_Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.corriente && (posicion_final_y <= 1)) {
 
                 int i = 0;
+                _cable.posicion1.polaridad = _Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.polaridad;
+                _cable.posicion2.polaridad = _Protoboard.protoboard[i][posicion_final_y]._posicion.polaridad;
+                _cable.posicion1.corriente=true;
+                _cable.posicion2.corriente=true;
+                if (!_Protoboard.protoboard[i][posicion_final_y]._posicion.corriente){
                 while (i < 30) {
                     _Protoboard.protoboard[i][posicion_final_y]._posicion.corriente = true;
                     _Protoboard.protoboard[i][posicion_final_y]._posicion.polaridad = _Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.polaridad;
@@ -1092,12 +1097,22 @@ public class protoboard {
 
                     }
                     i++;
-                }
+                }}
             } else if (_Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.corriente && (posicion_final_y >= 13)) {
                 int i = 0;
+                _cable.posicion1.polaridad = _Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.polaridad;
+                _cable.posicion2.polaridad = _Protoboard.protoboard[i][posicion_final_y]._posicion.polaridad;
+                _cable.posicion1.corriente=true;
+                _cable.posicion2.corriente=true;
+                if (!_Protoboard.protoboard[i][posicion_final_y]._posicion.corriente){
                 while (i < 30) {
+
                     _Protoboard.protoboard[i][posicion_final_y]._posicion.corriente = true;
                     _Protoboard.protoboard[i][posicion_final_y]._posicion.polaridad = _Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.polaridad;
+
+
+                    System.out.println("polaridad del cable: " + _cable.posicion1.polaridad);
+                    System.out.println("polaridad del cable pos 2: " + _cable.posicion2.polaridad);
                     // si encuentra un led
                     if (_Protoboard.protoboard[i][posicion_final_y]._led != null && _Protoboard.protoboard[i][posicion_final_y]._led.posicion1.coordenadax != -1) {
                         cuenta_leds++;
@@ -1108,10 +1123,13 @@ public class protoboard {
                         }
                     }
                     i++;
-                }
+                }}
             } else if (_Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.corriente && (posicion_final_y > 1 && posicion_final_y < 7)) {
                 int j = 2;
-
+                _cable.posicion1.polaridad = _Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.polaridad;
+                _cable.posicion2.polaridad = _Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.polaridad;
+                _cable.posicion1.corriente=true;
+                _cable.posicion2.corriente=true;
                 while (j < 7) {
                     _Protoboard.protoboard[posicion_final_x][j]._posicion.corriente = true;
                     _Protoboard.protoboard[posicion_final_x][j]._posicion.polaridad = _Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.polaridad;
@@ -1126,6 +1144,7 @@ public class protoboard {
                     // si encuentra un cable
 
                     if (_Protoboard.protoboard[posicion_final_x][j]._cable != null && _Protoboard.protoboard[posicion_final_x][j]._cable.posicion1.coordenadax != -1 && !_Protoboard.protoboard[posicion_final_x][j]._cable.procesado) {
+
                         pasarCorriente(_Protoboard, _Protoboard.protoboard[posicion_final_x][j]._cable);
                     }
                     // si encuentra un led
@@ -1809,34 +1828,78 @@ public class protoboard {
             }
 
         } else {
+            System.out.println("entra aca");
             _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday]._cable = _Cable;
             _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday]._cable = _Cable;
             _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday].conexion = true;
             _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday].conexion = true;
             pasarCorriente(_Protoboard, _Cable);
-            if (_Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday]._posicion.corriente) {
-
-                _Cable.posicion2.corriente = true;
-                _Cable.posicion2.polaridad = _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday]._posicion.polaridad;
+            _Cable.posicion1.polaridad = _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday]._posicion.polaridad;
+            _Cable.posicion2.polaridad = _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday]._posicion.polaridad;
 
                 if (_Cable.posicion1.polaridad != _Cable.posicion2.polaridad && _Cable.posicion1.corriente && _Cable.posicion2.corriente) {
                     _Cable.quemado = true;
                     System.out.println("Has quemado el cable");
-                }
-                if (_Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday]._posicion.corriente) {
-                    _Cable.posicion1.corriente = true;
-                    _Cable.posicion1.polaridad = _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday]._posicion.polaridad;
-
-                    if (_Cable.posicion1.polaridad != _Cable.posicion2.polaridad && _Cable.posicion1.corriente && _Cable.posicion2.corriente) {
-                        _Cable.quemado = true;
-                        System.out.println("Has quemado el cable");
-                    }
+                    recQuemado(_Protoboard, _Cable.posicion1.coordenadax, _Cable.posicion1.coordenaday);
+                    recQuemado(_Protoboard, _Cable.posicion2.coordenadax, _Cable.posicion2.coordenaday);
                 }
                 //while("recorrer corriente basado en posicion, si es 0-1-12-13, significa que es un bus y se requiere recorrer horizontalmente, si es entre 2-6 se considera vertical superior y si es 7-11, vertical inferior, se debe realizar esta verificacion para cada uno de los cables")
+
+            System.out.println("cable conectado en las posiciones: " + _Cable.posicion1.coordenadax + " " + _Cable.posicion1.coordenaday + " y " + _Cable.posicion2.coordenadax + " " + _Cable.posicion2.coordenaday);
+            System.out.println("polaridad del cable: " + _Cable.posicion1.polaridad + " " + _Cable.posicion2.polaridad);
+        }
+        QuemadoCheck(_Protoboard);
+    }
+    public void recQuemado(protoboard _Protoboard, int pox, int poy){
+        if(poy<=1){
+            pox = 0;
+            while(pox < 30){
+
+                _Protoboard.protoboard[pox][poy]._posicion.quemado = true;
+                _Protoboard.protoboard[pox][poy]._posicion.corriente = false;
+                pox++;
             }
+        } else if (poy>1 && poy<7) {
+            poy = 2;
+            while(poy < 7){
+//                _Protoboard.protoboard[pox][poy]._posicion.corriente = false;
+                _Protoboard.protoboard[pox][poy]._posicion.quemado = true;
+                _Protoboard.protoboard[pox][poy]._posicion.corriente = false;
+                poy++;
+            }
+        } else if (poy>7 && poy<13) {
+            poy=8;
+            while(poy < 13){
+//                _Protoboard.protoboard[pox][poy]._posicion.corriente = false;
+                _Protoboard.protoboard[pox][poy]._posicion.quemado = true;
+                _Protoboard.protoboard[pox][poy]._posicion.corriente = false;
+                poy++;
+            }
+        } else if (poy>=13) {
+            pox = 0;
+            while(pox < 30){
+//                _Protoboard.protoboard[pox][poy]._posicion.corriente = false;
+                _Protoboard.protoboard[pox][poy]._posicion.quemado = true;
+                _Protoboard.protoboard[pox][poy]._posicion.corriente = false;
+                pox++;
+            }
+
         }
     }
-} //else"considerar el caso en donde ninguna de las conexiones del cable posean conexion"
+    public void QuemadoCheck(protoboard _Protoboard){
+        int x =0,y = 0;
+        while(x<30){
+            while(y<15){
+                if(_Protoboard.protoboard[x][y]._posicion.quemado){
+                    _Protoboard.protoboard[x][y]._posicion.corriente = false;
+                }
+                y++;
+            }
+            x++;
+            y=0;
+        }
+
+    }} //else"considerar el caso en donde ninguna de las conexiones del cable posean conexion"
 //if("conexion a bateria cable == true" -> cambiar corriente cable = true, establecer polaridad) Check \(~u~)/
 //if("luego de conectar cable, revisar donde se conecta y cambiar lugares adyacentes") Check \(`w`)/
 //Considerar que en cada momento en el que se conecte un cable, se debera realizar el cambio a todo el protoboard, pero no es necesario realizar el cambio en todo el protoboard al mismo tiempo, solo en la zona existente
