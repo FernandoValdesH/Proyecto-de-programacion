@@ -31,9 +31,7 @@ public class Dibujador {
 
         gc.setFill(Color.LIGHTGRAY);
         gc.fillRect(x_inicio,y_inicio,615,300);
-//        for( int k = 0 ; k < 300 ; k++){        // k < a 350 es la altura del rectangulo, siendo 350 el tope de la altura
-//            gc.strokeLine(0, k,605+x_inicio, k);
-//        }
+
         gc.setFill(Color.GRAY);
         // bucle para rellenar de puntos el rectangulo
 
@@ -43,6 +41,7 @@ public class Dibujador {
                 if (j==7){
                     j++;
                 }
+
                 if (protoboard.protoboard[i][j]._posicion.corriente){
                     int transformacion_inversa_y = 0;
                     if (j >= 0 && j < 2) {
@@ -54,13 +53,16 @@ public class Dibujador {
                     } else if (j > 12) {
                         transformacion_inversa_y = ((j + 4) * 15) + 5;
                     }
-                    if (protoboard.protoboard[i][j]._posicion.polaridad){
+
+                    if (protoboard.protoboard[i][j]._posicion.polaridad) {
                         gc.setFill(Color.RED);
                         gc.fillOval(transformacion_inversa_x, transformacion_inversa_y, 8, 8);
-                    } else{
+                    } else {
                         gc.setFill(Color.BLUE);
                         gc.fillOval(transformacion_inversa_x, transformacion_inversa_y, 8, 8);
                     }
+
+
 
                 } else{
                     int transformacion_inversa_y = 0;
@@ -73,8 +75,26 @@ public class Dibujador {
                     } else if (j > 12) {
                         transformacion_inversa_y = ((j + 4) * 15) + 5;
                     }
-                    gc.setFill(Color.GRAY);
-                    gc.fillOval(transformacion_inversa_x,transformacion_inversa_y,8,8); // luego del X e Y va el tamaño del punto
+                    if(!protoboard.protoboard[i][j]._posicion.quemado){
+                        gc.setFill(Color.GRAY);
+                        gc.fillOval(transformacion_inversa_x,transformacion_inversa_y,8,8); // luego del X e Y va el tamaño del punto
+                    }
+
+
+                }
+                if (protoboard.protoboard[i][j]._posicion.quemado){
+                    int transformacion_inversa_y = 0;
+                    if (j >= 0 && j < 2) {
+                        transformacion_inversa_y = ((j * 15 ) + 15) - 5;
+                    } else if (j >= 2 && j <= 6) {
+                        transformacion_inversa_y = (((j + 2) * 15) -5) + 10;
+                    } else if (j > 6 && j <= 12) {
+                        transformacion_inversa_y = ((j + 3) * 15) - 5;
+                    } else if (j > 12) {
+                        transformacion_inversa_y = ((j + 4) * 15) + 5;
+                    }
+                    gc.setFill(Color.rgb(3,4,4));
+                    gc.fillOval(transformacion_inversa_x, transformacion_inversa_y, 8, 8);
                 }
 
             }
@@ -136,8 +156,8 @@ public class Dibujador {
 
         // bucle para hacer el rectangulo solo con lineas
 
-        gc.setStroke(Color.BLACK);
-        gc.setFill(Color.BLACK);
+        gc.setStroke(Color.rgb(3,4,4));
+        gc.setFill(Color.rgb(3,4,4));
         gc.fillRect(x_bateria,130,70,90);
         gc.setFill(Color.BROWN);
         gc.fillRect(x_bateria,220,70,31);

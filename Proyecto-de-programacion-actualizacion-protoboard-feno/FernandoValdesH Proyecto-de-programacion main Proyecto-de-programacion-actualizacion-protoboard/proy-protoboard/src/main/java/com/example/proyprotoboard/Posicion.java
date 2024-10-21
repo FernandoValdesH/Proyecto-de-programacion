@@ -5,11 +5,12 @@ public class Posicion{
     Boolean corriente ;
     //Positivo true, Negativo false
     Boolean polaridad ;
-
+    boolean quemado;
     public Posicion(){
         this.coordenadax = -1;
         this.coordenaday = -1;
         this.corriente = false;
         this.polaridad = false;
+        this.quemado = false;
     }
 }
