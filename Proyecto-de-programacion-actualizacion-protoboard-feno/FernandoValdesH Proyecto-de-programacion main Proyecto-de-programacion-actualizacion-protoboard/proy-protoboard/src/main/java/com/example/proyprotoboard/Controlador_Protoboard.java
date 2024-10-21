@@ -1026,7 +1026,9 @@ public class Controlador_Protoboard implements Initializable {
             patitas_y_resistencia = (int) event.getY();
 
             System.out.println("patita 1 "+patitas_x_resistencia +" "+ patitas_y_resistencia);
-            if(!_Protoboard_Funcional.protoboard[(int)patitas_x_resistencia][(int)patitas_y_resistencia].conexion){
+            int transformar_x_resistencia = (int) ((patitas_x_resistencia - 15) / 20);
+            int transformar_y_resistencia = transformacionY_coordA_Matriz(patitas_y_resistencia+15);
+            if(!_Protoboard_Funcional.protoboard[(int)transformar_x_resistencia][(int)transformar_y_resistencia].conexion){
                 double[] puntoCercano = alcanzarPuntoCercano(patitas_x_resistencia,patitas_y_resistencia);
 
                 if (puntoCercano != null) {
@@ -1052,7 +1054,9 @@ public class Controlador_Protoboard implements Initializable {
             patitas_x_resistencia_2 = (int) event.getX();
             patitas_y_resistencia_2 = (int) event.getY();
             System.out.println("patita 2 "+patitas_x_resistencia_2 +" "+ patitas_y_resistencia_2);
-            if(_Protoboard_Funcional.protoboard[(int)patitas_x_resistencia_2][(int)patitas_y_resistencia_2].conexion){
+            int transformar_x_patita = (int) ((patitas_x_resistencia_2 - 15) / 20);
+            int transformar_y_patita = transformacionY_coordA_Matriz(patitas_y_resistencia_2+15);
+            if(!_Protoboard_Funcional.protoboard[(int)transformar_x_patita][(int)transformar_y_patita].conexion){
                 double[] puntoCercano = alcanzarPuntoCercano(patitas_x_resistencia_2,patitas_y_resistencia_2);
                 if (puntoCercano != null) {
                     patitas_x_resistencia_2 = (int) (puntoCercano[0] - 15);
