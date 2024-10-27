@@ -354,17 +354,39 @@ public class Controlador_Protoboard implements Initializable {
             dibujador.dibujarOctoSwitch(x_Octo_switch, y_Octo_switch, gc, _Protoboard_Funcional);
         }
         for (int i = 0 ; i < arreglo_coordenadas_resistencias.size(); i+=2){
-            double x_resistencia = arreglo_coordenadas_resistencias.get(i);
-            double y_resistencia = arreglo_coordenadas_resistencias.get(i+1);
-            double patita_x1 = arreglo_coordenadas_resistencias_patitas.get(i);
-            double patita_y1 = arreglo_coordenadas_resistencias_patitas.get(i+1);
-            double patita_x2 = arreglo_coordenadas_resistencias_patitas.get(i+2);
-            double patita_y2 = arreglo_coordenadas_resistencias_patitas.get(i+3);
-            int banda1 = (int) Math.floor(Math.random()*10);
-            int banda2 = (int) Math.floor(Math.random()*10);
-            int multiplicador = (int) Math.floor(Math.random()*10);
-            int tolerancia = (int) Math.floor(Math.random()*3);
-            dibujador.dibujarResistencia(gc, x_resistencia,y_resistencia,patita_x1,patita_y1,patita_x2,patita_y2,banda1,banda2,multiplicador,tolerancia);
+
+            // transformar las coordenadas a coordenadas de matriz para ver cual resistencia es y poder recuperar su banda1, banda2, multiplicador y tolerancia
+
+//            int transformacion_x_2 = (int) (patita_x2) / 20;
+//            int transformacion_y_2 = transformacionY_coordA_Matriz((int) patita_y2+15);
+            int banda1=0, banda2=0, multiplicador=0, tolerancia=0;
+
+
+            double patita_x1=0, patita_y1=0, patita_x2=0, patita_y2=0;
+            double x_resistencia = 0, y_resistencia = 0;
+            x_resistencia = arreglo_coordenadas_resistencias.get(i);
+            y_resistencia = arreglo_coordenadas_resistencias.get(i + 1);
+
+                patita_x1 = arreglo_coordenadas_resistencias_patitas.get((i*2));
+                patita_y1 = arreglo_coordenadas_resistencias_patitas.get(((i*2)+1));
+                patita_x2 = arreglo_coordenadas_resistencias_patitas.get(((i*2)+2));
+                patita_y2 = arreglo_coordenadas_resistencias_patitas.get(((i*2)+3));
+                int transformacion_x_1 = (int) (patita_x1) / 20;
+                int transformacion_y_1 = transformacionY_coordA_Matriz((int) patita_y1 + 15);
+                if (_Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia != null && _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.posicion1.coordenadax != -1) {
+                    banda1 = _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.banda_1;
+                    banda2 = _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.banda_2;
+                    multiplicador = _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.multiplicador;
+                    tolerancia = _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.tolerancia;
+
+                }
+
+
+            dibujador.dibujarResistencia(gc, x_resistencia, y_resistencia, patita_x1, patita_y1, patita_x2, patita_y2, banda1, banda2, multiplicador, tolerancia);
+
+
+
+
         }
         for (int i = 0 ; i < arreglo_coordenadas_chip.size(); i+=2){
             double x_chip = arreglo_coordenadas_chip.get(i);
@@ -531,10 +553,11 @@ public class Controlador_Protoboard implements Initializable {
                             arreglo_coordenadas_resistencias.remove(i);
                             arreglo_coordenadas_resistencias.remove(i);
 
-                            arreglo_coordenadas_resistencias_patitas.remove(i);
-                            arreglo_coordenadas_resistencias_patitas.remove(i);
-                            arreglo_coordenadas_resistencias_patitas.remove(i);
-                            arreglo_coordenadas_resistencias_patitas.remove(i);
+                            arreglo_coordenadas_resistencias_patitas.remove(i*2);
+                            arreglo_coordenadas_resistencias_patitas.remove(i*2);
+                            arreglo_coordenadas_resistencias_patitas.remove(i*2);
+                            arreglo_coordenadas_resistencias_patitas.remove(i*2);
+
 
                             _Protoboard_Funcional.eliminarElemento(_Protoboard_Funcional, posicion1_x, posicion1_y);
 
@@ -894,6 +917,7 @@ public class Controlador_Protoboard implements Initializable {
                     }
                 }
             }
+            _Protoboard_Funcional.QuemadoCheck(_Protoboard_Funcional);
             gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
             dibujarTodo();
 
@@ -927,7 +951,7 @@ public class Controlador_Protoboard implements Initializable {
 
                 }
             }
-
+            _Protoboard_Funcional.QuemadoCheck(_Protoboard_Funcional);
             gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
             dibujarTodo();
 
