@@ -14,6 +14,7 @@ public class Switch extends Indicador {
     }
 
     public void pasarCorriente(protoboard _Protoboard, int pos_central_x, int pos_central_y) {
+        System.out.println("entra aca??");
         int pos_1_x = pos_central_x - 1;
         int pos_1_y = pos_central_y - 1;
 
@@ -70,6 +71,8 @@ public class Switch extends Indicador {
                     }
                 }
                 if (encuentra_cable_abajo) {
+
+
                     for (int i = 8; i < 13; i++) {
                         _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = true;
                         _Protoboard.protoboard[pos_1_x][i]._posicion.polaridad = _Protoboard.protoboard[guarda_fil_cable][guarda_col_cable]._cable.posicion1.polaridad;
@@ -822,11 +825,6 @@ public class Switch extends Indicador {
                         Led _led = _Protoboard.protoboard[guarda_x_cable][i]._led;
                         _Protoboard.cambiarEstadoLed(_Protoboard, _led);
                     }
-                    if (_Protoboard.protoboard[guarda_x_cable][i]._cable!=null && _Protoboard.protoboard[guarda_x_cable][i]._cable.posicion1.coordenadax!=-1){
-                        cable _cable = _Protoboard.protoboard[guarda_x_cable][i]._cable;
-                        _Protoboard.protoboard[guarda_x_cable][i]._posicion.corriente = true;
-                        _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
-                    }
                 }
                 // devolver corriente a la columna original
                 for (int i = 2; i < 7; i++) {
@@ -851,11 +849,6 @@ public class Switch extends Indicador {
                         Led _led = _Protoboard.protoboard[guarda_x_cable][i]._led;
 
                         _Protoboard.cambiarEstadoLed(_Protoboard, _led);
-                    }
-                    if (_Protoboard.protoboard[guarda_x_cable][i]._cable!=null && _Protoboard.protoboard[guarda_x_cable][i]._cable.posicion1.coordenadax!=-1){
-                        cable _cable = _Protoboard.protoboard[guarda_x_cable][i]._cable;
-                        _Protoboard.protoboard[guarda_x_cable][i]._posicion.corriente = true;
-                        _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
                     }
                 }
                 // devolver corriente a la columna original
@@ -900,11 +893,7 @@ public class Switch extends Indicador {
                         Led _led = _Protoboard.protoboard[_switch.posicion1.coordenadax][i]._led;
                         _Protoboard.cambiarEstadoLed(_Protoboard, _led);
                     }
-                    if (_Protoboard.protoboard[_switch.posicion1.coordenadax][i]._cable!=null && _Protoboard.protoboard[_switch.posicion1.coordenadax][i]._cable.posicion1.coordenadax!=-1){
-                        cable _cable = _Protoboard.protoboard[_switch.posicion1.coordenadax][i]._cable;
-                        _Protoboard.protoboard[_switch.posicion1.coordenadax][i]._posicion.corriente = false;
-                        _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
-                    }
+
                 }
                 // devolver corriente a la columna original
                 for (int i = 8; i < 13; i++) {
@@ -928,11 +917,6 @@ public class Switch extends Indicador {
                         _Protoboard.protoboard[_switch.posicion4.coordenadax][i]._posicion.corriente = true;
                         Led _led = _Protoboard.protoboard[_switch.posicion4.coordenadax][i]._led;
                         _Protoboard.cambiarEstadoLed(_Protoboard, _led);
-                    }
-                    if (_Protoboard.protoboard[_switch.posicion4.coordenadax][i]._cable!=null && _Protoboard.protoboard[_switch.posicion4.coordenadax][i]._cable.posicion1.coordenadax!=-1){
-                        cable _cable = _Protoboard.protoboard[_switch.posicion4.coordenadax][i]._cable;
-                        _Protoboard.protoboard[_switch.posicion4.coordenadax][i]._posicion.corriente = false;
-                        _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
                     }
                 }
                 // devolver corriente a la columna original
@@ -988,11 +972,6 @@ public class Switch extends Indicador {
                                 Led _led = _Protoboard.protoboard[_switch.posicion1.coordenadax][i]._led;
                                 _Protoboard.cambiarEstadoLed(_Protoboard, _led);
                             }
-                            if (_Protoboard.protoboard[_switch.posicion1.coordenadax][i]._cable!=null && _Protoboard.protoboard[_switch.posicion1.coordenadax][i]._cable.posicion1.coordenadax!=-1){
-                                cable _cable = _Protoboard.protoboard[_switch.posicion1.coordenadax][i]._cable;
-                                _Protoboard.protoboard[_switch.posicion1.coordenadax][i]._posicion.corriente = true;
-                                _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
-                            }
                         }
                         // devolver corriente a la columna original
                         for (int i = 8; i < 13; i++) {
@@ -1016,11 +995,6 @@ public class Switch extends Indicador {
                                 _Protoboard.protoboard[_switch.posicion4.coordenadax][i]._posicion.corriente = true;
                                 Led _led = _Protoboard.protoboard[_switch.posicion4.coordenadax][i]._led;
                                 _Protoboard.cambiarEstadoLed(_Protoboard, _led);
-                            }
-                            if (_Protoboard.protoboard[_switch.posicion4.coordenadax][i]._cable!=null && _Protoboard.protoboard[_switch.posicion4.coordenadax][i]._cable.posicion1.coordenadax!=-1){
-                                cable _cable = _Protoboard.protoboard[_switch.posicion4.coordenadax][i]._cable;
-                                _Protoboard.protoboard[_switch.posicion4.coordenadax][i]._posicion.corriente = true;
-                                _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
                             }
                         }
                         // devolver corriente a la columna original
@@ -1069,11 +1043,6 @@ public class Switch extends Indicador {
                                 Led _led = _Protoboard.protoboard[_switch.posicion1.coordenadax][i]._led;
                                 _Protoboard.cambiarEstadoLed(_Protoboard, _led);
                             }
-                            if (_Protoboard.protoboard[_switch.posicion1.coordenadax][i]._cable!=null && _Protoboard.protoboard[_switch.posicion1.coordenadax][i]._cable.posicion1.coordenadax!=-1){
-                                cable _cable = _Protoboard.protoboard[_switch.posicion1.coordenadax][i]._cable;
-                                _Protoboard.protoboard[_switch.posicion1.coordenadax][i]._posicion.corriente = false;
-                                _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
-                            }
                         }
                         // devolver corriente a la columna original
                         for (int i = 2; i < 7; i++) {
@@ -1098,11 +1067,7 @@ public class Switch extends Indicador {
                                 Led _led = _Protoboard.protoboard[_switch.posicion4.coordenadax][i]._led;
                                 _Protoboard.cambiarEstadoLed(_Protoboard, _led);
                             }
-                            if (_Protoboard.protoboard[_switch.posicion4.coordenadax][i]._cable!=null && _Protoboard.protoboard[_switch.posicion4.coordenadax][i]._cable.posicion1.coordenadax!=-1){
-                                cable _cable = _Protoboard.protoboard[_switch.posicion4.coordenadax][i]._cable;
-                                _Protoboard.protoboard[_switch.posicion4.coordenadax][i]._posicion.corriente = true;
-                                _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
-                            }
+
                         }
                         // devolver corriente a la columna original
                         for (int i = 2; i < 7; i++) {
@@ -1122,6 +1087,7 @@ public class Switch extends Indicador {
                 }
 
             } else {
+                System.out.println("aaaaaaa");
                 // si no esta prendido, se borran las de abajo que no tengan cable
                 for (int i = 8; i < 13 && !encuentra_un_cable; i++) {
                     // si encuentra un cable
@@ -1133,26 +1099,26 @@ public class Switch extends Indicador {
                     if (_Protoboard.protoboard[_switch.posicion1.coordenadax][i]._cable != null && _Protoboard.protoboard[_switch.posicion1.coordenadax][i]._cable.posicion1.coordenadax != -1) {
                         encuentra_un_cable = true;
                         guarda_x_cable = _switch.posicion1.coordenadax;
+                        System.out.println("guarda cable pos 1");
                     } else if (_Protoboard.protoboard[_switch.posicion4.coordenadax][i]._cable != null && _Protoboard.protoboard[_switch.posicion4.coordenadax][i]._cable.posicion1.coordenadax != -1) {
                         encuentra_un_cable = true;
                         guarda_x_cable = _switch.posicion4.coordenadax;
+                        System.out.println("guarda cable pos 4");
                     }
                 }
                 if (guarda_x_cable == _switch.posicion1.coordenadax) {
+                    System.out.println("entro pos 1");
                     for (int i = 8; i < 13; i++) {
+                        System.out.println("dando corriente pos 1");
                         _Protoboard.protoboard[_switch.posicion1.coordenadax][i]._posicion.corriente = true;
                         if (_Protoboard.protoboard[_switch.posicion1.coordenadax][i]._led != null && _Protoboard.protoboard[_switch.posicion1.coordenadax][i]._led.posicion1.coordenadax != -1) {
                             _Protoboard.protoboard[_switch.posicion1.coordenadax][i]._posicion.corriente = true;
                             Led _led = _Protoboard.protoboard[_switch.posicion1.coordenadax][i]._led;
                             _Protoboard.cambiarEstadoLed(_Protoboard, _led);
                         }
-                        if (_Protoboard.protoboard[_switch.posicion1.coordenadax][i]._cable!=null && _Protoboard.protoboard[_switch.posicion1.coordenadax][i]._cable.posicion1.coordenadax!=-1){
-                            cable _cable = _Protoboard.protoboard[_switch.posicion1.coordenadax][i]._cable;
-                            _Protoboard.protoboard[_switch.posicion1.coordenadax][i]._posicion.corriente = false;
-                            _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
-                        }
+
                     }
-                    // devolver corriente a la columna original
+                    // borrar corriente a la columna original
                     for (int i = 8; i < 13; i++) {
 
                         _Protoboard.protoboard[_switch.posicion4.coordenadax][i]._posicion.corriente = false;
@@ -1176,13 +1142,9 @@ public class Switch extends Indicador {
                             Led _led = _Protoboard.protoboard[_switch.posicion4.coordenadax][i]._led;
                             _Protoboard.cambiarEstadoLed(_Protoboard, _led);
                         }
-                        if(_Protoboard.protoboard[_switch.posicion4.coordenadax][i]._cable!=null && _Protoboard.protoboard[_switch.posicion4.coordenadax][i]._cable.posicion1.coordenadax!=-1){
-                            cable _cable = _Protoboard.protoboard[_switch.posicion4.coordenadax][i]._cable;
-                            _Protoboard.protoboard[_switch.posicion4.coordenadax][i]._posicion.corriente = true;
-                            _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
-                        }
+
                     }
-                    // devolver corriente a la columna original
+                    // borrar corriente a la columna original
                     for (int i = 8; i < 13; i++) {
                         _Protoboard.protoboard[_switch.posicion1.coordenadax][i]._posicion.corriente = false;
                         if (_Protoboard.protoboard[_switch.posicion1.coordenadax][i]._led != null && _Protoboard.protoboard[_switch.posicion1.coordenadax][i]._led.posicion1.coordenadax != -1) {
