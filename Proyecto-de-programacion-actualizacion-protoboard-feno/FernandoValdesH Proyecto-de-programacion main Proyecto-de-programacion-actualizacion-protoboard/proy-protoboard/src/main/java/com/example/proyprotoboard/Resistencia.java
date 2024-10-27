@@ -17,24 +17,25 @@ public class Resistencia extends Indicador{
     }
     public void pasarCorriente(protoboard _Protoboard, int pos_1_x, int pos_1_y, int pos_2_x, int pos_2_y, Resistencia _resistencia){
         if (_Protoboard.protoboard[pos_1_x][pos_1_y]._posicion.corriente){
-            if (pos_1_y < 7 && pos_1_y > 1){
+            if (pos_2_y < 7 && pos_2_y > 1){
 
                 for (int i = 2 ; i < 7 ; i++){
                     _Protoboard.protoboard[pos_2_x][i]._posicion.corriente = true;
                     _Protoboard.protoboard[pos_2_x][i]._posicion.polaridad = _Protoboard.protoboard[pos_1_x][pos_1_y]._posicion.polaridad;
-                    if (_Protoboard.protoboard[pos_2_x][i]._led!=null && _Protoboard.protoboard[pos_1_x][i]._led.posicion1.coordenadax!=-1){
-                        _Protoboard.protoboard[pos_2_x][i]._posicion.corriente = false;
-                        _Protoboard.cambiarEstadoLed(_Protoboard, _Protoboard.protoboard[pos_1_x][i]._led);
+                    if (_Protoboard.protoboard[pos_2_x][i]._led!=null && _Protoboard.protoboard[pos_2_x][i]._led.posicion1.coordenadax!=-1){
+                        _Protoboard.protoboard[pos_2_x][i]._posicion.corriente = true;
+                        _Protoboard.cambiarEstadoLed(_Protoboard, _Protoboard.protoboard[pos_2_x][i]._led);
                     }
 
                 }
-            } else if (pos_1_y > 7 && pos_1_y < 13){
+            } else if (pos_2_y > 7 && pos_2_y < 13){
                 for (int i = 8 ; i < 13 ; i++){
                     _Protoboard.protoboard[pos_2_x][i]._posicion.corriente = true;
                     _Protoboard.protoboard[pos_2_x][i]._posicion.polaridad = _Protoboard.protoboard[pos_1_x][pos_1_y]._posicion.polaridad;
-                    if (_Protoboard.protoboard[pos_2_x][i]._led!=null && _Protoboard.protoboard[pos_1_x][i]._led.posicion1.coordenadax!=-1){
-                        _Protoboard.protoboard[pos_2_x][i]._posicion.corriente = false;
-                        _Protoboard.cambiarEstadoLed(_Protoboard, _Protoboard.protoboard[pos_1_x][i]._led);
+                    if (_Protoboard.protoboard[pos_2_x][i]._led!=null && _Protoboard.protoboard[pos_2_x][i]._led.posicion1.coordenadax!=-1){
+                        System.out.println("encontro un led corriente resistencia");
+                        _Protoboard.protoboard[pos_2_x][i]._posicion.corriente = true;
+                        _Protoboard.cambiarEstadoLed(_Protoboard, _Protoboard.protoboard[pos_2_x][i]._led);
                     }
 
                 }
@@ -55,6 +56,8 @@ public class Resistencia extends Indicador{
                     _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = true;
                     _Protoboard.protoboard[pos_1_x][i]._posicion.polaridad = _Protoboard.protoboard[pos_2_x][pos_2_y]._posicion.polaridad;
                     if (_Protoboard.protoboard[pos_1_x][i]._led!=null && _Protoboard.protoboard[pos_1_x][i]._led.posicion1.coordenadax!=-1){
+
+                        System.out.println("encontro un led corriente resistencia");
                         _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = true;
                         _Protoboard.cambiarEstadoLed(_Protoboard, _Protoboard.protoboard[pos_1_x][i]._led);
                     }
@@ -130,6 +133,28 @@ public class Resistencia extends Indicador{
                     if (_Protoboard.protoboard[pos_1_x][i]._led!=null && _Protoboard.protoboard[pos_1_x][i]._led.posicion1.coordenadax!=-1){
                         _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = false;
                         _Protoboard.cambiarEstadoLed(_Protoboard, _Protoboard.protoboard[pos_1_x][i]._led);
+                    }
+                }
+            }
+            else {
+                // apagar la corriente de todo
+                if (pos_1_y < 7){
+                    for (int i = 2 ; i < 7 ; i++){
+                        _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = false;
+                        _Protoboard.protoboard[pos_2_x][i]._posicion.corriente = false;
+                        if (_Protoboard.protoboard[pos_1_x][i]._led!=null && _Protoboard.protoboard[pos_1_x][i]._led.posicion1.coordenadax!=-1){
+                            _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = false;
+                            _Protoboard.cambiarEstadoLed(_Protoboard, _Protoboard.protoboard[pos_1_x][i]._led);
+                        }
+                    }
+                } else if (pos_1_y > 7){
+                    for (int i = 8 ; i < 13 ; i++){
+                        _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = false;
+                        _Protoboard.protoboard[pos_2_x][i]._posicion.corriente = false;
+                        if (_Protoboard.protoboard[pos_1_x][i]._led!=null && _Protoboard.protoboard[pos_1_x][i]._led.posicion1.coordenadax!=-1){
+                            _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = false;
+                            _Protoboard.cambiarEstadoLed(_Protoboard, _Protoboard.protoboard[pos_1_x][i]._led);
+                        }
                     }
                 }
             }
