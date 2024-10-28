@@ -579,7 +579,7 @@ public class Controlador_Protoboard implements Initializable {
                                 arreglo_coordenadas_chip.remove(i);
                                 arreglo_coordenadas_chip.remove(i);
 
-                                //_Protoboard_Funcional.eliminarElemento(_Protoboard_Funcional, posicion1_x, posicion1_y);
+                                _Protoboard_Funcional.eliminarElemento(_Protoboard_Funcional, posicion1_x, posicion1_y);
 
                                 gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
                                 dibujarTodo();
@@ -1164,9 +1164,14 @@ public class Controlador_Protoboard implements Initializable {
                 inicio_y = puntoCercano[1];
             } arreglo_coordenadas_chip.add(inicio_x-27); arreglo_coordenadas_chip.add(inicio_y-22);
             dibujador.dibujarChip(gc, (int) (inicio_x-27), (int) (inicio_y-22));
-            int transformacion_x_switch = (int) ((inicio_x - 15 ) / 20);
-            int transformacion_y_switch= transformacionY_coordA_Matriz(inicio_y);
+            int transformacion_x_chip = (int) ((inicio_x - 15 ) / 20);
+            int transformacion_y_chip= transformacionY_coordA_Matriz(inicio_y);
+            // recuperar el punto de arriba a la izquierda
+            transformacion_x_chip = transformacion_x_chip-1;
+            transformacion_y_chip = transformacion_y_chip-1;
+            System.out.println("transformacion x "+transformacion_x_chip+" transformacion y "+transformacion_y_chip);
 
+            _Protoboard_Funcional.chipSet(_Protoboard_Funcional, transformacion_x_chip, transformacion_y_chip);
 
             btnAgregarCable.setDisable(false);
             btnAgregarLed.setDisable(false);
