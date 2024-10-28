@@ -7,6 +7,8 @@ public class logicalProtoboard{
     Switch _switch ;
     OctoSwitch _octoSwitch ;
     Resistencia _resistencia ;
+    Chip _chip ;
+
     public logicalProtoboard(){
         this.conexion = false ;
         this._posicion = new Posicion() ;
@@ -15,6 +17,7 @@ public class logicalProtoboard{
         this._switch = new Switch() ;
         this._octoSwitch = new OctoSwitch() ;
         this._resistencia = new Resistencia() ;
+        this._chip = new Chip() ;
     }
 
 }
