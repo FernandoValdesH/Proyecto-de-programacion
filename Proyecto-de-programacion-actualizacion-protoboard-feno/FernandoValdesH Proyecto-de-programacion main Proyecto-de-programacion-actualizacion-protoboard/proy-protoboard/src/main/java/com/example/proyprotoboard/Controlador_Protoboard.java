@@ -7,20 +7,22 @@ import javafx.fxml.Initializable;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.PixelReader;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
+import javafx.util.Pair;
 
 import javax.swing.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controlador_Protoboard implements Initializable {
@@ -82,7 +84,7 @@ public class Controlador_Protoboard implements Initializable {
     private Dibujador dibujador = new Dibujador();
     int contador_cables;
 
-    logicalProtoboard[][] Protoboard_logica = new logicalProtoboard[30][15];
+    logicalProtoboard[][] Protoboard_logica = new logicalProtoboard[30][17];
     protoboard _Protoboard_Funcional = protoboard.getInstance(Protoboard_logica);
 
 
@@ -112,11 +114,11 @@ public class Controlador_Protoboard implements Initializable {
         if (y < 68){
             y = (y - 15) /15;
         } else if (y >= 68 && y < 150){
-            y =  (((y - 15) /15) -1);
+            y =  (((y - 15) /15));
         } else if (y >= 150 && y <= 225){
-            y =  (((y ) /15)-3);
+            y =  (((y ) /15)-2);
         } else if (y > 225){
-            y = ((y  /15 )-4);
+            y = ((y  /15 )-2);
         }
         return (int) y;
     }
@@ -258,6 +260,7 @@ public class Controlador_Protoboard implements Initializable {
         btnAgregarChip.setDisable(true);
         activar_eliminacion=true;
     }
+    private String tipo_chip = "";
     public void agregarChip(){
         btnAgregarCable.setDisable(true);
         btnAgregarLed.setDisable(true);
@@ -266,6 +269,22 @@ public class Controlador_Protoboard implements Initializable {
         btnAgregarOctoSwitch.setDisable(true);
         btnAgregarResistencia.setDisable(true);
         btnAgregarChip.setDisable(true);
+
+        List<String> opciones = new ArrayList<>();
+        opciones.add("AND");
+        opciones.add("OR");
+        opciones.add("NOT");
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("AND", opciones);
+        dialog.setTitle("Seleccionar Tipo de chip");
+        dialog.setHeaderText("Seleccione un tipo de chip de la lista:");
+        dialog.setContentText("Tipo de chip:");
+
+        dialog.showAndWait().ifPresent(tipo -> {
+            System.out.println("Tipo seleccionado: " + tipo);
+            // Aquí puedes manejar la opción seleccionada
+            tipo_chip = tipo;
+        });
         JOptionPane.showMessageDialog(null, "Seleccione el punto central de donde desea ubicar");
         agregar_chip = true;
     }
@@ -391,7 +410,12 @@ public class Controlador_Protoboard implements Initializable {
         for (int i = 0 ; i < arreglo_coordenadas_chip.size(); i+=2){
             double x_chip = arreglo_coordenadas_chip.get(i);
             double y_chip = arreglo_coordenadas_chip.get(i+1);
-            dibujador.dibujarChip(gc, (int) x_chip, (int) y_chip);
+            // transformar y ver que tipo de chip es
+            int transformacion_x = (int) (x_chip) / 20;
+            int transformacion_y = transformacionY_coordA_Matriz((int) y_chip + 15);
+            if (_Protoboard_Funcional.protoboard[transformacion_x][transformacion_y]._chip != null && _Protoboard_Funcional.protoboard[transformacion_x][transformacion_y]._chip.posicion1.coordenadax != -1){
+                dibujador.dibujarChip(gc, (int) x_chip, (int) y_chip, _Protoboard_Funcional.protoboard[transformacion_x][transformacion_y]._chip.tipo_chip);
+            }
         }
     }
 
@@ -498,14 +522,14 @@ public class Controlador_Protoboard implements Initializable {
                     _Protoboard_Funcional.eliminarCorriente(_Protoboard_Funcional, posicion1_x, posicion1_y, true);
 
                     for (int fil = 0 ; fil < 30 ; fil++){
-                        for (int com = 0 ; com < 15 ; com++){
+                        for (int com = 0 ; com < 17 ; com++){
                             if (_Protoboard_Funcional.protoboard[fil][com]._led!=null && _Protoboard_Funcional.protoboard[fil][com]._led.posicion1.coordenadax!=-1){
                                 _Protoboard_Funcional.protoboard[fil][com]._led.revisado=false;
                             }
                         }
                     }
                     for (int fil = 0; fil < 30; fil++) {
-                        for (int com = 0; com < 15; com++) {
+                        for (int com = 0; com < 17; com++) {
                             if (_Protoboard_Funcional.protoboard[fil][com]._cable!=null){
                                 _Protoboard_Funcional.protoboard[fil][com]._cable.procesado=false;
                             }
@@ -546,8 +570,8 @@ public class Controlador_Protoboard implements Initializable {
                             }
                         } i = i-2;
                         if (cent_resistencia){
-                            int posicion1_x = (int) (((arreglo_coordenadas_resistencias_patitas.get(i))) / 20);
-                            int posicion1_y = (arreglo_coordenadas_resistencias_patitas.get(i+1).intValue());
+                            int posicion1_x = (int) (((arreglo_coordenadas_resistencias_patitas.get(i*2))) / 20);
+                            int posicion1_y = (arreglo_coordenadas_resistencias_patitas.get((i*2)+1).intValue());
                             posicion1_y = transformacionY_coordA_Matriz(posicion1_y+15);
 
                             arreglo_coordenadas_resistencias.remove(i);
@@ -743,7 +767,7 @@ public class Controlador_Protoboard implements Initializable {
                         btnAgregarChip.setDisable(false);
                     }}}
             for (int fil = 0; fil < 30; fil++) {
-                for (int com = 0; com < 15; com++) {
+                for (int com = 0; com < 17; com++) {
                     if (_Protoboard_Funcional.protoboard[fil][com]._cable!=null){
                         _Protoboard_Funcional.protoboard[fil][com]._cable.procesado=false;
                     }
@@ -903,7 +927,7 @@ public class Controlador_Protoboard implements Initializable {
             System.out.println("se apago la bateria");
             // buscamos el o los cables conectados a la bateria y eliminamos corriente
             for (int fil = 0; fil < 30; fil++) {
-                for (int com = 0; com < 15; com++) {
+                for (int com = 0; com < 17; com++) {
                     if (_Protoboard_Funcional.protoboard[fil][com]._cable!=null){
                         _Protoboard_Funcional.protoboard[fil][com]._cable.procesado=false;
                     }
@@ -911,7 +935,7 @@ public class Controlador_Protoboard implements Initializable {
                 }
             }
             for (int i = 0 ; i < 30 ; i++){
-                for (int j = 0 ; j < 15 ; j++){
+                for (int j = 0 ; j < 17 ; j++){
                     if (_Protoboard_Funcional.protoboard[i][j]._cable != null && _Protoboard_Funcional.protoboard[i][j]._cable.conexionBateria){
                         _Protoboard_Funcional.eliminarCorriente(_Protoboard_Funcional, i, j, true);
                     }
@@ -928,7 +952,7 @@ public class Controlador_Protoboard implements Initializable {
             dibujarTodo();
             // buscamos el o los cables conectados a la bateria y pasamos corriente
             for (int fil = 0; fil < 30; fil++) {
-                for (int com = 0; com < 15; com++) {
+                for (int com = 0; com < 17; com++) {
                     if (_Protoboard_Funcional.protoboard[fil][com]._cable!=null){
                         _Protoboard_Funcional.protoboard[fil][com]._cable.procesado=false;
                     }
@@ -936,7 +960,7 @@ public class Controlador_Protoboard implements Initializable {
                 }
             }
             for (int i = 0 ; i < 30 ; i++){
-                for (int j = 0 ; j < 15 ; j++){
+                for (int j = 0 ; j < 17 ; j++){
                     if (_Protoboard_Funcional.protoboard[i][j]._cable != null && _Protoboard_Funcional.protoboard[i][j]._cable.posicion1.coordenadax!=-1 && _Protoboard_Funcional.protoboard[i][j]._cable.conexionBateria){
                         cable _cable = _Protoboard_Funcional.protoboard[i][j]._cable;
                         _Protoboard_Funcional.pasarCorriente(_Protoboard_Funcional, _cable);
@@ -944,7 +968,7 @@ public class Controlador_Protoboard implements Initializable {
                 }
             }
             for (int fil = 0; fil < 30; fil++) {
-                for (int com = 0; com < 15; com++) {
+                for (int com = 0; com < 17; com++) {
                     if (_Protoboard_Funcional.protoboard[fil][com]._cable!=null){
                         _Protoboard_Funcional.protoboard[fil][com]._cable.procesado=false;
                     }
@@ -1070,6 +1094,7 @@ public class Controlador_Protoboard implements Initializable {
                 agregar_patita_1=false;
                 agregar_patita_2=true;}
         }
+
         if (agregar_patita_2&&click_count==2) {
 
 
@@ -1096,24 +1121,75 @@ public class Controlador_Protoboard implements Initializable {
                 patitas_x_resistencia=arreglo_coordenadas_resistencias_patitas.get(tamaño_patitas-4);
                 patitas_y_resistencia=arreglo_coordenadas_resistencias_patitas.get(tamaño_patitas-3);
 
-                String entrada_1 = JOptionPane.showInputDialog(null, "Ingrese valor del 0 al 9");
-                String entrada_2 = JOptionPane.showInputDialog(null, "Ingrese valor del 0 al 9");
-                String entrada_3 = JOptionPane.showInputDialog(null, "Ingrese valor del 0 al 9");
-                String entrada_4 = JOptionPane.showInputDialog(null, "Ingrese valor del 1 al 2");
 
-                int banda1=0;
-                int banda2=0;
-                int multiplicador=0;
-                int tolerancia=0;
+
+
+                Dialog<List<Pair<String, String>>> dialog = new Dialog<>();
+                dialog.setTitle("Datos resistencia");
+
+                // Set the button types
+                dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+                // Create the combo boxes
+                ComboBox<String> comboBox1 = new ComboBox<>();
+                comboBox1.getItems().addAll("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
+                comboBox1.setPromptText("Valor banda 1");
+
+                ComboBox<String> comboBox2 = new ComboBox<>();
+                comboBox2.getItems().addAll("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
+                comboBox2.setPromptText("Valor banda 2");
+
+                ComboBox<String> comboBox3 = new ComboBox<>();
+                comboBox3.getItems().addAll("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
+                comboBox3.setPromptText("Valor multiplicador");
+
+                ComboBox<String> ComboBox4 = new ComboBox<>();
+                ComboBox4.getItems().addAll("1", "2");
+                ComboBox4.setPromptText("Valor tolerancia");
+
+                // Create a grid pane and add the combo boxes
+                GridPane grid = new GridPane();
+                grid.setHgap(10);
+                grid.setVgap(10);
+                grid.add(new Label("Tipo X:"), 0, 0);
+                grid.add(comboBox1, 1, 0);
+                grid.add(new Label("Tipo Y:"), 0, 1);
+                grid.add(comboBox2, 1, 1);
+                grid.add(new Label("Tipo Z:"), 0, 2);
+                grid.add(comboBox3, 1, 2);
+                grid.add(new Label("Tipo 4:"), 0, 3);
+                grid.add(ComboBox4, 1, 3);
+
+
+                dialog.getDialogPane().setContent(grid);
+
+                dialog.setResultConverter(dialogButton -> {
+                    if (dialogButton == ButtonType.OK) {
+                        List<Pair<String, String>> result = new ArrayList<>();
+                        result.add(new Pair<>("banda 1", comboBox1.getValue()));
+                        result.add(new Pair<>("banda 2", comboBox2.getValue()));
+                        result.add(new Pair<>("multiplicador", comboBox3.getValue()));
+                        result.add(new Pair<>("tolerancia", ComboBox4.getValue()));
+                        return result;
+                    }
+                    return null;
+                });
+
+                int banda1 = 0, banda2 = 0, multiplicador = 0, tolerancia = 0;
+                dialog.showAndWait().ifPresent(result -> {
+                });
+
+                // intentarlo hasta que se ingresen bien los valores
 
                 try {
-                    banda1 = Integer.parseInt(entrada_1);
-                    banda2 = Integer.parseInt(entrada_2);
-                    multiplicador = Integer.parseInt(entrada_3);
-                    tolerancia = Integer.parseInt(entrada_4);
+                    banda1 = Integer.parseInt(comboBox1.getValue());
+                    banda2 = Integer.parseInt(comboBox2.getValue());
+                    multiplicador = Integer.parseInt(comboBox3.getValue());
+                    tolerancia = Integer.parseInt(ComboBox4.getValue());
 
-                } catch (Exception e){
-                    JOptionPane.showMessageDialog(null, "Ingrese valores validos");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Ingrese bien los valores");
+
                 }
                 int transformacion_pos_1_x = (int) ((patitas_x_resistencia ) / 20);
                 int transformacion_pos_1_y = transformacionY_coordA_Matriz(patitas_y_resistencia+15);
@@ -1163,7 +1239,7 @@ public class Controlador_Protoboard implements Initializable {
                 inicio_x = puntoCercano[0];
                 inicio_y = puntoCercano[1];
             } arreglo_coordenadas_chip.add(inicio_x-27); arreglo_coordenadas_chip.add(inicio_y-22);
-            dibujador.dibujarChip(gc, (int) (inicio_x-27), (int) (inicio_y-22));
+            dibujador.dibujarChip(gc, (int) (inicio_x-27), (int) (inicio_y-22),tipo_chip);
             int transformacion_x_chip = (int) ((inicio_x - 15 ) / 20);
             int transformacion_y_chip= transformacionY_coordA_Matriz(inicio_y);
             // recuperar el punto de arriba a la izquierda
@@ -1171,7 +1247,7 @@ public class Controlador_Protoboard implements Initializable {
             transformacion_y_chip = transformacion_y_chip-1;
             System.out.println("transformacion x "+transformacion_x_chip+" transformacion y "+transformacion_y_chip);
 
-            _Protoboard_Funcional.chipSet(_Protoboard_Funcional, transformacion_x_chip, transformacion_y_chip);
+            _Protoboard_Funcional.chipSet(_Protoboard_Funcional, transformacion_x_chip, transformacion_y_chip, tipo_chip);
 
             btnAgregarCable.setDisable(false);
             btnAgregarLed.setDisable(false);
@@ -1224,7 +1300,7 @@ public class Controlador_Protoboard implements Initializable {
                 JOptionPane.showMessageDialog(null,"No se puede poner un switch en los extremos del protoboard.");
             } else if (transformacion_y_switch < 2 || transformacion_y_switch > 12){
                 JOptionPane.showMessageDialog(null,"No se puede poner un switch en los buses del protoboard.");
-            } else if (transformacion_y_switch == 2 || transformacion_y_switch == 12 || transformacion_y_switch == 6 || transformacion_y_switch == 8){
+            } else if (transformacion_y_switch == 3 || transformacion_y_switch == 13 || transformacion_y_switch == 7 || transformacion_y_switch == 9){
                 JOptionPane.showMessageDialog(null,"No se puede poner un switch en los extremos del protoboard.");
             } else {
                 _Protoboard_Funcional.switchSet(_Protoboard_Funcional, transformacion_x_switch,transformacion_y_switch, false);
@@ -1308,6 +1384,10 @@ public class Controlador_Protoboard implements Initializable {
                 {15, 30}, {35, 30},{55, 30},{75, 30}, {95, 30},{130, 30},{135, 30}, {305, 30},{175, 30},{195, 30}, {230, 30},{235, 30},{255, 30}, {275, 30},{295, 30},
                 {330, 30}, {335, 30},{355, 30},{375, 30}, {395, 30},{415, 30},{435, 30}, {455, 30},{475, 30},{495, 30}, {515, 30},{535, 30},{555, 30}, {575, 30},{595, 30},
 
+                // fila 2.5 surco arriba
+                {15,50}, {35,50},{55,50},{75,50}, {95,50},{115,50},{135,50}, {155,50},{175,50},{195,50}, {215,50},{235,50},{255,50}, {275,50},{295,50},
+                {315,50}, {335,50},{355,50},{375,50}, {395,50},{415,50},{435,50}, {455,50},{475,50},{495,50}, {515,50},{535,50},{555,50}, {575,50},{595,50},
+
                 // fila 3 canales
                 {15, 70}, {35, 70},{55, 70},{75, 70}, {95, 70},{115, 70},{135, 70}, {155, 70},{175, 70},{195, 70}, {215, 70},{235, 70},{255, 70}, {275, 70},{295, 70},
                 {315, 70}, {335, 70},{355, 70},{375, 70}, {395, 70},{415, 70},{435, 70}, {455, 70},{475, 70},{495, 70}, {515, 70},{535, 70},{555, 70}, {575, 70},{595, 70},
@@ -1342,6 +1422,9 @@ public class Controlador_Protoboard implements Initializable {
                 // fila 12
                 {15, 225}, {35, 225},{55, 225},{75, 225}, {95, 225},{115, 225},{135, 225}, {155, 225},{175, 225},{195, 225}, {215, 225},{235, 225},{255, 225}, {275, 225},{295, 225},
                 {315, 225}, {335, 225},{355, 225},{375, 225}, {395, 225},{415, 225},{435, 225}, {455, 225},{475, 225},{495, 225}, {515, 225},{535, 225},{555, 225}, {575, 225},{595, 225},
+                // fila 12.5 surco abajo
+                {15, 245}, {35, 245},{55, 245},{75, 245}, {95, 245},{115, 245},{135, 245}, {155, 245},{175, 245},{195, 245}, {215, 245},{235, 245},{255, 245}, {275, 245},{295, 245},
+                {315, 245}, {335, 245},{355, 245},{375, 245}, {395, 245},{415, 245},{435, 245}, {455, 245},{475, 245},{495, 245}, {515, 245},{535, 245},{555, 245}, {575, 245},{595, 245},
                 // buses
                 // fila 13
                 {15, 265}, {35, 265},{55, 265},{75, 265}, {95, 265},{115, 265},{135, 265}, {155, 265},{175, 265},{195, 265}, {215, 265},{235, 265},{255, 265}, {275, 265},{295, 265},

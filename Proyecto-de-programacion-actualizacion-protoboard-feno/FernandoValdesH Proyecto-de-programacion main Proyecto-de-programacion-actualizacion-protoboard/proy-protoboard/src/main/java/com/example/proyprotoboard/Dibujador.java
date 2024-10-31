@@ -35,26 +35,27 @@ public class Dibujador {
         gc.setFill(Color.GRAY);
         // bucle para rellenar de puntos el rectangulo
 
-        for (int j = 0 ; j < 15 ; j++){
+        for (int j = 0 ; j < 17 ; j++){
             for (int i = 0 ; i < 30 ; i++){
                 int transformacion_inversa_x = ((i * 20) + 15)-5;
-                if (j==7){
-                    j++;
-                }
+
+//                if (j==8){
+//                    j++;
+//                }
 
                 if (protoboard.protoboard[i][j]._posicion.corriente){
                     int transformacion_inversa_y = 0;
                     if (j >= 0 && j < 2) {
                         transformacion_inversa_y = ((j * 15 ) + 15) - 5;
-                    } else if (j >= 2 && j <= 6) {
-                        transformacion_inversa_y = (((j + 2) * 15) -5) + 10;
-                    } else if (j > 6 && j <= 12) {
-                        transformacion_inversa_y = ((j + 3) * 15) - 5;
-                    } else if (j > 12) {
-                        transformacion_inversa_y = ((j + 4) * 15) + 5;
+                    } else if (j >= 3 && j <= 7) {
+                        transformacion_inversa_y = (((j + 1) * 15) -5) + 10;
+                    } else if (j > 7 && j <= 13) {
+                        transformacion_inversa_y = ((j + 3) * 15) - 20;
+                    } else if (j > 14) {
+                        transformacion_inversa_y = ((j + 4) * 15) -25;
                     }
 
-                    if (protoboard.protoboard[i][j]._posicion.polaridad) {
+                    if (protoboard.protoboard[i][j]._posicion.polaridad && transformacion_inversa_y!=0) {
                         gc.setFill(Color.RED);
                         gc.fillOval(transformacion_inversa_x, transformacion_inversa_y, 8, 8);
                     } else {
@@ -63,36 +64,37 @@ public class Dibujador {
                     }
 
 
-
                 } else{
                     int transformacion_inversa_y = 0;
-                    if (j >= 0 && j < 2) {
+                    if ( j < 2) {
                         transformacion_inversa_y = ((j * 15 ) + 15) - 5;
-                    } else if (j >= 2 && j <= 6) {
-                        transformacion_inversa_y = (((j + 2) * 15) -5) + 10;
-                    } else if (j > 6 && j <= 12) {
-                        transformacion_inversa_y = ((j + 3) * 15) - 5;
-                    } else if (j > 12) {
-                        transformacion_inversa_y = ((j + 4) * 15) + 5;
+                    } else if (j >= 3 && j <= 7) {
+                        transformacion_inversa_y = (((j + 1) * 15) -5) + 10;
+                    } else if (j > 7 && j <= 13) {
+                        transformacion_inversa_y = ((j + 3) * 15) - 20;
+                    } else if (j > 14) {
+                        transformacion_inversa_y = ((j + 4) * 15) -25;
                     }
-                    if(!protoboard.protoboard[i][j]._posicion.quemado){
+                    if(!protoboard.protoboard[i][j]._posicion.quemado && transformacion_inversa_y!=0){
                         gc.setFill(Color.GRAY);
                         gc.fillOval(transformacion_inversa_x,transformacion_inversa_y,8,8); // luego del X e Y va el tamaño del punto
                     }
-
-
+//                    System.out.println("j: " + j);
                 }
+
                 if (protoboard.protoboard[i][j]._posicion.quemado){
+
                     int transformacion_inversa_y = 0;
-                    if (j >= 0 && j < 2) {
+                    if ( j < 2) {
                         transformacion_inversa_y = ((j * 15 ) + 15) - 5;
-                    } else if (j >= 2 && j <= 6) {
-                        transformacion_inversa_y = (((j + 2) * 15) -5) + 10;
-                    } else if (j > 6 && j <= 12) {
-                        transformacion_inversa_y = ((j + 3) * 15) - 5;
-                    } else if (j > 12) {
-                        transformacion_inversa_y = ((j + 4) * 15) + 5;
+                    } else if (j >= 3 && j <= 7) {
+                        transformacion_inversa_y = (((j + 1) * 15) -5) + 10;
+                    } else if (j > 7 && j <= 13) {
+                        transformacion_inversa_y = ((j + 3) * 15) - 20;
+                    } else if (j > 14) {
+                        transformacion_inversa_y = ((j + 4) * 15) -25;
                     }
+                    protoboard.protoboard[i][j]._posicion.corriente = false;
                     gc.setFill(Color.rgb(3,4,4));
                     gc.fillOval(transformacion_inversa_x, transformacion_inversa_y, 8, 8);
                 }
@@ -601,20 +603,38 @@ public class Dibujador {
         }}
     }
 
-    public void dibujarChip(GraphicsContext gc, int x, int y){
+    public void dibujarChip(GraphicsContext gc, int x, int y, String tipo_chip){
         gc.setFill(Color.rgb(3,4,4));
-        gc.fillRect(x-1, y-1, 75, 44);
+        gc.fillRect(x-1, y-1, 135, 44);
 
         gc.setFill(Color.rgb(113,115,114));
         gc.fillRect(x+4, y-4, 5, 10);
         gc.fillRect(x+24, y-4, 5, 10);
         gc.fillRect(x+44, y-4, 5, 10);
         gc.fillRect(x+64, y-4, 5, 10);
+        gc.fillRect(x+84, y-4, 5, 10);
+        gc.fillRect(x+104, y-4, 5, 10);
+        gc.fillRect(x+124, y-4, 5, 10);
 
         gc.fillRect(x+4, y+35, 5, 10);
         gc.fillRect(x+24, y+35, 5, 10);
         gc.fillRect(x+44, y+35, 5, 10);
         gc.fillRect(x+64, y+35, 5, 10);
+        gc.fillRect(x+84, y+35, 5, 10);
+        gc.fillRect(x+104, y+35, 5, 10);
+        gc.fillRect(x+124, y+35, 5, 10);
+
+        if (tipo_chip.equals("AND")){
+            // set fill color blanco pero usando rgb
+            gc.setFill(Color.rgb(255,255,254));
+            gc.fillText("AND", x+50, y+20);
+        } else if (tipo_chip.equals("OR")){
+            gc.setFill(Color.rgb(255,255,254));
+            gc.fillText("OR", x+50, y+20);
+        } else if (tipo_chip.equals("NOT")){
+            gc.setFill(Color.rgb(255,255,254));
+            gc.fillText("NOT", x+50, y+20);
+        }
     }
 
     public void dibujarDisplay(){}
