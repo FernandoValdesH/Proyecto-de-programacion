@@ -14,7 +14,6 @@ public class Switch extends Indicador {
     }
 
     public void pasarCorriente(protoboard _Protoboard, int pos_central_x, int pos_central_y) {
-        System.out.println("entra aca??");
         int pos_1_x = pos_central_x - 1;
         int pos_1_y = pos_central_y - 1;
 
@@ -46,7 +45,6 @@ public class Switch extends Indicador {
                     _Protoboard.protoboard[pos_1_x][i]._posicion.polaridad = _Protoboard.protoboard[guarda_fil_cable][guarda_col_cable]._cable.posicion1.polaridad;
                     _Protoboard.protoboard[pos_2_x][i]._posicion.corriente = true;
                     _Protoboard.protoboard[pos_2_x][i]._posicion.polaridad = _Protoboard.protoboard[guarda_fil_cable][guarda_col_cable]._cable.posicion1.polaridad;
-
                     if (_Protoboard.protoboard[pos_1_x][i]._led != null && _Protoboard.protoboard[pos_1_x][i]._led.posicion1.coordenadax != -1) {
                         _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = true;
                         Led _led = _Protoboard.protoboard[pos_1_x][i]._led;
@@ -393,11 +391,11 @@ public class Switch extends Indicador {
 
                         _Protoboard.cambiarEstadoLed(_Protoboard, _led);
                     }
-                    if (_Protoboard.protoboard[pos_1_x][i]._cable != null && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenadax != -1 && ((_Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenaday >= 3 && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenaday <= 13))) {
+                    if (_Protoboard.protoboard[pos_1_x][i]._cable != null && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenadax != -1 && ((_Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenaday >= 3 && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenaday <= 13)) && !_Protoboard.protoboard[pos_1_x][i]._cable.procesado) {
                         cable _cable = _Protoboard.protoboard[pos_1_x][i]._cable;
                         _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = false;
                         _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
-                    } else if (_Protoboard.protoboard[pos_4_x][i]._cable != null && _Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenadax != -1 && ((_Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenaday >= 3 && _Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenaday <= 13))) {
+                    } else if (_Protoboard.protoboard[pos_4_x][i]._cable != null && _Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenadax != -1 && ((_Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenaday >= 3 && _Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenaday <= 13)) && !_Protoboard.protoboard[pos_4_x][i]._cable.procesado) {
                         cable _cable = _Protoboard.protoboard[pos_4_x][i]._cable;
                         _Protoboard.protoboard[pos_4_x][i]._posicion.corriente = false;
                         _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
@@ -420,13 +418,15 @@ public class Switch extends Indicador {
                         Led _led = _Protoboard.protoboard[pos_4_x][i]._led;
                         _Protoboard.cambiarEstadoLed(_Protoboard, _led);
                     }
-                    if (_Protoboard.protoboard[pos_1_x][i]._cable != null && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenadax != -1 && ((_Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenaday >= 3 && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenaday <= 13))) {
+                    if (_Protoboard.protoboard[pos_1_x][i]._cable != null && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenadax != -1 && ((_Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenaday >= 3 && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenaday <= 13)) && !_Protoboard.protoboard[pos_1_x][i]._cable.procesado) {
                         cable _cable = _Protoboard.protoboard[pos_1_x][i]._cable;
                         _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = false;
+                        _cable.procesado = true;
                         _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
-                    } else if (_Protoboard.protoboard[pos_4_x][i]._cable != null && _Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenadax != -1 && ((_Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenaday >= 3 && _Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenaday <= 13))) {
+                    } else if (_Protoboard.protoboard[pos_4_x][i]._cable != null && _Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenadax != -1 && ((_Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenaday >= 3 && _Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenaday <= 13)) && !_Protoboard.protoboard[pos_4_x][i]._cable.procesado) {
                         cable _cable = _Protoboard.protoboard[pos_4_x][i]._cable;
                         _Protoboard.protoboard[pos_4_x][i]._posicion.corriente = false;
+                        _cable.procesado = true;
                         _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
                     }
                 }
@@ -449,13 +449,15 @@ public class Switch extends Indicador {
 
                             _Protoboard.cambiarEstadoLed(_Protoboard, _led);
                         }
-                        if (_Protoboard.protoboard[pos_1_x][i]._cable != null && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenadax != -1) {
+                        if (_Protoboard.protoboard[pos_1_x][i]._cable != null && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenadax != -1 && !_Protoboard.protoboard[pos_1_x][i]._cable.procesado) {
                             cable _cable = _Protoboard.protoboard[pos_1_x][i]._cable;
                             _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = false;
+                            _cable.procesado = true;
                             _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
-                        } else if (_Protoboard.protoboard[pos_4_x][i]._cable != null && _Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenadax != -1) {
+                        } else if (_Protoboard.protoboard[pos_4_x][i]._cable != null && _Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenadax != -1 && !_Protoboard.protoboard[pos_4_x][i]._cable.procesado) {
                             cable _cable = _Protoboard.protoboard[pos_4_x][i]._cable;
                             _Protoboard.protoboard[pos_4_x][i]._posicion.corriente = false;
+                            _cable.procesado = true;
                             _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
                         }
                     }
@@ -476,12 +478,14 @@ public class Switch extends Indicador {
 
                             _Protoboard.cambiarEstadoLed(_Protoboard, _led);
                         }
-                        if (_Protoboard.protoboard[pos_1_x][i]._cable != null && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenadax != -1) {
+                        if (_Protoboard.protoboard[pos_1_x][i]._cable != null && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenadax != -1 && !_Protoboard.protoboard[pos_1_x][i]._cable.procesado) {
                             cable _cable = _Protoboard.protoboard[pos_1_x][i]._cable;
+                            _cable.procesado=true;
                             _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = false;
                             _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
-                        } else if (_Protoboard.protoboard[pos_4_x][i]._cable != null && _Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenadax != -1) {
+                        } else if (_Protoboard.protoboard[pos_4_x][i]._cable != null && _Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenadax != -1 && !_Protoboard.protoboard[pos_4_x][i]._cable.procesado) {
                             cable _cable = _Protoboard.protoboard[pos_4_x][i]._cable;
+                            _cable.procesado=true;
                             _Protoboard.protoboard[pos_4_x][i]._posicion.corriente = false;
                             _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
                         }
@@ -503,11 +507,11 @@ public class Switch extends Indicador {
 
                             _Protoboard.cambiarEstadoLed(_Protoboard, _led);
                         }
-                        if (_Protoboard.protoboard[pos_1_x][i]._cable != null && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenadax != -1) {
+                        if (_Protoboard.protoboard[pos_1_x][i]._cable != null && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenadax != -1 && !_Protoboard.protoboard[pos_1_x][i]._cable.procesado) {
                             cable _cable = _Protoboard.protoboard[pos_1_x][i]._cable;
                             _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = false;
                             _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
-                        } else if (_Protoboard.protoboard[pos_4_x][i]._cable != null && _Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenadax != -1) {
+                        } else if (_Protoboard.protoboard[pos_4_x][i]._cable != null && _Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenadax != -1 && !_Protoboard.protoboard[pos_4_x][i]._cable.procesado) {
                             cable _cable = _Protoboard.protoboard[pos_4_x][i]._cable;
                             _Protoboard.protoboard[pos_4_x][i]._posicion.corriente = false;
                             _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
@@ -532,11 +536,11 @@ public class Switch extends Indicador {
 
                             _Protoboard.cambiarEstadoLed(_Protoboard, _led);
                         }
-                        if (_Protoboard.protoboard[pos_1_x][i]._cable != null && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenadax != -1) {
+                        if (_Protoboard.protoboard[pos_1_x][i]._cable != null && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenadax != -1 && !_Protoboard.protoboard[pos_1_x][i]._cable.procesado) {
                             cable _cable = _Protoboard.protoboard[pos_1_x][i]._cable;
                             _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = false;
                             _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
-                        } else if (_Protoboard.protoboard[pos_4_x][i]._cable != null && _Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenadax != -1) {
+                        } else if (_Protoboard.protoboard[pos_4_x][i]._cable != null && _Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenadax != -1 && !_Protoboard.protoboard[pos_4_x][i]._cable.procesado) {
                             cable _cable = _Protoboard.protoboard[pos_4_x][i]._cable;
                             _Protoboard.protoboard[pos_4_x][i]._posicion.corriente = false;
                             _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
@@ -566,7 +570,7 @@ public class Switch extends Indicador {
 
                             _Protoboard.cambiarEstadoLed(_Protoboard, _led);
                         }
-                        if (_Protoboard.protoboard[pos_1_x][i]._cable != null && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenadax != -1) {
+                        if (_Protoboard.protoboard[pos_1_x][i]._cable != null && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenadax != -1 ) {
                             cable _cable = _Protoboard.protoboard[pos_1_x][i]._cable;
                             _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = false;
                             _Protoboard.eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
