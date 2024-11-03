@@ -854,6 +854,7 @@ public class Controlador_Protoboard implements Initializable {
     private void click(MouseEvent event) {
         GraphicsContext gc = tablero.getGraphicsContext2D();
         Color color_click_switch = getColor(event.getX(), event.getY());;
+
         // si el click es del color del boton
         if (color_click_switch.equals(Color.BLACK) && !activar_eliminacion || color_click_switch.equals(Color.LIMEGREEN) && !activar_eliminacion){
             // si presiono algo que podria ser el boton, se busca que sea el boton del switch
@@ -1002,6 +1003,7 @@ public class Controlador_Protoboard implements Initializable {
             dibujarTodo();
 
         }
+
         else if (color_click_switch.equals(Color.DARKBLUE) && !activar_eliminacion){
             double x_del_switch_presionado = event.getX();
             double y_del_switch_presionado = event.getY();
