@@ -361,6 +361,12 @@ public class protoboard {
                     Resistencia _resistencia = _Protoboard.protoboard[i][j]._resistencia;
                     _resistencia.eliminarCorriente(_Protoboard, _resistencia.posicion1.coordenadax, _resistencia.posicion1.coordenaday, _resistencia.posicion2.coordenadax, _resistencia.posicion2.coordenaday);
                 }
+                if (_Protoboard.protoboard[i][j]._chip != null && _Protoboard.protoboard[i][j]._chip.posicion1.coordenadax != -1) {
+                    Chip _chip = _Protoboard.protoboard[i][j]._chip;
+                    if (_chip.tipo_chip.equals("AND")){
+                        _chip.eliminarCorrienteAND(_Protoboard, _chip);
+                    }
+                }
 
                 j++;
             }
@@ -428,6 +434,12 @@ public class protoboard {
                 if (_Protoboard.protoboard[i][j]._resistencia != null && _Protoboard.protoboard[i][j]._resistencia.posicion1.coordenadax != -1) {
                     Resistencia _resistencia = _Protoboard.protoboard[i][j]._resistencia;
                     _resistencia.eliminarCorriente(_Protoboard, _resistencia.posicion1.coordenadax, _resistencia.posicion1.coordenaday, _resistencia.posicion2.coordenadax, _resistencia.posicion2.coordenaday);
+                }
+                if (_Protoboard.protoboard[i][j]._chip != null && _Protoboard.protoboard[i][j]._chip.posicion1.coordenadax != -1) {
+                    Chip _chip = _Protoboard.protoboard[i][j]._chip;
+                    if (_chip.tipo_chip.equals("AND")){
+                        _chip.eliminarCorrienteAND(_Protoboard, _chip);
+                    }
                 }
                 j++;
             }
@@ -522,6 +534,13 @@ public class protoboard {
                     _resistencia.pasarCorriente(_Protoboard, _resistencia.posicion1.coordenadax, _resistencia.posicion1.coordenaday, _resistencia.posicion2.coordenadax, _resistencia.posicion2.coordenaday, _resistencia);
 
                 }
+                // si encuentra un chip
+                if (_Protoboard.protoboard[pos_x][j]._chip != null && _Protoboard.protoboard[pos_x][j]._chip.posicion1.coordenadax != -1) {
+                    Chip _chip = _Protoboard.protoboard[pos_x][j]._chip;
+                    if (_chip.tipo_chip.equals("AND")){
+                        _chip.pasarCorrienteAND(_Protoboard, _chip);
+                    }
+                }
                 j++;
             }
         } else if (pos_y > 8) {
@@ -607,6 +626,14 @@ public class protoboard {
                     Resistencia _resistencia = _Protoboard.protoboard[pos_x][j]._resistencia;
                     _resistencia.pasarCorriente(_Protoboard, _resistencia.posicion1.coordenadax, _resistencia.posicion1.coordenaday, _resistencia.posicion2.coordenadax, _resistencia.posicion2.coordenaday, _resistencia);
 
+                }
+                if (_Protoboard.protoboard[pos_x][j]._chip != null && _Protoboard.protoboard[pos_x][j]._chip.posicion1.coordenadax != -1) {
+                    Chip _chip = _Protoboard.protoboard[pos_x][j]._chip;
+                    // prender la corriente de la posicion del switch y asignarle polaridad
+
+                    if (_chip.tipo_chip.equals("AND")){
+                        _chip.pasarCorrienteAND(_Protoboard, _chip);
+                    }
                 }
                 j++;
             }
@@ -1330,7 +1357,6 @@ public class protoboard {
 
         if (pos_1_y == 7) {
             if (!_switch.prendido) {
-                System.out.println("deberia apagar el switch");
                 boolean encuentra_cable_arriba = false;
                 int guarda_col_cable = 0;
                 int guarda_fil_cable = 0;
@@ -1364,7 +1390,6 @@ public class protoboard {
 
                 }
                 if (encuentra_cable_arriba) {
-                    System.out.println("1cable encontrado en las pos:  " + guarda_fil_cable + " " + guarda_col_cable);
                     for (int i = 9; i < 14; i++) {
                         _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = false;
                         _Protoboard.protoboard[pos_1_x][i]._posicion.polaridad = _Protoboard.protoboard[guarda_fil_cable][guarda_col_cable]._cable.posicion2.polaridad;
@@ -1382,13 +1407,11 @@ public class protoboard {
                         }
                         if (_Protoboard.protoboard[pos_1_x][i]._cable != null && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenadax != -1) {
                             cable _cable = _Protoboard.protoboard[pos_1_x][i]._cable;
-                            System.out.println("1eliminando corriente en " + _cable.posicion2.coordenadax + " " + _cable.posicion2.coordenaday);
                             _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = false;
                             eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
                         }
                         if (_Protoboard.protoboard[pos_4_x][i]._cable != null && _Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenadax != -1) {
                             cable _cable = _Protoboard.protoboard[pos_4_x][i]._cable;
-                            System.out.println("2eliminando corriente en " + _cable.posicion2.coordenadax + " " + _cable.posicion2.coordenaday);
                             _Protoboard.protoboard[pos_4_x][i]._posicion.corriente = false;
                             eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
                         }
@@ -1406,7 +1429,6 @@ public class protoboard {
                             encuentra_cable_abajo = true;
                         }
                     }
-                    System.out.println("2cable encontrado en las pos:  " + guarda_fil_cable + " " + guarda_col_cable);
                     if (encuentra_cable_abajo) {
                         for (int i = 3; i < 8; i++) {
                             _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = false;
@@ -1426,20 +1448,18 @@ public class protoboard {
                             }
                             if (_Protoboard.protoboard[pos_1_x][i]._cable != null && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenadax != -1) {
                                 cable _cable = _Protoboard.protoboard[pos_1_x][i]._cable;
-                                System.out.println("3encuentra un cable que deberia eliminar coprriente en la posicion " + _cable.posicion2.coordenadax + " " + _cable.posicion2.coordenaday);
                                 _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = false;
                                 eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
                             }
                             if (_Protoboard.protoboard[pos_4_x][i]._cable != null && _Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenadax != -1) {
                                 cable _cable = _Protoboard.protoboard[pos_4_x][i]._cable;
-                                System.out.println("4encuentra un cable que deberia eliminar coprriente en la posicion " + _cable.posicion2.coordenadax + " " + _cable.posicion2.coordenaday);
+
                                 _Protoboard.protoboard[pos_4_x][i]._posicion.corriente = false;
                                 eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
                             }
                         }
                     } else {
-                        System.out.println("LODLASODALSDOASD");
-                        System.out.println("cable encontrado en las pos:  " + " " + guarda_col_cable_2);
+
                         if (encuentra_cable_arriba_distinto) {
                             // apagar la parte de abajo
                             for (int i = 9; i < 14; i++) {
@@ -1461,13 +1481,13 @@ public class protoboard {
                                 if (_Protoboard.protoboard[pos_1_x][i]._cable != null && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenadax != -1) {
                                     cable _cable = _Protoboard.protoboard[pos_1_x][i]._cable;
                                     _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = false;
-                                    System.out.println("5eliminando corriente en " + _cable.posicion2.coordenadax + " " + _cable.posicion2.coordenaday);
+
                                     eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
                                 }
                                 if (_Protoboard.protoboard[pos_4_x][i]._cable != null && _Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenadax != -1) {
                                     cable _cable = _Protoboard.protoboard[pos_4_x][i]._cable;
                                     _Protoboard.protoboard[pos_4_x][i]._posicion.corriente = false;
-                                    System.out.println("6eliminando corriente en " + _cable.posicion2.coordenadax + " " + _cable.posicion2.coordenaday);
+
                                     eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
                                 }
                             }
@@ -1504,13 +1524,13 @@ public class protoboard {
                                     if (_Protoboard.protoboard[pos_1_x][i]._cable != null && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenadax != -1) {
                                         cable _cable = _Protoboard.protoboard[pos_1_x][i]._cable;
                                         _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = false;
-                                        System.out.println("7eliminando corriente en " + _cable.posicion2.coordenadax + " " + _cable.posicion2.coordenaday);
+
                                         eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
                                     }
                                     if (_Protoboard.protoboard[pos_4_x][i]._cable != null && _Protoboard.protoboard[pos_4_x][i]._cable.posicion1.coordenadax != -1) {
                                         cable _cable = _Protoboard.protoboard[pos_4_x][i]._cable;
                                         _Protoboard.protoboard[pos_4_x][i]._posicion.corriente = false;
-                                        System.out.println("8eliminando corriente en " + _cable.posicion2.coordenadax + " " + _cable.posicion2.coordenaday);
+
                                         eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, false);
                                     }
 
@@ -1521,7 +1541,7 @@ public class protoboard {
 
                 }
             } else {
-                System.out.println("prendiendo switch");
+
                 if (_Protoboard.protoboard[pos_1_x][pos_1_y - 1]._posicion.corriente || _Protoboard.protoboard[pos_2_x][pos_1_y - 1]._posicion.corriente) {
                     for (int i = 9; i < 14; i++) {
                         _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = true;
@@ -1541,7 +1561,7 @@ public class protoboard {
                         if (_Protoboard.protoboard[pos_1_x][i]._cable != null && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenadax != -1 && ((_Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenaday >= 3 && _Protoboard.protoboard[pos_1_x][i]._cable.posicion1.coordenaday <= 13)) && !_Protoboard.protoboard[pos_1_x][i]._cable.procesado) {
                             cable _cable = _Protoboard.protoboard[pos_1_x][i]._cable;
                             _Protoboard.protoboard[pos_1_x][i]._posicion.corriente = true;
-                            System.out.println("encontro un cable en la posicion " + pos_1_x + " " + i);
+
                             pasarCorriente(_Protoboard, _cable);
 
                         }
@@ -1549,7 +1569,7 @@ public class protoboard {
 
                             cable _cable = _Protoboard.protoboard[pos_4_x][i]._cable;
                             _Protoboard.protoboard[pos_4_x][i]._posicion.corriente = true;
-                            System.out.println("encontro un cable en la posicion " + pos_4_x + " " + i);
+
                             pasarCorriente(_Protoboard, _cable);
                         }
                     }
