@@ -453,10 +453,8 @@ public class protoboard {
         if (pos_y < 8) {
             int j = 3;
             while (j < 8) {
-                System.out.println("buscando elementos en la columna que se paso corriente");
                 // si encuentra un cable
                 if (_Protoboard.protoboard[pos_x][j]._cable != null && _Protoboard.protoboard[pos_x][j]._cable.posicion1.coordenadax != -1 && !_Protoboard.protoboard[pos_x][j]._cable.procesado) {
-                    System.out.println("encontro un cable en la posicion: " + pos_x + " " + j);
                     pasarCorriente(_Protoboard, _Protoboard.protoboard[pos_x][j]._cable);
                 }
                 // si encuentra un ked
