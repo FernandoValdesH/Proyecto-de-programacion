@@ -12,11 +12,11 @@ public class Dibujador {
         if (y < 68){
             y = (y - 15) /15;
         } else if (y >= 68 && y < 150){
-            y =  (((y - 15) /15) -1);
+            y =  (((y - 15) /15));
         } else if (y >= 150 && y <= 225){
-            y =  (((y ) /15)-3);
+            y =  (((y ) /15)-2);
         } else if (y > 225){
-            y = ((y  /15 )-4);
+            y = ((y  /15 )-2);
         }
         return (int) y;
     }
@@ -248,6 +248,7 @@ public class Dibujador {
 
         int transformacion_del_x = (int) (((x + 70) - 15) / 20);
         int transformacion_del_y = transformacionY_coordA_Matriz(y + 24);
+
 
         for (int i = 0 ; i < 8 ; i++){
             switch (i){
