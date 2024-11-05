@@ -234,20 +234,20 @@ public class protoboard {
         } else if (_Protoboard.protoboard[pos_x][pos_y]._chip != null && _Protoboard.protoboard[pos_x][pos_y].conexion && _Protoboard.protoboard[pos_x][pos_y]._chip.posicion1.coordenadax != -1) {
             Chip _chip = _Protoboard.protoboard[pos_x][pos_y]._chip;
             if (_chip.posicion1.coordenadax == pos_x && _chip.posicion1.coordenaday == pos_y) {
-                _Protoboard.protoboard[_chip.pos_8.coordenadax][_chip.pos_8.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.pos_7.coordenadax][_chip.pos_7.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.pos_6.coordenadax][_chip.pos_6.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.pos_5.coordenadax][_chip.pos_5.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.pos_4.coordenadax][_chip.pos_4.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.pos_3.coordenadax][_chip.pos_3.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.pos_9.coordenadax][_chip.pos_9.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.pos_10.coordenadax][_chip.pos_10.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.pos_11.coordenadax][_chip.pos_11.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.pos_12.coordenadax][_chip.pos_12.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.pos_13.coordenadax][_chip.pos_13.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.pos_14.coordenadax][_chip.pos_14.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.posicion1.coordenadax][_chip.posicion1.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.posicion2.coordenadax][_chip.posicion2.coordenaday]._chip = null;
+                _Protoboard.protoboard[_chip.pos_8.coordenadax][_chip.pos_8.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.pos_7.coordenadax][_chip.pos_7.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.pos_6.coordenadax][_chip.pos_6.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.pos_5.coordenadax][_chip.pos_5.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.pos_4.coordenadax][_chip.pos_4.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.pos_3.coordenadax][_chip.pos_3.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.pos_9.coordenadax][_chip.pos_9.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.pos_10.coordenadax][_chip.pos_10.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.pos_11.coordenadax][_chip.pos_11.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.pos_12.coordenadax][_chip.pos_12.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.pos_13.coordenadax][_chip.pos_13.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.pos_14.coordenadax][_chip.pos_14.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.posicion1.coordenadax][_chip.posicion1.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.posicion2.coordenadax][_chip.posicion2.coordenaday]._chip = new Chip();
             }
             // resetear la conexion
             for (int i = _chip.posicion1.coordenadax; i < _chip.pos_7.coordenadax + 1; i++) {
@@ -265,7 +265,6 @@ public class protoboard {
         // al eliminar un elemento, se debe eliminar un cable, led, switch, del protoboard y eliminar la corriente de esa fila/columna
         if (switch_bateria) {
             if (pos_x == -3 || pos_x == -2) {
-                System.out.println("entra negativo");
                 for (int i = 0; i < 30; i++) {
                     for (int k = 0; k < 17; k++) {
                         if (_Protoboard.protoboard[i][k]._cable.conexionBateria) {
@@ -365,6 +364,10 @@ public class protoboard {
                     Chip _chip = _Protoboard.protoboard[i][j]._chip;
                     if (_chip.tipo_chip.equals("AND")){
                         _chip.eliminarCorrienteAND(_Protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("OR")){
+                        _chip.eliminarCorrienteOR(_Protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("NOT")){
+                        _chip.eliminarCorrienteNOT(_Protoboard, _chip);
                     }
                 }
 
@@ -439,6 +442,10 @@ public class protoboard {
                     Chip _chip = _Protoboard.protoboard[i][j]._chip;
                     if (_chip.tipo_chip.equals("AND")){
                         _chip.eliminarCorrienteAND(_Protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("OR")){
+                        _chip.eliminarCorrienteOR(_Protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("NOT")){
+                        _chip.eliminarCorrienteNOT(_Protoboard, _chip);
                     }
                 }
                 j++;
@@ -537,7 +544,12 @@ public class protoboard {
                     Chip _chip = _Protoboard.protoboard[pos_x][j]._chip;
                     if (_chip.tipo_chip.equals("AND")){
                         _chip.pasarCorrienteAND(_Protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("OR")){
+                        _chip.pasarCorrienteOR(_Protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("NOT")){
+                        _chip.pasarCorrienteNOT(_Protoboard, _chip);
                     }
+
                 }
                 j++;
             }
@@ -631,7 +643,12 @@ public class protoboard {
 
                     if (_chip.tipo_chip.equals("AND")){
                         _chip.pasarCorrienteAND(_Protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("OR")){
+                        _chip.pasarCorrienteOR(_Protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("NOT")){
+                        _chip.pasarCorrienteNOT(_Protoboard, _chip);
                     }
+
                 }
                 j++;
             }
@@ -1098,7 +1115,6 @@ public class protoboard {
             if (_Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.corriente && (posicion_final_y > 8 && posicion_final_y < 14)) {
                 int j = 9;
                 if (!_Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.quemado) {
-                    System.out.println("pasando corriente a la posicion " + posicion_final_x + " " + posicion_final_y);
                     // primero pasa corriente
                     _cable.posicion1.polaridad = _Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.polaridad;
                     _cable.posicion1.corriente = true;
@@ -1263,7 +1279,6 @@ public class protoboard {
                 }
             } else if (_Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.corriente && (posicion_final_y > 2 && posicion_final_y < 8)) {
                 int j = 3;
-                System.out.println("pasando corriente a la posicion " + posicion_final_x + " " + posicion_final_y);
                 if (!_Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.quemado) {
                     _cable.posicion1.polaridad = _Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.polaridad;
                     _cable.posicion2.polaridad = _Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.polaridad;
@@ -2002,7 +2017,6 @@ public class protoboard {
             }
 
         } else {
-            System.out.println("entra aca");
             _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday]._cable = _Cable;
             _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday]._cable = _Cable;
             _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday].conexion = true;
@@ -2019,8 +2033,6 @@ public class protoboard {
             }
             //while("recorrer corriente basado en posicion, si es 0-1-12-13, significa que es un bus y se requiere recorrer horizontalmente, si es entre 2-6 se considera vertical superior y si es 7-11, vertical inferior, se debe realizar esta verificacion para cada uno de los cables")
 
-            System.out.println("cable conectado en las posiciones: " + _Cable.posicion1.coordenadax + " " + _Cable.posicion1.coordenaday + " y " + _Cable.posicion2.coordenadax + " " + _Cable.posicion2.coordenaday);
-            System.out.println("polaridad del cable: " + _Cable.posicion1.polaridad + " " + _Cable.posicion2.polaridad);
         }
         QuemadoCheck(_Protoboard);
     }
