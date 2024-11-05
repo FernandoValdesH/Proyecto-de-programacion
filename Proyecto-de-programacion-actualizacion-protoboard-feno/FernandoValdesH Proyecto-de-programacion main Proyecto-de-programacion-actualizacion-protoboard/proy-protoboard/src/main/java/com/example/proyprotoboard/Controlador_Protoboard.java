@@ -281,7 +281,6 @@ public class Controlador_Protoboard implements Initializable {
         dialog.setContentText("Tipo de chip:");
 
         dialog.showAndWait().ifPresent(tipo -> {
-            System.out.println("Tipo seleccionado: " + tipo);
             // Aquí puedes manejar la opción seleccionada
             tipo_chip = tipo;
         });
@@ -1034,7 +1033,6 @@ public class Controlador_Protoboard implements Initializable {
             x_resistencia= (int) event.getX();
             y_resistencia= (int) event.getY();
 
-            System.out.println("resistencia "+x_resistencia +" "+  y_resistencia);
 
             double[] puntoCercano = alcanzarPuntoCercano(x_resistencia, y_resistencia);
             if (puntoCercano != null) {
@@ -1052,13 +1050,13 @@ public class Controlador_Protoboard implements Initializable {
             JOptionPane.showMessageDialog(null, "Indicar posición 1");
 
             //dibujador.dibujarResistencia(gc, x_led, y_led);
-            btnAgregarCable.setDisable(false);
-            btnAgregarLed.setDisable(false);
-            btnAgregarSwitch.setDisable(false);
-            btnAgregarOctoSwitch.setDisable(false);
-            btnEliminarObj.setDisable(false);
-            btnAgregarResistencia.setDisable(false);
-            btnAgregarChip.setDisable(false);
+            btnAgregarCable.setDisable(true);
+            btnAgregarLed.setDisable(true);
+            btnAgregarSwitch.setDisable(true);
+            btnAgregarOctoSwitch.setDisable(true);
+            btnEliminarObj.setDisable(true);
+            btnAgregarResistencia.setDisable(true);
+            btnAgregarChip.setDisable(true);
 
         }
         if(resistencia_puesta && !agregar_patita_1){
@@ -1075,7 +1073,6 @@ public class Controlador_Protoboard implements Initializable {
             patitas_x_resistencia = (int) event.getX();
             patitas_y_resistencia = (int) event.getY();
 
-            System.out.println("patita 1 "+patitas_x_resistencia +" "+ patitas_y_resistencia);
             int transformar_x_resistencia = (int) ((patitas_x_resistencia - 15) / 20);
             int transformar_y_resistencia = transformacionY_coordA_Matriz(patitas_y_resistencia+15);
             if(!_Protoboard_Funcional.protoboard[(int)transformar_x_resistencia][(int)transformar_y_resistencia].conexion){
@@ -1104,7 +1101,6 @@ public class Controlador_Protoboard implements Initializable {
 
             patitas_x_resistencia_2 = (int) event.getX();
             patitas_y_resistencia_2 = (int) event.getY();
-            System.out.println("patita 2 "+patitas_x_resistencia_2 +" "+ patitas_y_resistencia_2);
             int transformar_x_patita = (int) ((patitas_x_resistencia_2 - 15) / 20);
             int transformar_y_patita = transformacionY_coordA_Matriz(patitas_y_resistencia_2+15);
             if(!_Protoboard_Funcional.protoboard[(int)transformar_x_patita][(int)transformar_y_patita].conexion){
@@ -1153,13 +1149,13 @@ public class Controlador_Protoboard implements Initializable {
                 GridPane grid = new GridPane();
                 grid.setHgap(10);
                 grid.setVgap(10);
-                grid.add(new Label("Tipo X:"), 0, 0);
+                grid.add(new Label("Banda 1:"), 0, 0);
                 grid.add(comboBox1, 1, 0);
-                grid.add(new Label("Tipo Y:"), 0, 1);
+                grid.add(new Label("Banda 2:"), 0, 1);
                 grid.add(comboBox2, 1, 1);
-                grid.add(new Label("Tipo Z:"), 0, 2);
+                grid.add(new Label("Multiplicador:"), 0, 2);
                 grid.add(comboBox3, 1, 2);
-                grid.add(new Label("Tipo 4:"), 0, 3);
+                grid.add(new Label("Tolerancia:"), 0, 3);
                 grid.add(ComboBox4, 1, 3);
 
 
@@ -1197,11 +1193,17 @@ public class Controlador_Protoboard implements Initializable {
                 int transformacion_pos_1_y = transformacionY_coordA_Matriz(patitas_y_resistencia+15);
                 int transformacion_pos_2_x = (int) ((patitas_x_resistencia_2) / 20);
                 int transformacion_pos_2_y = transformacionY_coordA_Matriz(patitas_y_resistencia_2+15);
-                System.out.println(x_resistencia+" "+y_resistencia+" patita "+patitas_x_resistencia+" "+patitas_y_resistencia+"patita 2 "+patitas_x_resistencia_2+" "+patitas_y_resistencia_2);
                 _Protoboard_Funcional.resistenciaSet(_Protoboard_Funcional, transformacion_pos_1_x, transformacion_pos_1_y, transformacion_pos_2_x, transformacion_pos_2_y, banda1, banda2, multiplicador, tolerancia);
                 dibujador.dibujarResistencia(gc, x_resistencia,y_resistencia,patitas_x_resistencia,patitas_y_resistencia,patitas_x_resistencia_2,patitas_y_resistencia_2, banda1, banda2, multiplicador, tolerancia);
                 gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
                 dibujarTodo();
+                btnAgregarCable.setDisable(false);
+                btnAgregarLed.setDisable(false);
+                btnAgregarSwitch.setDisable(false);
+                btnAgregarOctoSwitch.setDisable(false);
+                btnEliminarObj.setDisable(false);
+                btnAgregarResistencia.setDisable(false);
+                btnAgregarChip.setDisable(false);
             }
         }
 
@@ -1247,7 +1249,7 @@ public class Controlador_Protoboard implements Initializable {
             // recuperar el punto de arriba a la izquierda
             transformacion_x_chip = transformacion_x_chip-1;
             transformacion_y_chip = transformacion_y_chip-1;
-            System.out.println("transformacion x "+transformacion_x_chip+" transformacion y "+transformacion_y_chip);
+
 
             _Protoboard_Funcional.chipSet(_Protoboard_Funcional, transformacion_x_chip, transformacion_y_chip, tipo_chip);
 
