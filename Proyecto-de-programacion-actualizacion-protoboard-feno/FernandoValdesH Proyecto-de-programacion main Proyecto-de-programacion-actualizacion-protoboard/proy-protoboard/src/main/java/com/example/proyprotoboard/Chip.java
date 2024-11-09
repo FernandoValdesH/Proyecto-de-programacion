@@ -263,7 +263,7 @@ public class Chip extends Indicador{
         _chip.pos_14.corriente = _Protoboard.protoboard[_chip.pos_14.coordenadax][_chip.pos_14.coordenaday]._posicion.corriente;
 
         if (!_chip.pos_14.corriente){
-        if (_chip.posicion2.corriente || _chip.pos_3.corriente ){
+        if (_chip.posicion2.corriente && _chip.pos_3.corriente ){
             // pasar corriente a pos 4
             // _chip.pos_4.corriente = true;
             if ( (_chip.posicion2.polaridad || _chip.pos_3.polaridad)){
@@ -291,7 +291,7 @@ public class Chip extends Indicador{
                 }
             }
         }
-        if (_chip.pos_5.corriente || _chip.pos_6.corriente ){
+        if (_chip.pos_5.corriente && _chip.pos_6.corriente ){
             // pasar corriente a pos 7
             // _chip.pos_7.corriente = true;
             if ( (_chip.pos_5.polaridad || _chip.pos_6.polaridad)){
@@ -319,7 +319,7 @@ public class Chip extends Indicador{
                 }
             }
         }
-        if (_chip.pos_8.corriente || _chip.pos_9.corriente){
+        if (_chip.pos_8.corriente && _chip.pos_9.corriente){
             // pasar corriente a pos 10
             // _chip.pos_10.corriente = true;
             if ( (_chip.pos_8.polaridad || _chip.pos_9.polaridad)){
@@ -347,7 +347,7 @@ public class Chip extends Indicador{
                 }
             }
         }
-        if (_chip.pos_11.corriente || _chip.pos_12.corriente){
+        if (_chip.pos_11.corriente && _chip.pos_12.corriente){
             // pasar corriente a pos 13
             // _chip.pos_13.corriente = true;
             if ( (_chip.pos_11.polaridad || _chip.pos_12.polaridad)){
