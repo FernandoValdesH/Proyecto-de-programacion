@@ -638,5 +638,104 @@ public class Dibujador {
         }
     }
 
-    public void dibujarDisplay(){}
+    public void dibujarDisplay(GraphicsContext gc, int x, int y, protoboard _Protoboard){
+        int x_original = x + 27;
+        int y_original = y + 50;
+        int transformacion_x_display = (int) ((x_original - 15 ) / 20) - 1;
+        int transformacion_y_display= (transformacionY_coordA_Matriz(y_original)) - 3;
+
+        gc.setFill(Color.rgb(3,4,4));
+        gc.fillRect(x, y-5, 90, 105);
+        if (_Protoboard.protoboard[transformacion_x_display][transformacion_y_display]._display.linea_a){
+            gc.setStroke(Color.RED);
+            gc.setLineWidth(8);
+            gc.strokeLine(x+25, y+10, x+65, y+10);
+        } else{
+            gc.setStroke(Color.DARKGRAY);
+            gc.setLineWidth(8);
+            gc.strokeLine(x+25, y+10, x+65, y+10);
+        }
+        if (_Protoboard.protoboard[transformacion_x_display][transformacion_y_display]._display.linea_b){
+            gc.setStroke(Color.RED);
+            gc.setLineWidth(8);
+            gc.strokeLine(x+75, y+10, x+75, y+45);
+        } else{
+            gc.setStroke(Color.DARKGRAY);
+            gc.setLineWidth(8);
+            gc.strokeLine(x+75, y+10, x+75, y+45);
+        }
+        if (_Protoboard.protoboard[transformacion_x_display][transformacion_y_display]._display.linea_c){
+            gc.setStroke(Color.RED);
+            gc.setLineWidth(8);
+            gc.strokeLine(x+75, y+55, x+75, y+90);
+        } else{
+            gc.setStroke(Color.DARKGRAY);
+            gc.setLineWidth(8);
+            gc.strokeLine(x+75, y+55, x+75, y+90);
+        }
+        if (_Protoboard.protoboard[transformacion_x_display][transformacion_y_display]._display.linea_d){
+            gc.setStroke(Color.RED);
+            gc.setLineWidth(8);
+            gc.strokeLine(x+25, y+90, x+65, y+90);
+        } else{
+            gc.setStroke(Color.DARKGRAY);
+            gc.setLineWidth(8);
+            gc.strokeLine(x+25, y+90, x+65, y+90);
+        }
+        if (_Protoboard.protoboard[transformacion_x_display][transformacion_y_display]._display.linea_e){
+            gc.setStroke(Color.RED);
+            gc.setLineWidth(8);
+            gc.strokeLine(x+15, y+55, x+15, y+90);
+        } else{
+            gc.setStroke(Color.DARKGRAY);
+            gc.setLineWidth(8);
+            gc.strokeLine(x+15, y+55, x+15, y+90);
+        }
+        if (_Protoboard.protoboard[transformacion_x_display][transformacion_y_display]._display.linea_f){
+            gc.setStroke(Color.RED);
+            gc.setLineWidth(8);
+            gc.strokeLine(x+15, y+10, x+15, y+45);
+        } else{
+            gc.setStroke(Color.DARKGRAY);
+            gc.setLineWidth(8);
+            gc.strokeLine(x+15, y+10, x+15, y+45);
+        }
+        if (_Protoboard.protoboard[transformacion_x_display][transformacion_y_display]._display.linea_g){
+            gc.setStroke(Color.RED);
+            gc.setLineWidth(8);
+            gc.strokeLine(x+25, y+50, x+65, y+50);
+        } else{
+            gc.setStroke(Color.DARKGRAY);
+            gc.setLineWidth(8);
+            gc.strokeLine(x+25, y+50, x+65, y+50);
+        }
+        if (_Protoboard.protoboard[transformacion_x_display][transformacion_y_display]._display.punto){
+            gc.setFill(Color.RED);
+            gc.fillOval(x+80, y+87, 8, 8);
+        } else{
+            gc.setFill(Color.DARKGRAY);
+            gc.fillOval(x+80, y+87, 8, 8);
+        }
+
+
+
+//        gc.setStroke(Color.WHITE);
+//        gc.setLineWidth(8);
+//        // de izq a derecha (a)
+//        gc.strokeLine(x+25, y+10, x+65, y+10);
+//        // derecha a medio (b)
+//        gc.strokeLine(x+75, y+10, x+75, y+45);
+//        // medio a abajo derecha (c)
+//        gc.strokeLine(x+75, y+55, x+75, y+90);
+//        // de abajo derecha a abajo izq (d)
+//        gc.strokeLine(x+25, y+90, x+65, y+90);
+//        // de abajo a la izq a medio (e)
+//        gc.strokeLine(x+15, y+55, x+15, y+90);
+//        // de medio a arriba izq (f)
+//        gc.strokeLine(x+15, y+10, x+15, y+45);
+//        // linea centro (g)
+//        gc.strokeLine(x+25, y+50, x+65, y+50);
+
+
+    }
 }
