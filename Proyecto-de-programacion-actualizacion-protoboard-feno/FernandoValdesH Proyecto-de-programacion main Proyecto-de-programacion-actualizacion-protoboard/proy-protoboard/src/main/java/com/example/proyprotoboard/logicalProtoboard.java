@@ -8,6 +8,7 @@ public class logicalProtoboard{
     OctoSwitch _octoSwitch ;
     Resistencia _resistencia ;
     Chip _chip ;
+    Display _display;
 
     public logicalProtoboard(){
         this.conexion = false ;
@@ -18,6 +19,7 @@ public class logicalProtoboard{
         this._octoSwitch = new OctoSwitch() ;
         this._resistencia = new Resistencia() ;
         this._chip = new Chip() ;
+        this._display = new Display() ;
     }
 
 }
