@@ -253,6 +253,16 @@ public class protoboard {
             for (int i = _chip.posicion1.coordenadax; i < _chip.pos_7.coordenadax + 1; i++) {
                 for (int j = _chip.posicion1.coordenaday; j < _chip.pos_8.coordenaday + 1; j++) {
                     _Protoboard.protoboard[i][j].conexion = false;
+
+                }
+            }
+        } else if (_Protoboard.protoboard[pos_x][pos_y]._display != null && _Protoboard.protoboard[pos_x][pos_y].conexion && _Protoboard.protoboard[pos_x][pos_y]._display.posicion1.coordenadax != -1) {
+            Display _display = _Protoboard.protoboard[pos_x][pos_y]._display;
+            for (int i = _display.posicion1.coordenadax; i < _display.pos_5.coordenadax + 1; i++) {
+                for (int j = _display.pos_6.coordenaday; j < _display.pos_5.coordenaday + 1; j++) {
+                    _Protoboard.protoboard[i][j]._display = new Display();
+                    // resetear la conexion
+                    _Protoboard.protoboard[i][j].conexion = false;
                 }
             }
         }
@@ -370,7 +380,10 @@ public class protoboard {
                         _chip.eliminarCorrienteNOT(_Protoboard, _chip);
                     }
                 }
-
+                if (_Protoboard.protoboard[i][j]._display!=null && _Protoboard.protoboard[i][j]._display.posicion1.coordenadax != -1){
+                    Display _display = _Protoboard.protoboard[i][j]._display;
+                    _display.apagarLinea(_Protoboard, _display);
+                }
                 j++;
             }
         } else if (pos_y > 8) {
@@ -447,6 +460,10 @@ public class protoboard {
                     } else if (_chip.tipo_chip.equals("NOT")){
                         _chip.eliminarCorrienteNOT(_Protoboard, _chip);
                     }
+                }
+                if (_Protoboard.protoboard[i][j]._display!=null && _Protoboard.protoboard[i][j]._display.posicion1.coordenadax != -1){
+                    Display _display = _Protoboard.protoboard[i][j]._display;
+                    _display.apagarLinea(_Protoboard, _display);
                 }
                 j++;
             }
@@ -551,6 +568,10 @@ public class protoboard {
                     }
 
                 }
+                if (_Protoboard.protoboard[pos_x][j]._display!=null && _Protoboard.protoboard[pos_x][j]._display.posicion1.coordenadax != -1){
+                    Display _display = _Protoboard.protoboard[pos_x][j]._display;
+                    _display.activarLinea(_Protoboard, _display);
+                }
                 j++;
             }
         } else if (pos_y > 8) {
@@ -649,6 +670,10 @@ public class protoboard {
                         _chip.pasarCorrienteNOT(_Protoboard, _chip);
                     }
 
+                }
+                if (_Protoboard.protoboard[pos_x][j]._display!=null && _Protoboard.protoboard[pos_x][j]._display.posicion1.coordenadax != -1){
+                    Display _display = _Protoboard.protoboard[pos_x][j]._display;
+                    _display.activarLinea(_Protoboard, _display);
                 }
                 j++;
             }
@@ -1950,6 +1975,52 @@ public class protoboard {
         for (int i = pos_x; i < pos_x + 8; i++) {
             for (int j = pos_y; j < pos_y + 3; j++) {
                 _Protoboard.protoboard[i][j]._chip = _Chip;
+                _Protoboard.protoboard[i][j].conexion = true;
+            }
+        }
+    }
+
+    public void displaySet(protoboard _Protoboard, int pos_inicio_x, int pos_inicio_y){
+        Display _Display = new Display();
+        // las de abajo son +6
+        //Ingresar coordenadas desde protoboard grafico
+        // asignar coordenada x e y a todas las posiciones del display
+        // -- parte de arriba
+        _Display.posicion1.coordenadax = pos_inicio_x;
+        _Display.posicion1.coordenaday = pos_inicio_y;
+
+        _Display.posicion2.coordenadax = pos_inicio_x + 1;
+        _Display.posicion2.coordenaday = pos_inicio_y;
+
+        _Display.pos_3.coordenadax = pos_inicio_x + 2;
+        _Display.pos_3.coordenaday = pos_inicio_y;
+
+        _Display.pos_4.coordenadax = pos_inicio_x + 3;
+        _Display.pos_4.coordenaday = pos_inicio_y;
+
+        _Display.pos_5.coordenadax = pos_inicio_x + 4;
+        _Display.pos_5.coordenaday = pos_inicio_y;
+
+        // -- parte de abajo
+        _Display.pos_6.coordenadax = pos_inicio_x;
+        _Display.pos_6.coordenaday = pos_inicio_y + 6;
+
+        _Display.pos_7.coordenadax = pos_inicio_x + 1;
+        _Display.pos_7.coordenaday = pos_inicio_y +6;
+
+        _Display.pos_8.coordenadax = pos_inicio_x + 2;
+        _Display.pos_8.coordenaday = pos_inicio_y + 6;
+
+        _Display.pos_9.coordenadax = pos_inicio_x + 3;
+        _Display.pos_9.coordenaday = pos_inicio_y  + 6;
+
+        _Display.pos_10.coordenadax = pos_inicio_x + 4;
+        _Display.pos_10.coordenaday = pos_inicio_y + 6;
+
+        // imprimir todas las posiciones para comprobar que se esta poniendo bien
+        for (int i = pos_inicio_x; i < pos_inicio_x + 5; i++) {
+            for (int j = pos_inicio_y; j < pos_inicio_y + 7; j++) {
+                _Protoboard.protoboard[i][j]._display = _Display;
                 _Protoboard.protoboard[i][j].conexion = true;
             }
         }
