@@ -64,8 +64,6 @@ public class Controlador_Protoboard implements Initializable {
     private boolean agregar_chip = false;
 
     private String color_led = " ";
-    int posicion1_x = 0;
-    int posicion1_y = 0;
 
     private boolean agregar_display = false;
 
@@ -862,8 +860,8 @@ public class Controlador_Protoboard implements Initializable {
                 arreglo_coordenadas_patitas_leds.add(punto_inicio_x_patita);arreglo_coordenadas_patitas_leds.add(punto_inicio_y_patita);arreglo_coordenadas_patitas_leds.add(punto_final_x_patita); arreglo_coordenadas_patitas_leds.add(punto_final_y_patita);
                 // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
                 // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
-                posicion1_x = (int) ((punto_final_x_patita - 15) / 20);
-                posicion1_y = transformacionY_coordA_Matriz(punto_final_y_patita);
+                int posicion1_x = (int) ((punto_final_x_patita - 15) / 20);
+                int posicion1_y = transformacionY_coordA_Matriz(punto_final_y_patita);
 
                 cantidad_patitas++;
                 if(cantidad_patitas == 1){
