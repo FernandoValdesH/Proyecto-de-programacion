@@ -61,7 +61,9 @@ public class Controlador_Protoboard implements Initializable {
     private boolean agrega_octo_switch=false;
     private Boolean agregar_resistencia = false;
     private boolean agregar_chip = false;
-
+    private String color_led = " ";
+    int posicion1_x = 0;
+    int posicion1_y = 0;
     @FXML
     Button btnAgregarCable;
     @FXML
@@ -168,10 +170,10 @@ public class Controlador_Protoboard implements Initializable {
                             y_led = arreglo_coordenadas_leds.get((indice * 2) + 1);
                             _protoboard.protoboard[led_encontrado.posicion1.coordenadax][led_encontrado.posicion1.coordenaday]._led.revisado = true;
                             _protoboard.protoboard[led_encontrado.posicion2.coordenadax][led_encontrado.posicion2.coordenaday]._led.revisado = true;
-                            dibujador.dibujarLed(gc, x_led, y_led, Color.RED);
+                            dibujador.dibujarLed(gc, x_led, y_led, "rojo",_protoboard);
                             encontro_uno = true;
                             if (led_encontrado.quemado){
-                                dibujador.dibujarLed(gc, x_led, y_led, Color.YELLOW);
+                                dibujador.dibujarLed(gc, x_led, y_led, "amarillo",_protoboard);
                             }
                         }
                     }
@@ -307,10 +309,32 @@ public class Controlador_Protoboard implements Initializable {
             int posicion1_x = (int) ((arreglo_coordenadas_patitas_leds.get(2+i*4) - 15) / 20);
             int posicion1_y = transformacionY_coordA_Matriz(arreglo_coordenadas_patitas_leds.get(3+i*4));
             if (_Protoboard_Funcional.protoboard[posicion1_x][posicion1_y]._led.posicion1.coordenadax!=-1) {
+                color_led= _Protoboard_Funcional.protoboard[posicion1_x][posicion1_y]._led.color;
                 if (_Protoboard_Funcional.protoboard[posicion1_x][posicion1_y]._led.encendido) {
-                    dibujador.dibujarLed(gc, x_led, y_led, Color.RED);
+
+                    if (color_led.equals("rojo")) {
+                        dibujador.dibujarLed(gc, x_led, y_led, "rojo",_Protoboard_Funcional);
+
+                    }
+                    if (color_led.equals("azul")) {
+                        dibujador.dibujarLed(gc, x_led, y_led, "azul",_Protoboard_Funcional);
+                    }
+                    if (color_led.equals("verde")) {
+                        dibujador.dibujarLed(gc, x_led, y_led, "verde",_Protoboard_Funcional);
+                    }
+
                 } else {
-                    dibujador.dibujarLed(gc, x_led, y_led, Color.DARKRED);
+                    if (color_led.equals("rojo")) {
+                        dibujador.dibujarLed(gc, x_led, y_led, "rojo_oscuro",_Protoboard_Funcional);
+
+                    }
+                    if (color_led.equals("azul")) {
+                        dibujador.dibujarLed(gc, x_led, y_led, "azul_oscuro",_Protoboard_Funcional);
+                    }
+                    if (color_led.equals("verde")) {
+                        dibujador.dibujarLed(gc, x_led, y_led, "verde_oscuro",_Protoboard_Funcional);
+                    }
+
                 }
 
             }
@@ -793,8 +817,8 @@ public class Controlador_Protoboard implements Initializable {
                 arreglo_coordenadas_patitas_leds.add(punto_inicio_x_patita);arreglo_coordenadas_patitas_leds.add(punto_inicio_y_patita);arreglo_coordenadas_patitas_leds.add(punto_final_x_patita); arreglo_coordenadas_patitas_leds.add(punto_final_y_patita);
                 // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
                 // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
-                int posicion1_x = (int) ((punto_final_x_patita - 15) / 20);
-                int posicion1_y = transformacionY_coordA_Matriz(punto_final_y_patita);
+                 posicion1_x = (int) ((punto_final_x_patita - 15) / 20);
+                 posicion1_y = transformacionY_coordA_Matriz(punto_final_y_patita);
 
                 cantidad_patitas++;
                 if(cantidad_patitas == 1){
@@ -816,7 +840,7 @@ public class Controlador_Protoboard implements Initializable {
                 dibujar_patitas=false;
 
 
-                Led led = _Protoboard_Funcional.ledInitiatorStart(_Protoboard_Funcional, posicion1_x, posicion1_y,auxx, auxy, cantidad_patitas);
+                Led led = _Protoboard_Funcional.ledInitiatorStart(_Protoboard_Funcional, posicion1_x, posicion1_y,auxx, auxy, cantidad_patitas, color_led);
 
                 if (cantidad_patitas==2){
                     btnAgregarCable.setDisable(false);
@@ -827,12 +851,28 @@ public class Controlador_Protoboard implements Initializable {
                     btnAgregarResistencia.setDisable(false);
                     btnAgregarChip.setDisable(false);
                     if (led.encendido){
-                        dibujador.dibujarLed(gc, x_led, y_led, Color.RED);
+                        if (color_led.equals("rojo")) {
+                            dibujador.dibujarLed(gc, x_led, y_led, "rojo",_Protoboard_Funcional);
+                        }
+                        if (color_led.equals("azul")) {
+                            dibujador.dibujarLed(gc, x_led, y_led, "azul",_Protoboard_Funcional);
+                        }
+                        if (color_led.equals("verde")) {
+                            dibujador.dibujarLed(gc, x_led, y_led, "verde",_Protoboard_Funcional);
+                        }
                     } else {
-                        dibujador.dibujarLed(gc, x_led, y_led, Color.DARKRED);
+                        if (color_led.equals("rojo")) {
+                            dibujador.dibujarLed(gc, x_led, y_led, "rojo_oscuro",_Protoboard_Funcional);
+                        }
+                        if (color_led.equals("azul")) {
+                            dibujador.dibujarLed(gc, x_led, y_led, "azul_oscuro",_Protoboard_Funcional);
+                        }
+                        if (color_led.equals("verde")) {
+                            dibujador.dibujarLed(gc, x_led, y_led, "verde_oscuro",_Protoboard_Funcional);
+                        }
                     }
                     if (led.quemado){
-                        dibujador.dibujarLed(gc, x_led, y_led, Color.YELLOW);
+                        dibujador.dibujarLed(gc, x_led, y_led, "amarillo",_Protoboard_Funcional);
                     }
 
                 }
@@ -1269,11 +1309,7 @@ public class Controlador_Protoboard implements Initializable {
                 inicio_y_eliminar = puntoCercano[1];
             }
 
-
             eliminarElemento(inicio_x_eliminar, inicio_y_eliminar);
-
-
-
             btnAgregarCable.setDisable(false);
             btnAgregarLed.setDisable(false);
             btnAgregarSwitch.setDisable(false);
@@ -1330,7 +1366,61 @@ public class Controlador_Protoboard implements Initializable {
                 x_led = puntoCercano[0]-15;
                 y_led = puntoCercano[1]-15;
             } arreglo_coordenadas_leds.add(x_led); arreglo_coordenadas_leds.add(y_led); // agregar al arreglo
-            dibujador.dibujarLed(gc, x_led, y_led, Color.DARKRED);
+            //cambio color led
+            Dialog<List<Pair<String, String>>> dialog = new Dialog<>();
+            dialog.setTitle("Color led");
+
+            // Set the button types
+            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+            // Create the combo boxes
+            ComboBox<String> comboBox1 = new ComboBox<>();
+            comboBox1.getItems().addAll("rojo","azul","verde");
+            comboBox1.setPromptText("color del led");
+
+            // Create a grid pane and add the combo boxes
+            GridPane grid = new GridPane();
+            grid.setHgap(10);
+            grid.setVgap(10);
+            grid.add(new Label("Color:"), 0, 0);
+            grid.add(comboBox1, 1, 0);
+
+
+            dialog.getDialogPane().setContent(grid);
+
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == ButtonType.OK) {
+                    List<Pair<String, String>> result = new ArrayList<>();
+                    result.add(new Pair<>("color", comboBox1.getValue()));
+                    return result;
+                }
+                return null;
+            });
+
+
+            dialog.showAndWait().ifPresent(result -> {
+            });
+
+            // intentarlo hasta que se ingresen bien los valores
+
+            try {
+                color_led =comboBox1.getValue();
+
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Ingrese bien los valores");
+
+            }
+
+            if (color_led.equals("rojo")) {
+                dibujador.dibujarLed(gc, x_led, y_led, "rojo_oscuro",_Protoboard_Funcional);
+            }
+            if (color_led.equals("azul")) {
+                dibujador.dibujarLed(gc, x_led, y_led, "azul_oscuro",_Protoboard_Funcional);
+            }
+            if (color_led.equals("verde")) {
+                dibujador.dibujarLed(gc, x_led, y_led, "verde_oscuro",_Protoboard_Funcional);
+            }
             btnAgregarCable.setDisable(true);
             btnAgregarLed.setDisable(true);
             btnAgregarSwitch.setDisable(true);
@@ -1345,7 +1435,7 @@ public class Controlador_Protoboard implements Initializable {
 
         } else if (patita_led_1 && led_puesto &&  cantidad_patitas<2){ // aca arreglar verificacion para que no se pongan las patitas en cualquier lado
             Color color_click = getColor(event.getX(), event.getY());;
-            if (color_click.equals(Color.DARKRED)){
+            if (color_click.equals(Color.DARKRED) || color_click.equals(Color.MIDNIGHTBLUE) || color_click.equals(Color.DARKGREEN)){
                 punto_inicio_x_patita = event.getX();
                 punto_inicio_y_patita = event.getY();
                 dibujar_patitas=true;
