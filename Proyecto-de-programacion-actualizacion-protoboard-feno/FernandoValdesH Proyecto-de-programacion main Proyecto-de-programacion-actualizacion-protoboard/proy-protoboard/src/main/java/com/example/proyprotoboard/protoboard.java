@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import jdk.swing.interop.SwingInterOpUtils;
+//import jdk.swing.interop.SwingInterOpUtils;
 
 public class protoboard {
 
@@ -51,12 +51,13 @@ public class protoboard {
 
     }
 
-    public Led ledInitiatorStart(protoboard _Protoboard, int posx_1, int posy_1, int auxx, int auxy, int cantidad_patas) {
+    public Led ledInitiatorStart(protoboard _Protoboard, int posx_1, int posy_1, int auxx, int auxy, int cantidad_patas,String color) {
         Led _led = new Led();
         if (cantidad_patas == 1) {
 
             _led.posicion1.coordenadax = posx_1;
             _led.posicion1.coordenaday = posy_1;
+            _led.color = color;
             _led.posicion1.corriente = _Protoboard.protoboard[_led.posicion1.coordenadax][_led.posicion1.coordenaday]._posicion.corriente;
             _Protoboard.protoboard[_led.posicion1.coordenadax][_led.posicion1.coordenaday]._led = _led;
             _Protoboard.protoboard[_led.posicion1.coordenadax][_led.posicion1.coordenaday].conexion = true;
@@ -66,6 +67,7 @@ public class protoboard {
             _led.posicion2.coordenaday = posy_1;
             _led.posicion1.coordenadax = auxx;
             _led.posicion1.coordenaday = auxy;
+            _led.color = color;
             _led.posicion1.corriente = _Protoboard.protoboard[_led.posicion1.coordenadax][_led.posicion1.coordenaday]._posicion.corriente;
             _led.posicion2.corriente = _Protoboard.protoboard[_led.posicion2.coordenadax][_led.posicion2.coordenaday]._posicion.corriente;
             _Protoboard.protoboard[_led.posicion2.coordenadax][_led.posicion2.coordenaday]._led = _led;

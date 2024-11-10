@@ -3,11 +3,13 @@ public class Led extends Indicador{
     Boolean encendido;
     Boolean revisado;
     Boolean quemado;
+    String color;
     public Led(){
         super();
         this.encendido=false;
         this.revisado=false;
         this.quemado = false;
+        this.color = " ";
         this.posicion1.polaridad= true;
         this.posicion2.polaridad= false;
     }
