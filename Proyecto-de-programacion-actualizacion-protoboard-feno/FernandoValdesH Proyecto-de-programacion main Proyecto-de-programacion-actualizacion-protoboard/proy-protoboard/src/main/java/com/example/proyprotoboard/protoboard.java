@@ -193,25 +193,9 @@ public class protoboard {
             int pos_1_y = _octoSwitch.posicion1.coordenaday;
             int pos_2_x = _octoSwitch.posicion2.coordenadax;
             int pos_y_switch = pos_1_y + 1;
-            for (int k = pos_1_x; k < pos_2_x + 1; k++) {
-                if (_Protoboard.protoboard[k][pos_y_switch]._octoSwitch.mini_switch_1.encendido) {
-                    // borrar la corriente abajo del miniswitch (si hay)
-                    if (_Protoboard.protoboard[k][pos_y_switch - 1]._posicion.corriente) {
-                        for (int l = 3; l < 8; l++) {
-                            _Protoboard.protoboard[k][l]._posicion.corriente = false;
-                        }
-
-                    } else if (_Protoboard.protoboard[k][pos_y_switch + 1]._posicion.corriente) {
-                        for (int l = 9; l < 14; l++) {
-                            _Protoboard.protoboard[k][l]._posicion.corriente = false;
-                        }
-                    }
-
-                }
-            }
             for (int i = pos_1_x; i < pos_2_x + 1; i++) {
-                for (int j = pos_1_y; j < 3; j++) {
-                    _Protoboard.protoboard[i][j]._octoSwitch = null;
+                for (int j = pos_1_y; j < pos_1_y+3; j++) {
+                    _Protoboard.protoboard[i][j]._octoSwitch = new OctoSwitch();
                     // resetear la conexion
                     _Protoboard.protoboard[i][j].conexion = false;
                 }
@@ -261,7 +245,7 @@ public class protoboard {
         } else if (_Protoboard.protoboard[pos_x][pos_y]._display != null && _Protoboard.protoboard[pos_x][pos_y].conexion && _Protoboard.protoboard[pos_x][pos_y]._display.posicion1.coordenadax != -1) {
             Display _display = _Protoboard.protoboard[pos_x][pos_y]._display;
             for (int i = _display.posicion1.coordenadax; i < _display.pos_5.coordenadax + 1; i++) {
-                for (int j = _display.pos_6.coordenaday; j < _display.pos_5.coordenaday + 1; j++) {
+                for (int j = _display.posicion1.coordenaday; j < _display.pos_6.coordenaday + 1; j++) {
                     _Protoboard.protoboard[i][j]._display = new Display();
                     // resetear la conexion
                     _Protoboard.protoboard[i][j].conexion = false;
@@ -485,12 +469,10 @@ public class protoboard {
                 }
                 // si encuentra un ked
                 if (_Protoboard.protoboard[pos_x][j]._led != null && _Protoboard.protoboard[pos_x][j]._led.posicion1.coordenadax != -1) {
-                    cuenta_leds++;
                     _Protoboard.protoboard[pos_x][j]._posicion.corriente = true;
-                    if (cuenta_leds > 1) {
-                        cambiarEstadoLed(_Protoboard, _Protoboard.protoboard[pos_x][j]._led);
-                        cuenta_leds = 0;
-                    }
+                    cambiarEstadoLed(_Protoboard, _Protoboard.protoboard[pos_x][j]._led);
+
+
 
                 } // si encuentra un switch
                 if (_Protoboard.protoboard[pos_x][j]._switch != null && _Protoboard.protoboard[pos_x][j]._switch.posicion1.coordenadax != -1) {
@@ -586,12 +568,8 @@ public class protoboard {
                 }
                 // si encuentra un ked
                 if (_Protoboard.protoboard[pos_x][j]._led != null && _Protoboard.protoboard[pos_x][j]._led.posicion1.coordenadax != -1) {
-                    cuenta_leds++;
                     _Protoboard.protoboard[pos_x][j]._posicion.corriente = true;
-                    if (cuenta_leds > 1) {
-                        cambiarEstadoLed(_Protoboard, _Protoboard.protoboard[pos_x][j]._led);
-                        cuenta_leds = 0;
-                    }
+                    cambiarEstadoLed(_Protoboard, _Protoboard.protoboard[pos_x][j]._led);
 
                 } // si encuentra un switch
                 if (_Protoboard.protoboard[pos_x][j]._switch != null && _Protoboard.protoboard[pos_x][j]._switch.posicion1.coordenadax != -1) {
@@ -2171,6 +2149,5 @@ public class protoboard {
 //if("luego de conectar cable, revisar donde se conecta y cambiar lugares adyacentes") Check \(`w`)/
 //Considerar que en cada momento en el que se conecte un cable, se debera realizar el cambio a todo el protoboard, pero no es necesario realizar el cambio en todo el protoboard al mismo tiempo, solo en la zona existente
 //Considerar posible fallo al conectar en 2 espacios con polaridades contrarias
-
 
 
