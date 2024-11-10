@@ -22,6 +22,7 @@
             <Button fx:id="btnAgregarResistencia" onAction="#AgregarResistencia" text="Agregar resistencia" />
             <Button fx:id="btnAgregarChip" mnemonicParsing="false" onAction="#agregarChip" text="Agregar Chip" />
             <Button fx:id="btnEliminarObj" mnemonicParsing="false" onAction="#activarEliminacion" text="Eliminar" />
+            <Button fx:id="btnAgregarDisplay" mnemonicParsing="false" onAction="#AgregarDisplay" text="Agregar Display" />
 
         </children>
     </HBox>
