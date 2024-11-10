@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import jdk.swing.interop.SwingInterOpUtils;
+//import jdk.swing.interop.SwingInterOpUtils;
 
 public class protoboard {
 
@@ -51,12 +51,13 @@ public class protoboard {
 
     }
 
-    public Led ledInitiatorStart(protoboard _Protoboard, int posx_1, int posy_1, int auxx, int auxy, int cantidad_patas) {
+    public Led ledInitiatorStart(protoboard _Protoboard, int posx_1, int posy_1, int auxx, int auxy, int cantidad_patas,String color) {
         Led _led = new Led();
         if (cantidad_patas == 1) {
 
             _led.posicion1.coordenadax = posx_1;
             _led.posicion1.coordenaday = posy_1;
+            _led.color = color;
             _led.posicion1.corriente = _Protoboard.protoboard[_led.posicion1.coordenadax][_led.posicion1.coordenaday]._posicion.corriente;
             _Protoboard.protoboard[_led.posicion1.coordenadax][_led.posicion1.coordenaday]._led = _led;
             _Protoboard.protoboard[_led.posicion1.coordenadax][_led.posicion1.coordenaday].conexion = true;
@@ -66,6 +67,7 @@ public class protoboard {
             _led.posicion2.coordenaday = posy_1;
             _led.posicion1.coordenadax = auxx;
             _led.posicion1.coordenaday = auxy;
+            _led.color = color;
             _led.posicion1.corriente = _Protoboard.protoboard[_led.posicion1.coordenadax][_led.posicion1.coordenaday]._posicion.corriente;
             _led.posicion2.corriente = _Protoboard.protoboard[_led.posicion2.coordenadax][_led.posicion2.coordenaday]._posicion.corriente;
             _Protoboard.protoboard[_led.posicion2.coordenadax][_led.posicion2.coordenaday]._led = _led;
@@ -191,25 +193,9 @@ public class protoboard {
             int pos_1_y = _octoSwitch.posicion1.coordenaday;
             int pos_2_x = _octoSwitch.posicion2.coordenadax;
             int pos_y_switch = pos_1_y + 1;
-            for (int k = pos_1_x; k < pos_2_x + 1; k++) {
-                if (_Protoboard.protoboard[k][pos_y_switch]._octoSwitch.mini_switch_1.encendido) {
-                    // borrar la corriente abajo del miniswitch (si hay)
-                    if (_Protoboard.protoboard[k][pos_y_switch - 1]._posicion.corriente) {
-                        for (int l = 3; l < 8; l++) {
-                            _Protoboard.protoboard[k][l]._posicion.corriente = false;
-                        }
-
-                    } else if (_Protoboard.protoboard[k][pos_y_switch + 1]._posicion.corriente) {
-                        for (int l = 9; l < 14; l++) {
-                            _Protoboard.protoboard[k][l]._posicion.corriente = false;
-                        }
-                    }
-
-                }
-            }
             for (int i = pos_1_x; i < pos_2_x + 1; i++) {
-                for (int j = pos_1_y; j < 3; j++) {
-                    _Protoboard.protoboard[i][j]._octoSwitch = null;
+                for (int j = pos_1_y; j < pos_1_y+3; j++) {
+                    _Protoboard.protoboard[i][j]._octoSwitch = new OctoSwitch();
                     // resetear la conexion
                     _Protoboard.protoboard[i][j].conexion = false;
                 }
@@ -234,24 +220,34 @@ public class protoboard {
         } else if (_Protoboard.protoboard[pos_x][pos_y]._chip != null && _Protoboard.protoboard[pos_x][pos_y].conexion && _Protoboard.protoboard[pos_x][pos_y]._chip.posicion1.coordenadax != -1) {
             Chip _chip = _Protoboard.protoboard[pos_x][pos_y]._chip;
             if (_chip.posicion1.coordenadax == pos_x && _chip.posicion1.coordenaday == pos_y) {
-                _Protoboard.protoboard[_chip.pos_8.coordenadax][_chip.pos_8.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.pos_7.coordenadax][_chip.pos_7.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.pos_6.coordenadax][_chip.pos_6.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.pos_5.coordenadax][_chip.pos_5.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.pos_4.coordenadax][_chip.pos_4.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.pos_3.coordenadax][_chip.pos_3.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.pos_9.coordenadax][_chip.pos_9.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.pos_10.coordenadax][_chip.pos_10.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.pos_11.coordenadax][_chip.pos_11.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.pos_12.coordenadax][_chip.pos_12.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.pos_13.coordenadax][_chip.pos_13.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.pos_14.coordenadax][_chip.pos_14.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.posicion1.coordenadax][_chip.posicion1.coordenaday]._chip = null;
-                _Protoboard.protoboard[_chip.posicion2.coordenadax][_chip.posicion2.coordenaday]._chip = null;
+                _Protoboard.protoboard[_chip.pos_8.coordenadax][_chip.pos_8.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.pos_7.coordenadax][_chip.pos_7.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.pos_6.coordenadax][_chip.pos_6.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.pos_5.coordenadax][_chip.pos_5.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.pos_4.coordenadax][_chip.pos_4.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.pos_3.coordenadax][_chip.pos_3.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.pos_9.coordenadax][_chip.pos_9.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.pos_10.coordenadax][_chip.pos_10.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.pos_11.coordenadax][_chip.pos_11.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.pos_12.coordenadax][_chip.pos_12.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.pos_13.coordenadax][_chip.pos_13.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.pos_14.coordenadax][_chip.pos_14.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.posicion1.coordenadax][_chip.posicion1.coordenaday]._chip = new Chip();
+                _Protoboard.protoboard[_chip.posicion2.coordenadax][_chip.posicion2.coordenaday]._chip = new Chip();
             }
             // resetear la conexion
             for (int i = _chip.posicion1.coordenadax; i < _chip.pos_7.coordenadax + 1; i++) {
                 for (int j = _chip.posicion1.coordenaday; j < _chip.pos_8.coordenaday + 1; j++) {
+                    _Protoboard.protoboard[i][j].conexion = false;
+
+                }
+            }
+        } else if (_Protoboard.protoboard[pos_x][pos_y]._display != null && _Protoboard.protoboard[pos_x][pos_y].conexion && _Protoboard.protoboard[pos_x][pos_y]._display.posicion1.coordenadax != -1) {
+            Display _display = _Protoboard.protoboard[pos_x][pos_y]._display;
+            for (int i = _display.posicion1.coordenadax; i < _display.pos_5.coordenadax + 1; i++) {
+                for (int j = _display.posicion1.coordenaday; j < _display.pos_6.coordenaday + 1; j++) {
+                    _Protoboard.protoboard[i][j]._display = new Display();
+                    // resetear la conexion
                     _Protoboard.protoboard[i][j].conexion = false;
                 }
             }
@@ -265,7 +261,6 @@ public class protoboard {
         // al eliminar un elemento, se debe eliminar un cable, led, switch, del protoboard y eliminar la corriente de esa fila/columna
         if (switch_bateria) {
             if (pos_x == -3 || pos_x == -2) {
-                System.out.println("entra negativo");
                 for (int i = 0; i < 30; i++) {
                     for (int k = 0; k < 17; k++) {
                         if (_Protoboard.protoboard[i][k]._cable.conexionBateria) {
@@ -365,9 +360,16 @@ public class protoboard {
                     Chip _chip = _Protoboard.protoboard[i][j]._chip;
                     if (_chip.tipo_chip.equals("AND")){
                         _chip.eliminarCorrienteAND(_Protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("OR")){
+                        _chip.eliminarCorrienteOR(_Protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("NOT")){
+                        _chip.eliminarCorrienteNOT(_Protoboard, _chip);
                     }
                 }
-
+                if (_Protoboard.protoboard[i][j]._display!=null && _Protoboard.protoboard[i][j]._display.posicion1.coordenadax != -1){
+                    Display _display = _Protoboard.protoboard[i][j]._display;
+                    _display.apagarLinea(_Protoboard, _display);
+                }
                 j++;
             }
         } else if (pos_y > 8) {
@@ -439,7 +441,15 @@ public class protoboard {
                     Chip _chip = _Protoboard.protoboard[i][j]._chip;
                     if (_chip.tipo_chip.equals("AND")){
                         _chip.eliminarCorrienteAND(_Protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("OR")){
+                        _chip.eliminarCorrienteOR(_Protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("NOT")){
+                        _chip.eliminarCorrienteNOT(_Protoboard, _chip);
                     }
+                }
+                if (_Protoboard.protoboard[i][j]._display!=null && _Protoboard.protoboard[i][j]._display.posicion1.coordenadax != -1){
+                    Display _display = _Protoboard.protoboard[i][j]._display;
+                    _display.apagarLinea(_Protoboard, _display);
                 }
                 j++;
             }
@@ -459,12 +469,10 @@ public class protoboard {
                 }
                 // si encuentra un ked
                 if (_Protoboard.protoboard[pos_x][j]._led != null && _Protoboard.protoboard[pos_x][j]._led.posicion1.coordenadax != -1) {
-                    cuenta_leds++;
                     _Protoboard.protoboard[pos_x][j]._posicion.corriente = true;
-                    if (cuenta_leds > 1) {
-                        cambiarEstadoLed(_Protoboard, _Protoboard.protoboard[pos_x][j]._led);
-                        cuenta_leds = 0;
-                    }
+                    cambiarEstadoLed(_Protoboard, _Protoboard.protoboard[pos_x][j]._led);
+
+
 
                 } // si encuentra un switch
                 if (_Protoboard.protoboard[pos_x][j]._switch != null && _Protoboard.protoboard[pos_x][j]._switch.posicion1.coordenadax != -1) {
@@ -537,7 +545,16 @@ public class protoboard {
                     Chip _chip = _Protoboard.protoboard[pos_x][j]._chip;
                     if (_chip.tipo_chip.equals("AND")){
                         _chip.pasarCorrienteAND(_Protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("OR")){
+                        _chip.pasarCorrienteOR(_Protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("NOT")){
+                        _chip.pasarCorrienteNOT(_Protoboard, _chip);
                     }
+
+                }
+                if (_Protoboard.protoboard[pos_x][j]._display!=null && _Protoboard.protoboard[pos_x][j]._display.posicion1.coordenadax != -1){
+                    Display _display = _Protoboard.protoboard[pos_x][j]._display;
+                    _display.activarLinea(_Protoboard, _display);
                 }
                 j++;
             }
@@ -551,12 +568,8 @@ public class protoboard {
                 }
                 // si encuentra un ked
                 if (_Protoboard.protoboard[pos_x][j]._led != null && _Protoboard.protoboard[pos_x][j]._led.posicion1.coordenadax != -1) {
-                    cuenta_leds++;
                     _Protoboard.protoboard[pos_x][j]._posicion.corriente = true;
-                    if (cuenta_leds > 1) {
-                        cambiarEstadoLed(_Protoboard, _Protoboard.protoboard[pos_x][j]._led);
-                        cuenta_leds = 0;
-                    }
+                    cambiarEstadoLed(_Protoboard, _Protoboard.protoboard[pos_x][j]._led);
 
                 } // si encuentra un switch
                 if (_Protoboard.protoboard[pos_x][j]._switch != null && _Protoboard.protoboard[pos_x][j]._switch.posicion1.coordenadax != -1) {
@@ -631,7 +644,16 @@ public class protoboard {
 
                     if (_chip.tipo_chip.equals("AND")){
                         _chip.pasarCorrienteAND(_Protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("OR")){
+                        _chip.pasarCorrienteOR(_Protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("NOT")){
+                        _chip.pasarCorrienteNOT(_Protoboard, _chip);
                     }
+
+                }
+                if (_Protoboard.protoboard[pos_x][j]._display!=null && _Protoboard.protoboard[pos_x][j]._display.posicion1.coordenadax != -1){
+                    Display _display = _Protoboard.protoboard[pos_x][j]._display;
+                    _display.activarLinea(_Protoboard, _display);
                 }
                 j++;
             }
@@ -1098,7 +1120,6 @@ public class protoboard {
             if (_Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.corriente && (posicion_final_y > 8 && posicion_final_y < 14)) {
                 int j = 9;
                 if (!_Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.quemado) {
-                    System.out.println("pasando corriente a la posicion " + posicion_final_x + " " + posicion_final_y);
                     // primero pasa corriente
                     _cable.posicion1.polaridad = _Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.polaridad;
                     _cable.posicion1.corriente = true;
@@ -1263,7 +1284,6 @@ public class protoboard {
                 }
             } else if (_Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.corriente && (posicion_final_y > 2 && posicion_final_y < 8)) {
                 int j = 3;
-                System.out.println("pasando corriente a la posicion " + posicion_final_x + " " + posicion_final_y);
                 if (!_Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.quemado) {
                     _cable.posicion1.polaridad = _Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.polaridad;
                     _cable.posicion2.polaridad = _Protoboard.protoboard[posicion_inicio_x][posicion_inicio_y]._posicion.polaridad;
@@ -1940,6 +1960,52 @@ public class protoboard {
         }
     }
 
+    public void displaySet(protoboard _Protoboard, int pos_inicio_x, int pos_inicio_y){
+        Display _Display = new Display();
+        // las de abajo son +6
+        //Ingresar coordenadas desde protoboard grafico
+        // asignar coordenada x e y a todas las posiciones del display
+        // -- parte de arriba
+        _Display.posicion1.coordenadax = pos_inicio_x;
+        _Display.posicion1.coordenaday = pos_inicio_y;
+
+        _Display.posicion2.coordenadax = pos_inicio_x + 1;
+        _Display.posicion2.coordenaday = pos_inicio_y;
+
+        _Display.pos_3.coordenadax = pos_inicio_x + 2;
+        _Display.pos_3.coordenaday = pos_inicio_y;
+
+        _Display.pos_4.coordenadax = pos_inicio_x + 3;
+        _Display.pos_4.coordenaday = pos_inicio_y;
+
+        _Display.pos_5.coordenadax = pos_inicio_x + 4;
+        _Display.pos_5.coordenaday = pos_inicio_y;
+
+        // -- parte de abajo
+        _Display.pos_6.coordenadax = pos_inicio_x;
+        _Display.pos_6.coordenaday = pos_inicio_y + 6;
+
+        _Display.pos_7.coordenadax = pos_inicio_x + 1;
+        _Display.pos_7.coordenaday = pos_inicio_y +6;
+
+        _Display.pos_8.coordenadax = pos_inicio_x + 2;
+        _Display.pos_8.coordenaday = pos_inicio_y + 6;
+
+        _Display.pos_9.coordenadax = pos_inicio_x + 3;
+        _Display.pos_9.coordenaday = pos_inicio_y  + 6;
+
+        _Display.pos_10.coordenadax = pos_inicio_x + 4;
+        _Display.pos_10.coordenaday = pos_inicio_y + 6;
+
+        // imprimir todas las posiciones para comprobar que se esta poniendo bien
+        for (int i = pos_inicio_x; i < pos_inicio_x + 5; i++) {
+            for (int j = pos_inicio_y; j < pos_inicio_y + 7; j++) {
+                _Protoboard.protoboard[i][j]._display = _Display;
+                _Protoboard.protoboard[i][j].conexion = true;
+            }
+        }
+    }
+
     public void cableSet(protoboard _Protoboard, int pos_1_x, int pos_1_y, int pos_2_x, int pos_2_y, boolean conexion_bateria) {
         int i, j = 0;
         cable _Cable = new cable();
@@ -2002,7 +2068,6 @@ public class protoboard {
             }
 
         } else {
-            System.out.println("entra aca");
             _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday]._cable = _Cable;
             _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday]._cable = _Cable;
             _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday].conexion = true;
@@ -2019,8 +2084,6 @@ public class protoboard {
             }
             //while("recorrer corriente basado en posicion, si es 0-1-12-13, significa que es un bus y se requiere recorrer horizontalmente, si es entre 2-6 se considera vertical superior y si es 7-11, vertical inferior, se debe realizar esta verificacion para cada uno de los cables")
 
-            System.out.println("cable conectado en las posiciones: " + _Cable.posicion1.coordenadax + " " + _Cable.posicion1.coordenaday + " y " + _Cable.posicion2.coordenadax + " " + _Cable.posicion2.coordenaday);
-            System.out.println("polaridad del cable: " + _Cable.posicion1.polaridad + " " + _Cable.posicion2.polaridad);
         }
         QuemadoCheck(_Protoboard);
     }
@@ -2086,6 +2149,5 @@ public class protoboard {
 //if("luego de conectar cable, revisar donde se conecta y cambiar lugares adyacentes") Check \(`w`)/
 //Considerar que en cada momento en el que se conecte un cable, se debera realizar el cambio a todo el protoboard, pero no es necesario realizar el cambio en todo el protoboard al mismo tiempo, solo en la zona existente
 //Considerar posible fallo al conectar en 2 espacios con polaridades contrarias
-
 
 
