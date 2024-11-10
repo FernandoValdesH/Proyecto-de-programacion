@@ -199,9 +199,39 @@ public class Dibujador {
 
 
     }
-    public void dibujarLed(GraphicsContext gc, double x_led, double y_led, Color color) {
-        gc.setFill(color);
-        gc.fillOval(x_led, y_led, 30, 30);
+    public void dibujarLed(GraphicsContext gc, double x_led, double y_led, String color,protoboard _protoboard) {
+        switch(color){
+            case "rojo":
+
+                gc.setFill(Color.RED);
+                gc.fillOval(x_led, y_led, 30, 30);
+                break;
+            case "azul":
+                gc.setFill(Color.BLUE);
+                gc.fillOval(x_led, y_led, 30, 30);
+                break;
+            case "verde":
+                gc.setFill(Color.SPRINGGREEN);
+                gc.fillOval(x_led, y_led, 30, 30);
+                break;
+            case "amarillo":
+                gc.setFill(Color.YELLOW);
+                gc.fillOval(x_led, y_led, 30, 30);
+                break;
+            case "rojo_oscuro":
+                gc.setFill(Color.DARKRED);
+                gc.fillOval(x_led, y_led, 30, 30);
+                break;
+            case "azul_oscuro":
+                gc.setFill(Color.MIDNIGHTBLUE);
+                gc.fillOval(x_led, y_led, 30, 30);
+                break;
+            case "verde_oscuro":
+                gc.setFill(Color.DARKGREEN);
+                gc.fillOval(x_led, y_led, 30, 30);
+                break;
+        }
+
     }
 
     public void dibujarCable(GraphicsContext gc, int pos_inicio_x, int pos_inicio_y, int pos_final_x, int pos_final_y){
