@@ -1204,113 +1204,135 @@ public class protoboard {
             }
         }
     }*/
-    public void recCorriente(protoboard _Protoboard, Boolean Polaridad, int posx, int posy){
-        if(!((posx == -1 || posy == -1)||(posx == -2 || posy == -2) || (posx == -3 || posy == 3)) && !(_Protoboard.protoboard[posx][posy]._posicion.quemado)){
-            if(_Protoboard.protoboard[posx][posy]._cable.conectado){
-        if(posy<=1){
-            posx = 0;
-            while(posx < 30){
-                _Protoboard.protoboard[posx][posy]._posicion.corriente = true;
-                _Protoboard.protoboard[posx][posy]._posicion.polaridad = Polaridad;
-                if(_Protoboard.protoboard[posx][posy].conexion && !_Protoboard.protoboard[posx][posy]._cable.procesado){
-                    _Protoboard.protoboard[posx][posy]._cable.procesado = true;
-                    if(!(_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax == posx && _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday == posy) || !(_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax == posx && _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday == posy)){
-                        if(_Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday]._posicion.corriente && _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday]._posicion.corriente  && _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday]._posicion.polaridad != _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday]._posicion.polaridad ){ _Protoboard.protoboard[posx][posy]._cable.quemado = true;
-                            System.out.println("se quemo");
-                            recQuemado(_Protoboard, _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax, _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday);
-                            recQuemado(_Protoboard, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday);
-                        }else
-                             recCorriente(_Protoboard, Polaridad,_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax , _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday);
-                    }
-                }
-                posx++;
-            }
-        } else if (posy<7) {
-            posy = 2;
-            while(posy < 7){
-                _Protoboard.protoboard[posx][posy]._posicion.corriente = true;
-                _Protoboard.protoboard[posx][posy]._posicion.polaridad = Polaridad;
-                if(_Protoboard.protoboard[posx][posy].conexion && !_Protoboard.protoboard[posx][posy]._cable.procesado){
-                    _Protoboard.protoboard[posx][posy]._cable.procesado = true;
-                    if((!(_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax == posx && _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday == posy) || !(_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax == posx && _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday == posy))){
-                        if(_Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday]._posicion.corriente && _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday]._posicion.corriente  && _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday]._posicion.polaridad != _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday]._posicion.polaridad ){ _Protoboard.protoboard[posx][posy]._cable.quemado = true;
-                            System.out.println("se quemo");
-                            recQuemado(_Protoboard, _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax, _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday);
-                            recQuemado(_Protoboard, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday);
-                        }else
-                            recCorriente(_Protoboard, Polaridad,_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax , _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday);
-                    }
-                }
-                posy++;
-            }
-        } else if (posy>7 && posy<13) {
-            posy=8;
-            while(posy < 13){
-                _Protoboard.protoboard[posx][posy]._posicion.corriente = true;
-                _Protoboard.protoboard[posx][posy]._posicion.polaridad = Polaridad;
-                if(_Protoboard.protoboard[posx][posy].conexion && !_Protoboard.protoboard[posx][posy]._cable.procesado){
-                    _Protoboard.protoboard[posx][posy]._cable.procesado = true;
-                    if((!(_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax == posx && _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday == posy) || !(_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax == posx)) ){
-                        if(_Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday]._posicion.corriente && _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday]._posicion.corriente  && _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday]._posicion.polaridad != _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday]._posicion.polaridad ){
-                            _Protoboard.protoboard[posx][posy]._cable.quemado = true;
-                            System.out.println("se quemo");
-                            recQuemado(_Protoboard, _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax, _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday);
-                            recQuemado(_Protoboard, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday);
-                        }else
-                            recCorriente(_Protoboard, Polaridad,_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax , _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday);
-                    }
-                }
-                posy++;
-            }
-        } else if (posy>=13) {
-            posx = 0;
-            while(posx < 30){
-                _Protoboard.protoboard[posx][posy]._posicion.corriente = true;
-                _Protoboard.protoboard[posx][posy]._posicion.polaridad = Polaridad;
-                if(_Protoboard.protoboard[posx][posy].conexion && !_Protoboard.protoboard[posx][posy]._cable.procesado){
-                    _Protoboard.protoboard[posx][posy]._cable.procesado = true;
-                    if(!(_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax == posx && _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday == posy) || !(_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax == posx && _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday == posy)){
-                        if(_Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday]._posicion.corriente && _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday]._posicion.corriente  && _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday]._posicion.polaridad != _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday]._posicion.polaridad ){
-                            _Protoboard.protoboard[posx][posy]._cable.quemado = true;
-                            System.out.println("se quemo");
-                            recQuemado(_Protoboard, _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax, _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday);
-                            recQuemado(_Protoboard, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday);
-                        }else
-                            recCorriente(_Protoboard, Polaridad,_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax , _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday);
-                    }
-                }
-                posx++;
-            }
+    public void recCorriente(protoboard _Protoboard, Boolean Polaridad, int posx, int posy) {
+        if (!((posx == -1 || posy == -1) || (posx == -2 || posy == -2) || (posx == -3 || posy == 3)) && !(_Protoboard.protoboard[posx][posy]._posicion.quemado)) {
+            if (_Protoboard.protoboard[posx][posy]._cable.conectado) {
+                if (posy <= 1) {
+                    posx = 0;
+                    while (posx < 30) {
+                        if(!_Protoboard.protoboard[posx][posy]._posicion.quemado) {
+                        _Protoboard.protoboard[posx][posy]._posicion.corriente = true;
+                        _Protoboard.protoboard[posx][posy]._posicion.polaridad = Polaridad;
+                        if (_Protoboard.protoboard[posx][posy].conexion) {
+                            if(!_Protoboard.protoboard[posx][posy]._cable.procesado && _Protoboard.protoboard[posx][posy]._cable.conectado){
+                            _Protoboard.protoboard[posx][posy]._cable.procesado = true;
+                            if (!(_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax == posx && _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday == posy) || !(_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax == posx && _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday == posy)) {
+                                if (_Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday]._posicion.corriente && _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday]._posicion.corriente && _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday]._posicion.polaridad != _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday]._posicion.polaridad) {
+                                    _Protoboard.protoboard[posx][posy]._cable.quemado = true;
+                                    System.out.println("se quemo");
+                                    recQuemado(_Protoboard, _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax, _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday);
+                                    recQuemado(_Protoboard, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday);
+                                } else
+                                    recCorriente(_Protoboard, Polaridad, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday);
+                            }}
 
-        }}else if(_Protoboard.protoboard[posx][posy]._switch.conectado && !_Protoboard.protoboard[posx][posy]._switch.procesado){
-                if((_Protoboard.protoboard[posx][posy]._switch.posicion1.coordenadax == posx && _Protoboard.protoboard[posx][posy]._switch.posicion1.coordenaday == posy) || (_Protoboard.protoboard[posx][posy]._switch.posicion2.coordenadax == posx && _Protoboard.protoboard[posx][posy]._switch.posicion2.coordenaday == posy)){
-                    if(_Protoboard.protoboard[posx][posy]._switch.prendido){
-                        _Protoboard.protoboard[posx][posy]._switch.procesado = true;
-                        recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion1.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion1.coordenaday);
-                        recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion2.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion2.coordenaday);
-                        recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion3.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion3.coordenaday);
-                        recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion4.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion4.coordenaday);
-                    }else {
-                        _Protoboard.protoboard[posx][posy]._switch.procesado = true;
-                        recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion1.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion1.coordenaday);
-                        recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion2.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion2.coordenaday);
+                        }
+                        }posx++;
                     }
+                } else if (posy < 7) {
+                    posy = 2;
+                    while (posy < 7) {
+                        if(!_Protoboard.protoboard[posx][posy]._posicion.quemado){
+                        _Protoboard.protoboard[posx][posy]._posicion.corriente = true;
+                        _Protoboard.protoboard[posx][posy]._posicion.polaridad = Polaridad;
+                        if (_Protoboard.protoboard[posx][posy].conexion) {
+                            if(!_Protoboard.protoboard[posx][posy]._cable.procesado && _Protoboard.protoboard[posx][posy]._cable.conectado){
+                                _Protoboard.protoboard[posx][posy]._cable.procesado = true;
+                                if (!(_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax == posx && _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday == posy) || !(_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax == posx && _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday == posy)) {
+                                    if (_Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday]._posicion.corriente && _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday]._posicion.corriente && _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday]._posicion.polaridad != _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday]._posicion.polaridad) {
+                                        _Protoboard.protoboard[posx][posy]._cable.quemado = true;
+                                        System.out.println("se quemo");
+                                        recQuemado(_Protoboard, _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax, _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday);
+                                        recQuemado(_Protoboard, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday);
+                                    } else
+                                        recCorriente(_Protoboard, Polaridad, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday);
+                                }}
+
+                        }}
+                        posy++;
+                    }
+                } else if (posy > 7 && posy < 13) {
+                    posy = 8;
+                    while (posy < 13) {
+                        if(!_Protoboard.protoboard[posx][posy]._posicion.quemado) {
+                            _Protoboard.protoboard[posx][posy]._posicion.corriente = true;
+                            _Protoboard.protoboard[posx][posy]._posicion.polaridad = Polaridad;
+                            if (_Protoboard.protoboard[posx][posy].conexion) {
+                                if (!_Protoboard.protoboard[posx][posy]._cable.procesado && _Protoboard.protoboard[posx][posy]._cable.conectado) {
+                                    _Protoboard.protoboard[posx][posy]._cable.procesado = true;
+                                    if (!(_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax == posx && _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday == posy) || !(_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax == posx && _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday == posy)) {
+                                        if (_Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday]._posicion.corriente && _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday]._posicion.corriente && _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday]._posicion.polaridad != _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday]._posicion.polaridad) {
+                                            _Protoboard.protoboard[posx][posy]._cable.quemado = true;
+                                            System.out.println("se quemo");
+                                            recQuemado(_Protoboard, _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax, _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday);
+                                            recQuemado(_Protoboard, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday);
+                                        } else
+                                            recCorriente(_Protoboard, Polaridad, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday);
+                                    }
+                                }
+
+                            }
+                        }posy++;
+                    }
+                } else if (posy >= 13) {
+                    posx = 0;
+                    while (posx < 30) {
+                        if(!_Protoboard.protoboard[posx][posy]._posicion.quemado) {
+                            _Protoboard.protoboard[posx][posy]._posicion.corriente = true;
+                            _Protoboard.protoboard[posx][posy]._posicion.polaridad = Polaridad;
+                            if (_Protoboard.protoboard[posx][posy].conexion) {
+                                if (!_Protoboard.protoboard[posx][posy]._cable.procesado && _Protoboard.protoboard[posx][posy]._cable.conectado) {
+                                    _Protoboard.protoboard[posx][posy]._cable.procesado = true;
+                                    if (!(_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax == posx && _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday == posy) || !(_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax == posx && _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday == posy)) {
+                                        if (_Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday]._posicion.corriente && _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday]._posicion.corriente && _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday]._posicion.polaridad != _Protoboard.protoboard[_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax][_Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday]._posicion.polaridad) {
+                                            _Protoboard.protoboard[posx][posy]._cable.quemado = true;
+                                            System.out.println("se quemo");
+                                            recQuemado(_Protoboard, _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenadax, _Protoboard.protoboard[posx][posy]._cable.posicion1.coordenaday);
+                                            recQuemado(_Protoboard, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday);
+                                        } else
+                                            recCorriente(_Protoboard, Polaridad, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenadax, _Protoboard.protoboard[posx][posy]._cable.posicion2.coordenaday);
+                                    }
+                                }
+
+                            }
+                        }posx++;
+                    }
+
+                }
+            } else if (_Protoboard.protoboard[posx][posy]._switch.conectado && !_Protoboard.protoboard[posx][posy]._switch.procesado) {
+                if ((_Protoboard.protoboard[posx][posy]._switch.posicion1.coordenadax == posx && _Protoboard.protoboard[posx][posy]._switch.posicion1.coordenaday == posy) || (_Protoboard.protoboard[posx][posy]._switch.posicion2.coordenadax == posx && _Protoboard.protoboard[posx][posy]._switch.posicion2.coordenaday == posy)) {
+                    if (_Protoboard.protoboard[posx][posy]._switch.prendido) {
+                        if(!_Protoboard.protoboard[posx][posy]._posicion.quemado) {
+                            _Protoboard.protoboard[posx][posy]._switch.procesado = true;
+                            recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion1.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion1.coordenaday);
+                            recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion2.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion2.coordenaday);
+                            recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion3.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion3.coordenaday);
+                            recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion4.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion4.coordenaday);
+                        }} else {
+                        if(!_Protoboard.protoboard[posx][posy]._posicion.quemado) {
+                            _Protoboard.protoboard[posx][posy]._switch.procesado = true;
+                            recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion1.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion1.coordenaday);
+                            recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion2.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion2.coordenaday);
+                        }}
                 } else if ((_Protoboard.protoboard[posx][posy]._switch.posicion3.coordenadax == posx && _Protoboard.protoboard[posx][posy]._switch.posicion3.coordenaday == posy) || (_Protoboard.protoboard[posx][posy]._switch.posicion4.coordenadax == posx && _Protoboard.protoboard[posx][posy]._switch.posicion4.coordenaday == posy)) {
-                    if(_Protoboard.protoboard[posx][posy]._switch.prendido){
-                        _Protoboard.protoboard[posx][posy]._switch.procesado = true;
-                        recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion1.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion1.coordenaday);
-                        recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion2.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion2.coordenaday);
-                        recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion3.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion3.coordenaday);
-                        recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion4.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion4.coordenaday);
-                    }else {
-                        _Protoboard.protoboard[posx][posy]._switch.procesado = true;
-                        recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion1.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion1.coordenaday);
-                        recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion2.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion2.coordenaday);
-                    }
+                    if (_Protoboard.protoboard[posx][posy]._switch.prendido) {
+                        if(!_Protoboard.protoboard[posx][posy]._posicion.quemado) {
+                            _Protoboard.protoboard[posx][posy]._switch.procesado = true;
+                            recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion1.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion1.coordenaday);
+                            recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion2.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion2.coordenaday);
+                            recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion3.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion3.coordenaday);
+                            recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion4.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion4.coordenaday);
+                        }} else {
+                        if(!_Protoboard.protoboard[posx][posy]._posicion.quemado) {
+                            _Protoboard.protoboard[posx][posy]._switch.procesado = true;
+                            recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion1.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion1.coordenaday);
+                            recCorriente(_Protoboard, _Protoboard.protoboard[posx][posy]._posicion.polaridad, _Protoboard.protoboard[posx][posy]._switch.posicion2.coordenadax, _Protoboard.protoboard[posx][posy]._switch.posicion2.coordenaday);
+                        }}
                 }
             }
 
-    }}
+        }
+    }
     public void SacarCorriente(protoboard _Protoboard){
         int i=0;int j = 0;
         while(i<30) {
@@ -1334,22 +1356,22 @@ public class protoboard {
                 marcador++;
             }else
             if(cables[i].posicion1.coordenadax == -3 && cables[i].posicion1.coordenaday == -3){
+                cables[i].procesado = true;
                 _Protoboard.protoboard[cables[i].posicion2.coordenadax][cables[i].posicion2.coordenaday]._cable.procesado = true;
                 recCorriente(_Protoboard, cables[i].posicion1.polaridad, cables[i].posicion2.coordenadax, cables[i].posicion2.coordenaday);
-                cables[i].procesado = true;
 
                 marcador++;
             }if(cables[i].posicion2.coordenadax == -2 && cables[i].posicion2.coordenaday == -2){
+                    cables[i].procesado = true;
                     _Protoboard.protoboard[cables[i].posicion1.coordenadax][cables[i].posicion1.coordenaday]._cable.procesado = true;
                 recCorriente(_Protoboard, cables[i].posicion2.polaridad, cables[i].posicion1.coordenadax, cables[i].posicion1.coordenaday);
-                cables[i].procesado = true;
 
                 marcador++;
             }else
             if(cables[i].posicion2.coordenadax == -3 && cables[i].posicion2.coordenaday == -3){
+                cables[i].procesado = true;
                 _Protoboard.protoboard[cables[i].posicion1.coordenadax][cables[i].posicion1.coordenaday]._cable.procesado = true;
                 recCorriente(_Protoboard, cables[i].posicion2.polaridad, cables[i].posicion1.coordenadax, cables[i].posicion1.coordenaday);
-                cables[i].procesado = true;
 
                 marcador++;
             }}
@@ -1363,6 +1385,7 @@ public class protoboard {
             while(j<15){
                 if(_Protoboard.protoboard[i][j]._cable!=null){
                     _Protoboard.protoboard[i][j]._cable.procesado = false;
+                    _Protoboard.protoboard[i][j]._switch.procesado = false;
                 }
                 j++;
             }
@@ -1392,7 +1415,8 @@ public class protoboard {
         _switch.posicion4.coordenaday = pos_central_y + 1;
 
         _switch.prendido = encendido;
-
+        _switch.procesado = false;
+        _switch.conectado = true;
         _Protoboard.protoboard[pos_central_x + 1][pos_central_y - 1]._switch = _switch;
         _Protoboard.protoboard[pos_central_x + 1][pos_central_y - 1].conexion = true;
 
@@ -1411,7 +1435,7 @@ public class protoboard {
         _Protoboard.protoboard[pos_central_x + 1][pos_central_y + 1]._switch.prendido = encendido;
         _Protoboard.protoboard[pos_central_x - 1][pos_central_y + 1]._switch.prendido = encendido;
 
-        _switch.pasarCorriente(_Protoboard, pos_central_x, pos_central_y);
+        PasarCorriente(_Protoboard, Controlador_Protoboard.cablelist);
 
     }
 
@@ -1964,6 +1988,7 @@ public class protoboard {
                 _Cable.posicion2.corriente = true;
                 _Cable.posicion1.polaridad = true;
                 _Cable.posicion2.polaridad = true;
+                _Cable.conectado = true;
                 _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday].conexion = true;
                 _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday]._posicion.corriente = true;
                 _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday]._posicion.polaridad = true;
@@ -1980,6 +2005,7 @@ public class protoboard {
                 _Cable.posicion2.corriente = true;
                 _Cable.posicion1.polaridad = false;
                 _Cable.posicion2.polaridad = false;
+                _Cable.conectado = true;
                 _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday].conexion = true;
                 _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday]._posicion.corriente = true;
                 _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday]._posicion.polaridad = true;
@@ -1994,6 +2020,7 @@ public class protoboard {
                 _Cable.posicion2.corriente = true;
                 _Cable.posicion1.polaridad = false;
                 _Cable.posicion2.polaridad = false;
+                _Cable.conectado = true;
                 _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday].conexion = true;
                 _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday]._posicion.corriente = true;
                 _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday]._posicion.polaridad = true;
@@ -2009,6 +2036,7 @@ public class protoboard {
                 _Cable.posicion2.corriente = true;
                 _Cable.posicion1.polaridad = true;
                 _Cable.posicion2.polaridad = true;
+                _Cable.conectado = true;
                 _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday].conexion = true;
                 _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday]._posicion.corriente = true;
                 _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday]._posicion.polaridad = true;
@@ -2020,6 +2048,7 @@ public class protoboard {
             }
 
         } else {
+            _Cable.conectado = true;
             _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday]._cable = _Cable;
             _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday]._cable = _Cable;
             _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday].conexion = true;
