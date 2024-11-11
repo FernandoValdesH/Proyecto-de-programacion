@@ -230,6 +230,15 @@ public class Dibujador {
                 gc.setFill(Color.DARKGREEN);
                 gc.fillOval(x_led, y_led, 30, 30);
                 break;
+            case "amarillo_oscuro":
+                gc.setFill(Color.rgb(255, 187, 0));
+                gc.fillOval(x_led, y_led, 30, 30);
+                break;
+            case "negro":
+                gc.setFill(Color.rgb(0, 0, 0));
+                gc.fillOval(x_led, y_led, 30, 30);
+                break;
+
         }
 
     }
