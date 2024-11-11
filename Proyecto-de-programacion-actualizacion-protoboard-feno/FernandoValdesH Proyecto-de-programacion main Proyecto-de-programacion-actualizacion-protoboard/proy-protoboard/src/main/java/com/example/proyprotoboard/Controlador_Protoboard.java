@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
 public class Controlador_Protoboard implements Initializable {
 
 
-
+    public Button btnResetearProtoboard;
     private boolean activar_eliminacion=false;
     private ArrayList<Double> arreglo_coordenadas_leds = new ArrayList<>();
     private ArrayList<Double> arreglo_coordenadas_switch = new ArrayList<>();
@@ -64,8 +64,6 @@ public class Controlador_Protoboard implements Initializable {
     private boolean agregar_chip = false;
 
     private String color_led = " ";
-    int posicion1_x = 0;
-    int posicion1_y = 0;
 
     private boolean agregar_display = false;
 
@@ -425,19 +423,19 @@ public class Controlador_Protoboard implements Initializable {
             x_resistencia = arreglo_coordenadas_resistencias.get(i);
             y_resistencia = arreglo_coordenadas_resistencias.get(i + 1);
 
-                patita_x1 = arreglo_coordenadas_resistencias_patitas.get((i*2));
-                patita_y1 = arreglo_coordenadas_resistencias_patitas.get(((i*2)+1));
-                patita_x2 = arreglo_coordenadas_resistencias_patitas.get(((i*2)+2));
-                patita_y2 = arreglo_coordenadas_resistencias_patitas.get(((i*2)+3));
-                int transformacion_x_1 = (int) (patita_x1) / 20;
-                int transformacion_y_1 = transformacionY_coordA_Matriz((int) patita_y1 + 15);
-                if (_Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia != null && _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.posicion1.coordenadax != -1) {
-                    banda1 = _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.banda_1;
-                    banda2 = _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.banda_2;
-                    multiplicador = _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.multiplicador;
-                    tolerancia = _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.tolerancia;
+            patita_x1 = arreglo_coordenadas_resistencias_patitas.get((i*2));
+            patita_y1 = arreglo_coordenadas_resistencias_patitas.get(((i*2)+1));
+            patita_x2 = arreglo_coordenadas_resistencias_patitas.get(((i*2)+2));
+            patita_y2 = arreglo_coordenadas_resistencias_patitas.get(((i*2)+3));
+            int transformacion_x_1 = (int) (patita_x1) / 20;
+            int transformacion_y_1 = transformacionY_coordA_Matriz((int) patita_y1 + 15);
+            if (_Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia != null && _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.posicion1.coordenadax != -1) {
+                banda1 = _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.banda_1;
+                banda2 = _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.banda_2;
+                multiplicador = _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.multiplicador;
+                tolerancia = _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.tolerancia;
 
-                }
+            }
 
 
             dibujador.dibujarResistencia(gc, x_resistencia, y_resistencia, patita_x1, patita_y1, patita_x2, patita_y2, banda1, banda2, multiplicador, tolerancia);
@@ -862,8 +860,8 @@ public class Controlador_Protoboard implements Initializable {
                 arreglo_coordenadas_patitas_leds.add(punto_inicio_x_patita);arreglo_coordenadas_patitas_leds.add(punto_inicio_y_patita);arreglo_coordenadas_patitas_leds.add(punto_final_x_patita); arreglo_coordenadas_patitas_leds.add(punto_final_y_patita);
                 // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
                 // retornar coordenada transformada a posicion de una matriz de 30 elementos : es coordenada - 15 / 20
-                 posicion1_x = (int) ((punto_final_x_patita - 15) / 20);
-                 posicion1_y = transformacionY_coordA_Matriz(punto_final_y_patita);
+                int posicion1_x = (int) ((punto_final_x_patita - 15) / 20);
+                int posicion1_y = transformacionY_coordA_Matriz(punto_final_y_patita);
 
                 cantidad_patitas++;
                 if(cantidad_patitas == 1){
@@ -1619,4 +1617,32 @@ public class Controlador_Protoboard implements Initializable {
     }
 
 
+    public void resetearProtoboard(ActionEvent actionEvent) {
+        for (int i = 0 ; i < 30 ; i++){
+            for (int j = 0 ; j < 17 ; j ++){
+                _Protoboard_Funcional.protoboard[i][j].conexion = false;
+                _Protoboard_Funcional.protoboard[i][j]._posicion.corriente = false;
+                _Protoboard_Funcional.protoboard[i][j]._posicion.polaridad = false;
+                _Protoboard_Funcional.protoboard[i][j]._cable = new cable();
+                _Protoboard_Funcional.protoboard[i][j]._led = new Led();
+                _Protoboard_Funcional.protoboard[i][j]._resistencia = new Resistencia();
+                _Protoboard_Funcional.protoboard[i][j]._switch = new Switch();
+                _Protoboard_Funcional.protoboard[i][j]._octoSwitch = new OctoSwitch();
+                _Protoboard_Funcional.protoboard[i][j]._chip = new Chip();
+                _Protoboard_Funcional.protoboard[i][j]._display = new Display();
+            }
+        }
+        arreglo_coordenadas_cables.clear();
+        arreglo_coordenadas_resistencias.clear();
+        arreglo_coordenadas_resistencias_patitas.clear();
+        arreglo_coordenadas_leds.clear();
+        arreglo_coordenadas_patitas_leds.clear();
+        arreglo_coordenadas_switch.clear();
+        arreglo_coordenadas_OctoSwitch.clear();
+        arreglo_coordenadas_chip.clear();
+        arreglo_coordenadas_display.clear();
+
+        tablero.getGraphicsContext2D().clearRect(0,0,tablero.getWidth(),tablero.getHeight());
+        dibujarTodo();
+    }
 }
