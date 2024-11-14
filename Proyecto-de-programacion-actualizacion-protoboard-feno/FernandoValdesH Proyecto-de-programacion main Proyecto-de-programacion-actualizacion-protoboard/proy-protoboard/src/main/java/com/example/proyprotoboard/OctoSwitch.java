@@ -59,7 +59,7 @@ public class OctoSwitch extends Switch{
                 }
                 if (_protoboard.protoboard[fila][i]._cable!=null && _protoboard.protoboard[fila][i]._cable.posicion1.coordenadax!=-1){
                     _protoboard.PasarCorriente(_protoboard,Controlador_Protoboard.cablelist);
-                    _protoboard.resetCables(_protoboard, Controlador_Protoboard.cablelist);
+                    _protoboard.resetCables(_protoboard);
                 }
             }
 
@@ -73,7 +73,7 @@ public class OctoSwitch extends Switch{
                 }
                 if (_protoboard.protoboard[fila][i]._cable!=null && _protoboard.protoboard[fila][i]._cable.posicion1.coordenadax!=-1){
                     _protoboard.PasarCorriente(_protoboard,Controlador_Protoboard.cablelist);
-                    _protoboard.resetCables(_protoboard, Controlador_Protoboard.cablelist);
+                    _protoboard.resetCables(_protoboard);
                 }
             }
         }
@@ -123,7 +123,7 @@ public class OctoSwitch extends Switch{
                 for (j = 2; j < 7; j++){
                     if (_protoboard.protoboard[coord_x][j]._cable.posicion1.corriente){
                         _protoboard.PasarCorriente(_protoboard,Controlador_Protoboard.cablelist);
-                        _protoboard.resetCables(_protoboard, Controlador_Protoboard.cablelist);
+                        _protoboard.resetCables(_protoboard);
                     }
                 }
 
@@ -133,7 +133,7 @@ public class OctoSwitch extends Switch{
                 for (j = 8; j < 13; j++){
                     if (_protoboard.protoboard[coord_x][j]._cable.posicion1.corriente){
                         _protoboard.PasarCorriente(_protoboard,Controlador_Protoboard.cablelist);
-                        _protoboard.resetCables(_protoboard, Controlador_Protoboard.cablelist);
+                        _protoboard.resetCables(_protoboard);
                     }
                 }
 
@@ -172,7 +172,7 @@ public class OctoSwitch extends Switch{
                 for (j = 2; j < 7; j++){
                     if (_protoboard.protoboard[coord_x][j]._cable.posicion1.corriente){
                         _protoboard.PasarCorriente(_protoboard,Controlador_Protoboard.cablelist);
-                        _protoboard.resetCables(_protoboard, Controlador_Protoboard.cablelist);
+                        _protoboard.resetCables(_protoboard);
                     }
                 }
 
@@ -182,7 +182,7 @@ public class OctoSwitch extends Switch{
                 for (j = 8; j < 13; j++){
                     if (_protoboard.protoboard[coord_x][j]._cable.posicion1.corriente){
                         _protoboard.PasarCorriente(_protoboard,Controlador_Protoboard.cablelist);
-                        _protoboard.resetCables(_protoboard, Controlador_Protoboard.cablelist);
+                        _protoboard.resetCables(_protoboard);
                     }
                 }
             }
@@ -220,7 +220,7 @@ public class OctoSwitch extends Switch{
                 for (j = 2; j < 7; j++){
                     if (_protoboard.protoboard[coord_x][j]._cable.posicion1.corriente){
                         _protoboard.PasarCorriente(_protoboard,Controlador_Protoboard.cablelist);
-                        _protoboard.resetCables(_protoboard, Controlador_Protoboard.cablelist);
+                        _protoboard.resetCables(_protoboard);
                     }
                 }
 
@@ -230,7 +230,7 @@ public class OctoSwitch extends Switch{
                 for (j = 8; j < 13; j++){
                     if (_protoboard.protoboard[coord_x][j]._cable.posicion1.corriente){
                         _protoboard.PasarCorriente(_protoboard,Controlador_Protoboard.cablelist);
-                        _protoboard.resetCables(_protoboard, Controlador_Protoboard.cablelist);
+                        _protoboard.resetCables(_protoboard);
                     }
                 }
 
@@ -269,7 +269,7 @@ public class OctoSwitch extends Switch{
                 for (j = 2; j < 7; j++){
                     if (_protoboard.protoboard[coord_x][j]._cable.posicion1.corriente){
                         _protoboard.PasarCorriente(_protoboard,Controlador_Protoboard.cablelist);
-                        _protoboard.resetCables(_protoboard, Controlador_Protoboard.cablelist);
+                        _protoboard.resetCables(_protoboard);
                     }
                 }
             }
@@ -278,7 +278,7 @@ public class OctoSwitch extends Switch{
                 for (j = 8; j < 13; j++){
                     if (_protoboard.protoboard[coord_x][j]._cable.posicion1.corriente){
                         _protoboard.PasarCorriente(_protoboard,Controlador_Protoboard.cablelist);
-                        _protoboard.resetCables(_protoboard, Controlador_Protoboard.cablelist);
+                        _protoboard.resetCables(_protoboard);
                     }
                 }
             }
@@ -316,7 +316,7 @@ public class OctoSwitch extends Switch{
                 for (j = 2; j < 7; j++){
                     if (_protoboard.protoboard[coord_x][j]._cable.posicion1.corriente){
                         _protoboard.PasarCorriente(_protoboard,Controlador_Protoboard.cablelist);
-                        _protoboard.resetCables(_protoboard, Controlador_Protoboard.cablelist);
+                        _protoboard.resetCables(_protoboard);
                     }
                 }
             }
@@ -325,7 +325,7 @@ public class OctoSwitch extends Switch{
                 for (j = 8; j < 13; j++){
                     if (_protoboard.protoboard[coord_x][j]._cable.posicion1.corriente){
                         _protoboard.PasarCorriente(_protoboard,Controlador_Protoboard.cablelist);
-                        _protoboard.resetCables(_protoboard, Controlador_Protoboard.cablelist);
+                        _protoboard.resetCables(_protoboard);
                     }
                 }
 
@@ -364,7 +364,7 @@ public class OctoSwitch extends Switch{
                 for (j = 2; j < 7; j++){
                     if (_protoboard.protoboard[coord_x][j]._cable.posicion1.corriente){
                         _protoboard.PasarCorriente(_protoboard,Controlador_Protoboard.cablelist);
-                        _protoboard.resetCables(_protoboard, Controlador_Protoboard.cablelist);
+                        _protoboard.resetCables(_protoboard);
                     }
                 }
             }
@@ -373,7 +373,7 @@ public class OctoSwitch extends Switch{
                 for (j = 8; j < 13; j++){
                     if (_protoboard.protoboard[coord_x][j]._cable.posicion1.corriente){
                         _protoboard.PasarCorriente(_protoboard,Controlador_Protoboard.cablelist);
-                        _protoboard.resetCables(_protoboard, Controlador_Protoboard.cablelist);
+                        _protoboard.resetCables(_protoboard);
                     }
                 }
             }
@@ -411,7 +411,7 @@ public class OctoSwitch extends Switch{
                 for (j = 2; j < 7; j++){
                     if (_protoboard.protoboard[coord_x][j]._cable.posicion1.corriente){
                         _protoboard.PasarCorriente(_protoboard,Controlador_Protoboard.cablelist);
-                        _protoboard.resetCables(_protoboard, Controlador_Protoboard.cablelist);
+                        _protoboard.resetCables(_protoboard);
                     }
                 }
             }
@@ -420,7 +420,7 @@ public class OctoSwitch extends Switch{
                 for (j = 8; j < 13; j++){
                     if (_protoboard.protoboard[coord_x][j]._cable.posicion1.corriente){
                         _protoboard.PasarCorriente(_protoboard,Controlador_Protoboard.cablelist);
-                        _protoboard.resetCables(_protoboard, Controlador_Protoboard.cablelist);
+                        _protoboard.resetCables(_protoboard);
                     }
                 }
             }
@@ -458,7 +458,7 @@ public class OctoSwitch extends Switch{
                 for (j = 2; j < 7; j++){
                     if (_protoboard.protoboard[coord_x][j]._cable.posicion1.corriente){
                         _protoboard.PasarCorriente(_protoboard,Controlador_Protoboard.cablelist);
-                        _protoboard.resetCables(_protoboard, Controlador_Protoboard.cablelist);
+                        _protoboard.resetCables(_protoboard);
                     }
                 }
 
@@ -468,7 +468,7 @@ public class OctoSwitch extends Switch{
                 for (j = 8; j < 13; j++){
                     if (_protoboard.protoboard[coord_x][j]._cable.posicion1.corriente){
                         _protoboard.PasarCorriente(_protoboard,Controlador_Protoboard.cablelist);
-                        _protoboard.resetCables(_protoboard, Controlador_Protoboard.cablelist);
+                        _protoboard.resetCables(_protoboard);
                     }
                 }
 
@@ -904,7 +904,7 @@ public class OctoSwitch extends Switch{
                     _protoboard.protoboard[pos_x][l]._cable.procesado = true;
                     // pasar corriente recibe protoboard y un cable
                     _protoboard.PasarCorriente(_protoboard,Controlador_Protoboard.cablelist);
-                    _protoboard.resetCables(_protoboard, Controlador_Protoboard.cablelist);
+                    _protoboard.resetCables(_protoboard);
                 }
             }
         } else if (pos_y<7){
@@ -919,7 +919,7 @@ public class OctoSwitch extends Switch{
                 if (_protoboard.protoboard[pos_x][l]._cable != null && !_protoboard.protoboard[pos_x][l]._cable.procesado && _protoboard.protoboard[pos_x][l]._cable.posicion1.coordenadax != -1) {
                     _protoboard.protoboard[pos_x][l]._cable.procesado = true;
                     _protoboard.PasarCorriente(_protoboard,Controlador_Protoboard.cablelist);
-                    _protoboard.resetCables(_protoboard, Controlador_Protoboard.cablelist);
+                    _protoboard.resetCables(_protoboard);
                 }
             }
         }

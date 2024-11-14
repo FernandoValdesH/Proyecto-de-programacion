@@ -1,7 +1,7 @@
 package com.example.proyprotoboard;
 
 public class cable extends Indicador{
-    Boolean quemado;
+
     Boolean conexionBateria ;
 
 

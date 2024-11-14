@@ -5,11 +5,13 @@ public class Indicador{
     String color ;
     Boolean conectado;
     Boolean procesado;
+    Boolean quemado;
     public Indicador(){
         this.posicion1 = new Posicion();
         this.posicion2 = new Posicion();
         this.color = "";
         this.conectado = false;
         this.procesado = false;
+        this.quemado = false;
     }
 }
