@@ -338,6 +338,9 @@ public class Controlador_Protoboard implements Initializable {
                     if (color_led.equals("amarillo")) {
                         dibujador.dibujarLed(gc, x_led, y_led, "amarillo",_Protoboard_Funcional);
                     }
+                    if (color_led.equals("violeta")) {
+                        dibujador.dibujarLed(gc, x_led, y_led, "violeta",_Protoboard_Funcional);
+                    }
 
                 } else {
                     if (color_led.equals("rojo")) {
@@ -352,6 +355,9 @@ public class Controlador_Protoboard implements Initializable {
                     }
                     if (color_led.equals("amarillo")) {
                         dibujador.dibujarLed(gc, x_led, y_led, "amarillo_oscuro",_Protoboard_Funcional);
+                    }
+                    if (color_led.equals("violeta")) {
+                        dibujador.dibujarLed(gc, x_led, y_led, "violeta_oscuro",_Protoboard_Funcional);
                     }
 
                 }
@@ -1460,7 +1466,7 @@ public class Controlador_Protoboard implements Initializable {
 
             // Create the combo boxes
             ComboBox<String> comboBox1 = new ComboBox<>();
-            comboBox1.getItems().addAll("rojo","azul","verde","amarillo");
+            comboBox1.getItems().addAll("rojo","azul","verde","amarillo","violeta");
             comboBox1.setPromptText("color del led");
 
             // Create a grid pane and add the combo boxes
@@ -1509,6 +1515,9 @@ public class Controlador_Protoboard implements Initializable {
             if (color_led.equals("amarillo")) {
                 dibujador.dibujarLed(gc, x_led, y_led, "amarillo_oscuro",_Protoboard_Funcional);
             }
+            if (color_led.equals("violeta")) {
+                dibujador.dibujarLed(gc, x_led, y_led, "violeta_oscuro",_Protoboard_Funcional);
+            }
             btnAgregarCable.setDisable(true);
             btnAgregarLed.setDisable(true);
             btnAgregarSwitch.setDisable(true);
@@ -1523,7 +1532,7 @@ public class Controlador_Protoboard implements Initializable {
 
         } else if (patita_led_1 && led_puesto &&  cantidad_patitas<2){ // aca arreglar verificacion para que no se pongan las patitas en cualquier lado
             Color color_click = getColor(event.getX(), event.getY());;
-            if (color_click.equals(Color.DARKRED) || color_click.equals(Color.MIDNIGHTBLUE) || color_click.equals(Color.DARKGREEN) || color_click.equals(Color.rgb(255, 187, 0)) ){
+            if (color_click.equals(Color.DARKRED) || color_click.equals(Color.MIDNIGHTBLUE) || color_click.equals(Color.DARKGREEN) || color_click.equals(Color.rgb(255, 187, 0)) || color_click.equals(Color.DARKVIOLET) ){
                 punto_inicio_x_patita = event.getX();
                 punto_inicio_y_patita = event.getY();
                 dibujar_patitas=true;
