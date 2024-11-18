@@ -95,17 +95,6 @@ public class Controlador_Protoboard implements Initializable {
     protoboard _Protoboard_Funcional = protoboard.getInstance(Protoboard_logica);
 
 
-    public void dibujarMotor(GraphicsContext gc , int x, int y){
-
-        // Establecer el color de relleno a gris
-        gc.setFill(Color.GREY);
-        gc.fillOval(x, y, 100, 100);
-        gc.setStroke(Color.BLACK);
-        gc.setLineWidth(2);
-        gc.strokeOval(x, y, 100, 100);
-
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tablero.setOnMousePressed(this::click);
@@ -195,6 +184,8 @@ public class Controlador_Protoboard implements Initializable {
         btnEliminarObj.setDisable(true);
         btnAgregarOctoSwitch.setDisable(true);
         btnAgregarChip.setDisable(true);
+        btnAgregarDisplay.setDisable(true);
+        btnResetearProtoboard.setDisable(true);
         agregar_resistencia = true;
     }
     public void AgregarDisplay(){
@@ -206,6 +197,8 @@ public class Controlador_Protoboard implements Initializable {
         btnAgregarOctoSwitch.setDisable(true);
         btnAgregarResistencia.setDisable(true);
         btnAgregarChip.setDisable(true);
+        btnAgregarDisplay.setDisable(true);
+        btnResetearProtoboard.setDisable(true);
         agregar_display = true;
     }
     public void agregarOctoSwitch(){
@@ -216,6 +209,8 @@ public class Controlador_Protoboard implements Initializable {
         btnAgregarOctoSwitch.setDisable(true);
         btnAgregarResistencia.setDisable(true);
         btnAgregarChip.setDisable(true);
+        btnAgregarDisplay.setDisable(true);
+        btnResetearProtoboard.setDisable(true);
         JOptionPane.showMessageDialog(null, "Seleccione el punto central de donde desea ubicar");
         agrega_octo_switch = true;
 
@@ -229,6 +224,8 @@ public class Controlador_Protoboard implements Initializable {
         btnAgregarOctoSwitch.setDisable(true);
         btnAgregarResistencia.setDisable(true);
         btnAgregarChip.setDisable(true);
+        btnAgregarDisplay.setDisable(true);
+        btnResetearProtoboard.setDisable(true);
         JOptionPane.showMessageDialog(null, "Seleccione el punto central de donde desea ubicar");
         agrega_switch = true;
     }
@@ -241,6 +238,8 @@ public class Controlador_Protoboard implements Initializable {
         btnAgregarOctoSwitch.setDisable(true);
         btnAgregarResistencia.setDisable(true);
         btnAgregarChip.setDisable(true);
+        btnAgregarDisplay.setDisable(true);
+        btnResetearProtoboard.setDisable(true);
         led_puesto=false;
         agrega_led=true;
         patita_led_1=false;
@@ -256,6 +255,8 @@ public class Controlador_Protoboard implements Initializable {
         btnAgregarOctoSwitch.setDisable(true);
         btnAgregarResistencia.setDisable(true);
         btnAgregarChip.setDisable(true);
+        btnAgregarDisplay.setDisable(true);
+        btnResetearProtoboard.setDisable(true);
         if (contador_cables < 2){
             JOptionPane.showMessageDialog(null,"Seleccione la posicion inicial");
 
@@ -274,6 +275,8 @@ public class Controlador_Protoboard implements Initializable {
         btnAgregarOctoSwitch.setDisable(true);
         btnAgregarResistencia.setDisable(true);
         btnAgregarChip.setDisable(true);
+        btnAgregarDisplay.setDisable(true);
+        btnResetearProtoboard.setDisable(true);
         activar_eliminacion=true;
     }
     private String tipo_chip = "";
@@ -285,6 +288,8 @@ public class Controlador_Protoboard implements Initializable {
         btnAgregarOctoSwitch.setDisable(true);
         btnAgregarResistencia.setDisable(true);
         btnAgregarChip.setDisable(true);
+        btnAgregarDisplay.setDisable(true);
+        btnResetearProtoboard.setDisable(true);
 
         List<String> opciones = new ArrayList<>();
         opciones.add("AND");
@@ -353,6 +358,7 @@ public class Controlador_Protoboard implements Initializable {
                     if (color_led.equals("verde")) {
                         dibujador.dibujarLed(gc, x_led, y_led, "verde_oscuro",_Protoboard_Funcional);
                     }
+
                     if (color_led.equals("amarillo")) {
                         dibujador.dibujarLed(gc, x_led, y_led, "amarillo_oscuro",_Protoboard_Funcional);
                     }
@@ -779,6 +785,8 @@ public class Controlador_Protoboard implements Initializable {
                                 btnAgregarOctoSwitch.setDisable(false);
                                 btnAgregarResistencia.setDisable(false);
                                 btnAgregarChip.setDisable(false);
+                                btnAgregarDisplay.setDisable(false);
+                                btnResetearProtoboard.setDisable(false);
 
                             }
                         }
@@ -812,6 +820,8 @@ public class Controlador_Protoboard implements Initializable {
                                 btnAgregarOctoSwitch.setDisable(false);
                                 btnAgregarResistencia.setDisable(false);
                                 btnAgregarChip.setDisable(false);
+                                btnAgregarDisplay.setDisable(false);
+                                btnResetearProtoboard.setDisable(false);
                             }
                         }
                     } else
@@ -844,6 +854,8 @@ public class Controlador_Protoboard implements Initializable {
                         btnAgregarOctoSwitch.setDisable(false);
                         btnAgregarResistencia.setDisable(false);
                         btnAgregarChip.setDisable(false);
+                        btnAgregarDisplay.setDisable(false);
+                        btnResetearProtoboard.setDisable(false);
                     }}}
             for (int fil = 0; fil < 30; fil++) {
                 for (int com = 0; com < 17; com++) {
@@ -905,6 +917,8 @@ public class Controlador_Protoboard implements Initializable {
                     btnAgregarOctoSwitch.setDisable(false);
                     btnAgregarResistencia.setDisable(false);
                     btnAgregarChip.setDisable(false);
+                    btnAgregarDisplay.setDisable(false);
+                    btnResetearProtoboard.setDisable(false);
                     if (led.encendido){
                         if (color_led.equals("rojo")) {
                             dibujador.dibujarLed(gc, x_led, y_led, "rojo",_Protoboard_Funcional);
@@ -1081,7 +1095,6 @@ public class Controlador_Protoboard implements Initializable {
             gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
             dibujarTodo();
 
-
         }
 
         if (color_click_switch.equals(Color.WHITE) && !activar_eliminacion){
@@ -1159,6 +1172,8 @@ public class Controlador_Protoboard implements Initializable {
             btnEliminarObj.setDisable(true);
             btnAgregarResistencia.setDisable(true);
             btnAgregarChip.setDisable(true);
+            btnAgregarDisplay.setDisable(true);
+            btnResetearProtoboard.setDisable(true);
 
         }
         if(resistencia_puesta && !agregar_patita_1){
@@ -1306,6 +1321,8 @@ public class Controlador_Protoboard implements Initializable {
                 btnEliminarObj.setDisable(false);
                 btnAgregarResistencia.setDisable(false);
                 btnAgregarChip.setDisable(false);
+                btnAgregarDisplay.setDisable(false);
+                btnResetearProtoboard.setDisable(false);
             }
         }
 
@@ -1335,6 +1352,8 @@ public class Controlador_Protoboard implements Initializable {
             btnAgregarOctoSwitch.setDisable(false);
             btnAgregarResistencia.setDisable(false);
             btnAgregarChip.setDisable(false);
+            btnAgregarDisplay.setDisable(false);
+            btnResetearProtoboard.setDisable(false);
             agrega_octo_switch=false;
         }
         if (agregar_chip){
@@ -1362,6 +1381,8 @@ public class Controlador_Protoboard implements Initializable {
             btnAgregarOctoSwitch.setDisable(false);
             btnAgregarResistencia.setDisable(false);
             btnAgregarChip.setDisable(false);
+            btnAgregarDisplay.setDisable(false);
+            btnResetearProtoboard.setDisable(false);
             agregar_chip=false;
         }
         if (agregar_display){
@@ -1388,6 +1409,8 @@ public class Controlador_Protoboard implements Initializable {
             btnAgregarOctoSwitch.setDisable(false);
             btnAgregarResistencia.setDisable(false);
             btnAgregarChip.setDisable(false);
+            btnAgregarDisplay.setDisable(false);
+            btnResetearProtoboard.setDisable(false);
 
             agregar_display=false;
         }
@@ -1408,6 +1431,8 @@ public class Controlador_Protoboard implements Initializable {
             btnAgregarOctoSwitch.setDisable(false);
             btnAgregarResistencia.setDisable(false);
             btnAgregarChip.setDisable(false);
+            btnAgregarDisplay.setDisable(false);
+            btnResetearProtoboard.setDisable(false);
             activar_eliminacion=false;
         }
 
@@ -1445,6 +1470,8 @@ public class Controlador_Protoboard implements Initializable {
                 btnAgregarOctoSwitch.setDisable(false);
                 btnAgregarResistencia.setDisable(false);
                 btnAgregarChip.setDisable(false);
+                btnAgregarDisplay.setDisable(false);
+                btnResetearProtoboard.setDisable(false);
             }
 
 
@@ -1525,6 +1552,8 @@ public class Controlador_Protoboard implements Initializable {
             btnAgregarOctoSwitch.setDisable(true);
             btnAgregarResistencia.setDisable(true);
             btnAgregarChip.setDisable(true);
+            btnAgregarDisplay.setDisable(true);
+            btnResetearProtoboard.setDisable(true);
 
             agrega_led=false;
             led_puesto=true;
@@ -1533,6 +1562,7 @@ public class Controlador_Protoboard implements Initializable {
         } else if (patita_led_1 && led_puesto &&  cantidad_patitas<2){ // aca arreglar verificacion para que no se pongan las patitas en cualquier lado
             Color color_click = getColor(event.getX(), event.getY());;
             if (color_click.equals(Color.DARKRED) || color_click.equals(Color.MIDNIGHTBLUE) || color_click.equals(Color.DARKGREEN) || color_click.equals(Color.rgb(255, 187, 0)) || color_click.equals(Color.DARKVIOLET) ){
+
                 punto_inicio_x_patita = event.getX();
                 punto_inicio_y_patita = event.getY();
                 dibujar_patitas=true;

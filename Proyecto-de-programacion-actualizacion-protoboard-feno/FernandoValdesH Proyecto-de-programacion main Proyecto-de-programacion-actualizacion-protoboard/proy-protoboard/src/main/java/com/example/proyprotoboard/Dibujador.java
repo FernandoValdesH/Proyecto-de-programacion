@@ -763,5 +763,6 @@ public class Dibujador {
             gc.setFill(Color.DARKGRAY);
             gc.fillOval(x+80, y+87, 8, 8);
         }
+
     }
 }
