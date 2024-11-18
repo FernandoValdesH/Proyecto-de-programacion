@@ -218,6 +218,10 @@ public class Dibujador {
                 gc.setFill(Color.YELLOW);
                 gc.fillOval(x_led, y_led, 30, 30);
                 break;
+            case "violeta":
+                gc.setFill(Color.VIOLET);
+                gc.fillOval(x_led, y_led, 30, 30);
+                break;
             case "rojo_oscuro":
                 gc.setFill(Color.DARKRED);
                 gc.fillOval(x_led, y_led, 30, 30);
@@ -230,6 +234,19 @@ public class Dibujador {
                 gc.setFill(Color.DARKGREEN);
                 gc.fillOval(x_led, y_led, 30, 30);
                 break;
+
+            case "violeta_oscuro":
+                gc.setFill(Color.DARKVIOLET);
+                gc.fillOval(x_led, y_led, 30, 30);
+                break;
+
+            case "amarillo_oscuro":
+                gc.setFill(Color.rgb(255, 187, 0));
+                gc.fillOval(x_led, y_led, 30, 30);
+                break;
+            case "negro":
+                gc.setFill(Color.rgb(0, 0, 0));
+                gc.fillOval(x_led, y_led, 30, 30);
         }
 
     }
@@ -748,23 +765,6 @@ public class Dibujador {
         }
 
 
-
-//        gc.setStroke(Color.WHITE);
-//        gc.setLineWidth(8);
-//        // de izq a derecha (a)
-//        gc.strokeLine(x+25, y+10, x+65, y+10);
-//        // derecha a medio (b)
-//        gc.strokeLine(x+75, y+10, x+75, y+45);
-//        // medio a abajo derecha (c)
-//        gc.strokeLine(x+75, y+55, x+75, y+90);
-//        // de abajo derecha a abajo izq (d)
-//        gc.strokeLine(x+25, y+90, x+65, y+90);
-//        // de abajo a la izq a medio (e)
-//        gc.strokeLine(x+15, y+55, x+15, y+90);
-//        // de medio a arriba izq (f)
-//        gc.strokeLine(x+15, y+10, x+15, y+45);
-//        // linea centro (g)
-//        gc.strokeLine(x+25, y+50, x+65, y+50);
 
 
     }
