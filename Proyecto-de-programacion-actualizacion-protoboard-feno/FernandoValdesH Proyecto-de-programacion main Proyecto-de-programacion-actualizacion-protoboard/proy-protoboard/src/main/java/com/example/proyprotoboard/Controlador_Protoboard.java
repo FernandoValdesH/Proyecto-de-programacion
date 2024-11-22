@@ -137,15 +137,15 @@ public class Controlador_Protoboard implements Initializable {
                 if (_protoboard.protoboard[i][j]._led != null && _protoboard.protoboard[i][j]._led.posicion1.coordenadax != -1 && !_protoboard.protoboard[i][j]._led.revisado) {
                     if (_protoboard.protoboard[i][j]._led.encendido) {
                         int transformacion_inversa_x = (i * 20) + 15;
-                        int transformacion_inversa_y = 0;
-                        if (j >= 0 && j <= 2) {
-                            transformacion_inversa_y = (j + 15) * 15;
-                        } else if (j > 2 && j <= 6) {
-                            transformacion_inversa_y = ((j + 15) * 15) + 1;
-                        } else if (j > 6 && j <= 12) {
-                            transformacion_inversa_y = (j + 3) * 15;
-                        } else if (j > 12) {
-                            transformacion_inversa_y = (j + 4) * 15;
+                        int transformacion_inversa_y = 0 ;
+                        if ( j < 2) {
+                            transformacion_inversa_y = ((j * 15 ) + 15) - 5;
+                        } else if (j >= 3 && j <= 7) {
+                            transformacion_inversa_y = (((j + 1) * 15) -5) + 10;
+                        } else if (j > 7 && j <= 13) {
+                            transformacion_inversa_y = ((j + 3) * 15) - 20;
+                        } else if (j > 14) {
+                            transformacion_inversa_y = ((j + 4) * 15) -25;
                         }
                         boolean encuentra_patitas = false;
                         int k = 0;
@@ -340,17 +340,15 @@ public class Controlador_Protoboard implements Initializable {
                     if (color_led.equals("verde")) {
                         dibujador.dibujarLed(gc, x_led, y_led, "verde",_Protoboard_Funcional);
                     }
-                    if (color_led.equals("amarillo")) {
-                        dibujador.dibujarLed(gc, x_led, y_led, "amarillo",_Protoboard_Funcional);
-                    }
                     if (color_led.equals("violeta")) {
                         dibujador.dibujarLed(gc, x_led, y_led, "violeta",_Protoboard_Funcional);
+                    } if (color_led.equals("amarillo")) {
+                        dibujador.dibujarLed(gc, x_led, y_led, "amarillo",_Protoboard_Funcional);
                     }
 
                 } else {
                     if (color_led.equals("rojo")) {
                         dibujador.dibujarLed(gc, x_led, y_led, "rojo_oscuro",_Protoboard_Funcional);
-
                     }
                     if (color_led.equals("azul")) {
                         dibujador.dibujarLed(gc, x_led, y_led, "azul_oscuro",_Protoboard_Funcional);
@@ -358,13 +356,13 @@ public class Controlador_Protoboard implements Initializable {
                     if (color_led.equals("verde")) {
                         dibujador.dibujarLed(gc, x_led, y_led, "verde_oscuro",_Protoboard_Funcional);
                     }
-
-                    if (color_led.equals("amarillo")) {
-                        dibujador.dibujarLed(gc, x_led, y_led, "amarillo_oscuro",_Protoboard_Funcional);
-                    }
                     if (color_led.equals("violeta")) {
                         dibujador.dibujarLed(gc, x_led, y_led, "violeta_oscuro",_Protoboard_Funcional);
                     }
+                    if (color_led.equals("amarillo")) {
+                        dibujador.dibujarLed(gc, x_led, y_led, "amarillo_oscuro",_Protoboard_Funcional);
+                    }
+
 
                 }
 
@@ -929,9 +927,6 @@ public class Controlador_Protoboard implements Initializable {
                         if (color_led.equals("verde")) {
                             dibujador.dibujarLed(gc, x_led, y_led, "verde",_Protoboard_Funcional);
                         }
-                        if (color_led.equals("amarillo")) {
-                            dibujador.dibujarLed(gc, x_led, y_led, "amarillo",_Protoboard_Funcional);
-                        }
                     } else {
                         if (color_led.equals("rojo")) {
                             dibujador.dibujarLed(gc, x_led, y_led, "rojo_oscuro",_Protoboard_Funcional);
@@ -941,9 +936,6 @@ public class Controlador_Protoboard implements Initializable {
                         }
                         if (color_led.equals("verde")) {
                             dibujador.dibujarLed(gc, x_led, y_led, "verde_oscuro",_Protoboard_Funcional);
-                        }
-                        if (color_led.equals("amarillo")) {
-                            dibujador.dibujarLed(gc, x_led, y_led, "amarillo_oscuro",_Protoboard_Funcional);
                         }
                     }
                     if (led.quemado){
@@ -1560,9 +1552,9 @@ public class Controlador_Protoboard implements Initializable {
             patita_led_1=false;
 
         } else if (patita_led_1 && led_puesto &&  cantidad_patitas<2){ // aca arreglar verificacion para que no se pongan las patitas en cualquier lado
-            Color color_click = getColor(event.getX(), event.getY());;
-            if (color_click.equals(Color.DARKRED) || color_click.equals(Color.MIDNIGHTBLUE) || color_click.equals(Color.DARKGREEN) || color_click.equals(Color.rgb(255, 187, 0)) || color_click.equals(Color.DARKVIOLET) ){
+            Color color_click = getColor(event.getX(), event.getY());
 
+            if (color_click.equals(Color.DARKRED) || color_click.equals(Color.MIDNIGHTBLUE) || color_click.equals(Color.DARKGREEN) || color_click.equals(Color.rgb(255, 187, 0)) || color_click.equals(Color.DARKVIOLET)){
                 punto_inicio_x_patita = event.getX();
                 punto_inicio_y_patita = event.getY();
                 dibujar_patitas=true;
@@ -1674,9 +1666,7 @@ public class Controlador_Protoboard implements Initializable {
     public void resetearProtoboard(ActionEvent actionEvent) {
         for (int i = 0 ; i < 30 ; i++){
             for (int j = 0 ; j < 17 ; j ++){
-
                 _Protoboard_Funcional.protoboard[i][j].conexion = false;
-                _Protoboard_Funcional.protoboard[i][j]._posicion.quemado = false;
                 _Protoboard_Funcional.protoboard[i][j]._posicion.corriente = false;
                 _Protoboard_Funcional.protoboard[i][j]._posicion.polaridad = false;
                 _Protoboard_Funcional.protoboard[i][j]._cable = new cable();
@@ -1686,7 +1676,6 @@ public class Controlador_Protoboard implements Initializable {
                 _Protoboard_Funcional.protoboard[i][j]._octoSwitch = new OctoSwitch();
                 _Protoboard_Funcional.protoboard[i][j]._chip = new Chip();
                 _Protoboard_Funcional.protoboard[i][j]._display = new Display();
-
             }
         }
         arreglo_coordenadas_cables.clear();
