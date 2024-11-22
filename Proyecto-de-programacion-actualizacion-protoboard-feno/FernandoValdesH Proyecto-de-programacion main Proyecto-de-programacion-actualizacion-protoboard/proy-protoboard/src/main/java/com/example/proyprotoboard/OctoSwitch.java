@@ -1132,6 +1132,11 @@ public class OctoSwitch extends Switch {
     }
 
     public void eliminarCorrienteAlEncontrar(protoboard _protoboard, int pos_x, int pos_y, boolean switch_bateria) {
+        System.out.println("entra a la func");
+        if (pos_y==0){
+            pos_y=2;
+        }
+        System.out.println("pos_y: "+pos_y);
         if (pos_y == 2){
             for (int l = 3; l < 8; l++) {
                 _protoboard.protoboard[pos_x][l]._posicion.corriente = false;
@@ -1149,6 +1154,7 @@ public class OctoSwitch extends Switch {
             }
         }
         else if (pos_y == 14){
+            System.out.println("encuentra aca");
             for (int l = 9; l < 14; l++) {
                 _protoboard.protoboard[pos_x][l]._posicion.corriente = false;
                 if (_protoboard.protoboard[pos_x][l]._led != null && _protoboard.protoboard[pos_x][l]._led.posicion1.coordenadax != -1) {
@@ -1198,5 +1204,46 @@ public class OctoSwitch extends Switch {
 
     }
 
-
+    public void eliminarCorrienteAlEliminar(protoboard _Protoboard, OctoSwitch _octo){
+        if(_octo.posicion1.coordenaday+1==2){
+            for (int i = _octo.posicion1.coordenadax ; i < _octo.posicion2.coordenadax ; i++){
+                for (int j = 3; j < 8; j++) {
+                    _Protoboard.protoboard[i][j]._posicion.corriente = false;
+                }
+            }
+        } else if (_octo.posicion1.coordenadax+1==14){
+            for (int i = _octo.posicion1.coordenadax ; i < _octo.posicion2.coordenadax ; i++){
+                for (int j = 9; j < 14; j++) {
+                    _Protoboard.protoboard[i][j]._posicion.corriente = false;
+                }
+            }
+        } else if (_octo.posicion1.coordenaday+1==8){
+            for (int i = _octo.posicion1.coordenadax ; i < _octo.posicion2.coordenadax ; i++){
+                for (int j = 3; j < 8; j++) {
+                    _Protoboard.protoboard[i][j]._posicion.corriente = false;
+                }
+            }
+            for (int i = _octo.posicion1.coordenadax ; i < _octo.posicion2.coordenadax ; i++){
+                for (int j = 3; j < 8; j++) {
+                    if(_Protoboard.protoboard[i][j]._cable.posicion1.coordenadax!=-1){
+                        _Protoboard.pasarCorriente(_Protoboard, _Protoboard.protoboard[i][j]._cable);
+                        break;
+                    }
+                }
+            }
+            for (int i = _octo.posicion1.coordenadax ; i < _octo.posicion2.coordenadax ; i++){
+                for (int j = 9; j < 14; j++) {
+                    _Protoboard.protoboard[i][j]._posicion.corriente = false;
+                }
+            }
+            for (int i = _octo.posicion1.coordenadax ; i < _octo.posicion2.coordenadax ; i++){
+                for (int j = 9; j < 14; j++) {
+                    if(_Protoboard.protoboard[i][j]._cable.posicion1.coordenadax!=-1){
+                        _Protoboard.pasarCorriente(_Protoboard, _Protoboard.protoboard[i][j]._cable);
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }
