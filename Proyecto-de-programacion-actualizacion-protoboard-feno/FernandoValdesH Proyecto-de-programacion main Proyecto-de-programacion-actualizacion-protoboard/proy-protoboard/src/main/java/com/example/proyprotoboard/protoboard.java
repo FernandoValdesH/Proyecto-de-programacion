@@ -41,14 +41,13 @@ public class protoboard {
         _led.posicion1.corriente = _Protoboard.protoboard[_led.posicion1.coordenadax][_led.posicion1.coordenaday]._posicion.corriente;
         _led.posicion2.corriente = _Protoboard.protoboard[_led.posicion2.coordenadax][_led.posicion2.coordenaday]._posicion.corriente;
 
-        if (_Protoboard.protoboard[_led.posicion2.coordenadax][_led.posicion2.coordenaday]._led.posicion1.corriente && _Protoboard.protoboard[_led.posicion2.coordenadax][_led.posicion2.coordenaday]._led.posicion2.corriente && _Protoboard.protoboard[_led.posicion2.coordenadax][_led.posicion2.coordenaday]._led.posicion1.polaridad != _Protoboard.protoboard[_led.posicion2.coordenadax][_led.posicion2.coordenaday]._led.posicion2.polaridad && _Protoboard.protoboard[_led.posicion1.coordenadax][_led.posicion1.coordenaday]._led.posicion1.polaridad == _Protoboard.protoboard[_led.posicion1.coordenadax][_led.posicion1.coordenaday]._posicion.polaridad) {
+        if (_Protoboard.protoboard[_led.posicion2.coordenadax][_led.posicion2.coordenaday]._led.posicion1.corriente && _Protoboard.protoboard[_led.posicion2.coordenadax][_led.posicion2.coordenaday]._led.posicion2.corriente && _Protoboard.protoboard[_led.posicion2.coordenadax][_led.posicion2.coordenaday]._led.posicion1.polaridad != _Protoboard.protoboard[_led.posicion2.coordenadax][_led.posicion2.coordenaday]._led.posicion2.polaridad && _Protoboard.protoboard[_led.posicion1.coordenadax][_led.posicion1.coordenaday]._led.posicion1.polaridad == _Protoboard.protoboard[_led.posicion1.coordenadax][_led.posicion1.coordenaday]._posicion.polaridad && !_led.quemado) {
             _Protoboard.protoboard[_led.posicion1.coordenadax][_led.posicion1.coordenaday]._led.encendido = true;
-            if (_led.posicion1.voltaje > 2.4){
-                _led.quemado = true;
-            }
+
             return true;
         } else {
             _Protoboard.protoboard[_led.posicion1.coordenadax][_led.posicion1.coordenaday]._led.encendido = false;
+            _led.chequearQuemado(_Protoboard, _led);
             return false;
         }
 
@@ -985,8 +984,8 @@ public class protoboard {
                             // si el cable es distinto al que empezo a recorrer
                             _Protoboard.protoboard[i][posicion_final_y]._posicion.corriente = true;
                             if (_Protoboard.protoboard[i][posicion_final_y]._cable.posicion1.coordenadax != _cable.posicion1.coordenadax || _Protoboard.protoboard[i][posicion_final_y]._cable.posicion2.coordenadax != _cable.posicion2.coordenadax) {
-                                int pos_final_x = _Protoboard.protoboard[i][posicion_final_y]._cable.posicion2.coordenadax;
-                                int pos_final_y = _Protoboard.protoboard[i][posicion_final_y]._cable.posicion2.coordenaday;
+                                int pos_final_x = _Protoboard.protoboard[i][posicion_final_y]._cable.posicion1.coordenadax;
+                                int pos_final_y = _Protoboard.protoboard[i][posicion_final_y]._cable.posicion1.coordenaday;
                                 pasarCorriente(_Protoboard, _Protoboard.protoboard[pos_final_x][pos_final_y]._cable);
                             }
                         }
@@ -1091,8 +1090,8 @@ public class protoboard {
                             // si el cable es distinto al que empezo a recorrer
                             _Protoboard.protoboard[i][posicion_final_y]._posicion.corriente = true;
                             if (_Protoboard.protoboard[i][posicion_final_y]._cable.posicion1.coordenadax != _cable.posicion1.coordenadax || _Protoboard.protoboard[i][posicion_final_y]._cable.posicion2.coordenadax != _cable.posicion2.coordenadax) {
-                                int pos_final_x = _Protoboard.protoboard[i][posicion_final_y]._cable.posicion2.coordenadax;
-                                int pos_final_y = _Protoboard.protoboard[i][posicion_final_y]._cable.posicion2.coordenaday;
+                                int pos_final_x = _Protoboard.protoboard[i][posicion_final_y]._cable.posicion1.coordenadax;
+                                int pos_final_y = _Protoboard.protoboard[i][posicion_final_y]._cable.posicion1.coordenaday;
                                 pasarCorriente(_Protoboard, _Protoboard.protoboard[pos_final_x][pos_final_y]._cable);
                             }
                         }
@@ -2102,6 +2101,8 @@ public class protoboard {
                 _Cable.posicion2.corriente = true;
                 _Cable.posicion1.polaridad = true;
                 _Cable.posicion2.polaridad = true;
+                _Cable.posicion1.voltaje=9;
+                _Cable.posicion2.voltaje=9;
                 _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday].conexion = true;
                 _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday]._posicion.corriente = true;
                 _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday]._posicion.polaridad = true;
@@ -2114,6 +2115,8 @@ public class protoboard {
                 _Cable.posicion2.corriente = true;
                 _Cable.posicion1.polaridad = false;
                 _Cable.posicion2.polaridad = false;
+                _Cable.posicion2.voltaje=0;
+                _Cable.posicion1.voltaje=0;
                 _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday].conexion = true;
                 _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday]._posicion.corriente = true;
                 _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday]._posicion.polaridad = true;
@@ -2125,6 +2128,8 @@ public class protoboard {
                 _Cable.posicion2.corriente = true;
                 _Cable.posicion1.polaridad = false;
                 _Cable.posicion2.polaridad = false;
+                _Cable.posicion1.voltaje=0;
+                _Cable.posicion2.voltaje=0;
                 _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday].conexion = true;
                 _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday]._posicion.corriente = true;
                 _Protoboard.protoboard[_Cable.posicion2.coordenadax][_Cable.posicion2.coordenaday]._posicion.polaridad = true;
@@ -2137,6 +2142,8 @@ public class protoboard {
                 _Cable.posicion2.corriente = true;
                 _Cable.posicion1.polaridad = true;
                 _Cable.posicion2.polaridad = true;
+                _Cable.posicion1.voltaje=9;
+                _Cable.posicion2.voltaje=9;
                 _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday].conexion = true;
                 _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday]._posicion.corriente = true;
                 _Protoboard.protoboard[_Cable.posicion1.coordenadax][_Cable.posicion1.coordenaday]._posicion.polaridad = true;
