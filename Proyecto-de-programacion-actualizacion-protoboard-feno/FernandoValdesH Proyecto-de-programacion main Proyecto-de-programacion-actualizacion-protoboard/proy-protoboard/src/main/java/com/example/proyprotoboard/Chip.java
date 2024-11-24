@@ -60,7 +60,7 @@ public class Chip extends Indicador{
 
         _chip.pos_14.corriente = _Protoboard.protoboard[_chip.pos_14.coordenadax][_chip.pos_14.coordenaday]._posicion.corriente;
 
-        if (!_chip.pos_14.corriente){
+        if (!_chip.pos_14.corriente || _chip.pos_14.voltaje==0){
         if (_chip.posicion2.corriente && _chip.pos_3.corriente ){
             // pasar corriente a pos 4
             // _chip.pos_4.corriente = true;
