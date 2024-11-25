@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import jdk.swing.interop.SwingInterOpUtils;
 //import jdk.swing.interop.SwingInterOpUtils;
 
 public class protoboard {
@@ -117,39 +118,38 @@ public class protoboard {
                 }
             }
         }
-
         if (_Protoboard.protoboard[pos_x_2][pos_y_2]._cable != null && _Protoboard.protoboard[pos_x_2][pos_y_2]._cable.posicion1.coordenadax != -1) {
             cable _cable = _Protoboard.protoboard[pos_x_2][pos_y_2]._cable;
             // primero un if si la posicion 1 o 2 estan conectados a la bateria, es decir, coord -2 y -3
             if (_cable.posicion1.coordenadax == -2 || _cable.posicion1.coordenadax == -3) {
                 // si la posicion 1 esta conectada a la bateria, eliminamos el cable de la posicion 2 (final)
-                _Protoboard.protoboard[_cable.posicion2.coordenadax][_cable.posicion2.coordenaday]._cable = null;
+                _Protoboard.protoboard[_cable.posicion2.coordenadax][_cable.posicion2.coordenaday]._cable = new cable();
                 _Protoboard.protoboard[_cable.posicion2.coordenadax][_cable.posicion2.coordenaday].conexion = false;
 
                 eliminarCorriente(_Protoboard, pos_x_2, pos_y_2, false);
 
             } else if (_cable.posicion2.coordenadax == -2 || _cable.posicion2.coordenadax == -3) {
                 // si la posicion 2 esta conectada a la bateria, eliminamos el cable de la posicion 1 (inicio)
-                _Protoboard.protoboard[_cable.posicion1.coordenadax][_cable.posicion1.coordenaday]._cable = null;
+                _Protoboard.protoboard[_cable.posicion1.coordenadax][_cable.posicion1.coordenaday]._cable = new cable();
                 _Protoboard.protoboard[_cable.posicion1.coordenadax][_cable.posicion1.coordenaday].conexion = false;
 
                 eliminarCorriente(_Protoboard, pos_x_2, pos_y_2, false);
             }
             // si no esta conectado a la bateria, al eliminar una posicion tambien se elimina la otra
             else if (_cable.posicion1.coordenadax == pos_x_2 && _cable.posicion1.coordenaday == pos_y_2) {
-                _Protoboard.protoboard[_cable.posicion2.coordenadax][_cable.posicion2.coordenaday]._cable = null;
+                _Protoboard.protoboard[_cable.posicion2.coordenadax][_cable.posicion2.coordenaday]._cable = new cable();
                 _Protoboard.protoboard[_cable.posicion2.coordenadax][_cable.posicion2.coordenaday].conexion = false;
-                _Protoboard.protoboard[_cable.posicion1.coordenadax][_cable.posicion1.coordenaday]._cable = null;
+                _Protoboard.protoboard[_cable.posicion1.coordenadax][_cable.posicion1.coordenaday]._cable = new cable();
                 _Protoboard.protoboard[_cable.posicion1.coordenadax][_cable.posicion1.coordenaday].conexion = false;
 
-                eliminarCorriente(_Protoboard, pos_x_2, pos_y_2, false);
+                eliminarCorriente(_Protoboard, _cable.posicion2.coordenadax, _cable.posicion2.coordenaday, true);
             } else if (_cable.posicion2.coordenadax == pos_x_2 && _cable.posicion2.coordenaday == pos_y_2) {
-                _Protoboard.protoboard[_cable.posicion1.coordenadax][_cable.posicion1.coordenaday]._cable = null;
+                _Protoboard.protoboard[_cable.posicion1.coordenadax][_cable.posicion1.coordenaday]._cable = new cable();
                 _Protoboard.protoboard[_cable.posicion1.coordenadax][_cable.posicion1.coordenaday].conexion = false;
-                _Protoboard.protoboard[_cable.posicion2.coordenadax][_cable.posicion2.coordenaday]._cable = null;
+                _Protoboard.protoboard[_cable.posicion2.coordenadax][_cable.posicion2.coordenaday]._cable = new cable();
                 _Protoboard.protoboard[_cable.posicion2.coordenadax][_cable.posicion2.coordenaday].conexion = false;
 
-                eliminarCorriente(_Protoboard, pos_x_2, pos_y_2, false);
+                eliminarCorriente(_Protoboard, pos_x_2, pos_y_2, true);
             }
 
         } else if (_Protoboard.protoboard[pos_x][pos_y].conexion && _Protoboard.protoboard[pos_x][pos_y]._led.posicion1.coordenadax != -1) {
@@ -261,7 +261,7 @@ public class protoboard {
     }
 
     public void eliminarCorriente(protoboard _Protoboard, int pos_x, int pos_y, boolean switch_bateria) {
-
+        System.out.println("borrar corriente en la pos x: " + pos_x + " pos y: " + pos_y);
         // este metodo recibe la posicion donde se elimino el elemento
 
         // al eliminar un elemento, se debe eliminar un cable, led, switch, del protoboard y eliminar la corriente de esa fila/columna
@@ -307,25 +307,25 @@ public class protoboard {
                     if (_octoSwitch.mini_switch_1.encendido) {
                         int coord_x_mini_switch = _octoSwitch.mini_switch_1.posicion.coordenadax;
                         _octoSwitch.eliminarCorrienteAlEncontrar(_Protoboard, coord_x_mini_switch, pos_y-1, switch_bateria);
-                    } else if (_octoSwitch.mini_switch_2.encendido) {
+                    }  if (_octoSwitch.mini_switch_2.encendido) {
                         int coord_x_mini_switch = _octoSwitch.mini_switch_2.posicion.coordenadax;
                         _octoSwitch.eliminarCorrienteAlEncontrar(_Protoboard, coord_x_mini_switch, pos_y-1, switch_bateria);
-                    } else if (_octoSwitch.mini_switch_3.encendido) {
+                    }  if (_octoSwitch.mini_switch_3.encendido) {
                         int coord_x_mini_switch = _octoSwitch.mini_switch_3.posicion.coordenadax;
                         _octoSwitch.eliminarCorrienteAlEncontrar(_Protoboard, coord_x_mini_switch, pos_y-1, switch_bateria);
-                    } else if (_octoSwitch.mini_switch_4.encendido) {
+                    }  if (_octoSwitch.mini_switch_4.encendido) {
                         int coord_x_mini_switch = _octoSwitch.mini_switch_4.posicion.coordenadax;
                         _octoSwitch.eliminarCorrienteAlEncontrar(_Protoboard, coord_x_mini_switch, pos_y-1, switch_bateria);
-                    } else if (_octoSwitch.mini_switch_5.encendido) {
+                    }  if (_octoSwitch.mini_switch_5.encendido) {
                         int coord_x_mini_switch = _octoSwitch.mini_switch_5.posicion.coordenadax;
                         _octoSwitch.eliminarCorrienteAlEncontrar(_Protoboard, coord_x_mini_switch, pos_y-1, switch_bateria);
-                    } else if (_octoSwitch.mini_switch_6.encendido) {
+                    }  if (_octoSwitch.mini_switch_6.encendido) {
                         int coord_x_mini_switch = _octoSwitch.mini_switch_6.posicion.coordenadax;
                         _octoSwitch.eliminarCorrienteAlEncontrar(_Protoboard, coord_x_mini_switch, pos_y-1, switch_bateria);
-                    } else if (_octoSwitch.mini_switch_7.encendido) {
+                    }  if (_octoSwitch.mini_switch_7.encendido) {
                         int coord_x_mini_switch = _octoSwitch.mini_switch_7.posicion.coordenadax;
                         _octoSwitch.eliminarCorrienteAlEncontrar(_Protoboard, coord_x_mini_switch, pos_y-1, switch_bateria);
-                    } else if (_octoSwitch.mini_switch_8.encendido) {
+                    }  if (_octoSwitch.mini_switch_8.encendido) {
                         int coord_x_mini_switch = _octoSwitch.mini_switch_8.posicion.coordenadax;
                         _octoSwitch.eliminarCorrienteAlEncontrar(_Protoboard, coord_x_mini_switch, pos_y-1, switch_bateria);
                     }
@@ -409,7 +409,6 @@ public class protoboard {
             int j = 9;
             int i = pos_x;
             while (j < 14) {
-
                 _Protoboard.protoboard[i][j]._posicion.corriente = false;
 
                 if (_Protoboard.protoboard[i][j]._led != null && _Protoboard.protoboard[i][j]._led.posicion1.coordenadax != -1) {
