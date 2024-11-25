@@ -589,7 +589,6 @@ public class Controlador_Protoboard implements Initializable {
                     // transformar coordenadas a posiciones de la matriz para eliminar el cable y la corriente que llevaba este
 
                     int posicion1_x = (int) ((arreglo_coordenadas_cables.get(i) - 15) / 20);
-                    System.out.println("i+2" + (2+i));
                     int posicion1_y = (arreglo_coordenadas_cables.get(i+1).intValue());
                     posicion1_y = transformacionY_coordA_Matriz(posicion1_y);
 
@@ -600,11 +599,8 @@ public class Controlador_Protoboard implements Initializable {
                     arreglo_coordenadas_cables.remove(i);
 
 
-                    System.out.println("posicion1_x" + posicion1_x);
-                    System.out.println("posicion1_y" + posicion1_y);
 
                     _Protoboard_Funcional.eliminarElemento(_Protoboard_Funcional, posicion1_x, posicion1_y);
-                    _Protoboard_Funcional.eliminarCorriente(_Protoboard_Funcional, posicion1_x, posicion1_y, true);
 
                     for (int fil = 0 ; fil < 30 ; fil++){
                         for (int com = 0 ; com < 17 ; com++){
@@ -1557,12 +1553,27 @@ public class Controlador_Protoboard implements Initializable {
 
             // intentarlo hasta que se ingresen bien los valores
 
+            if (comboBox1.getValue() == null) {
+                arreglo_coordenadas_leds.removeLast();
+                arreglo_coordenadas_leds.removeLast();
+                btnAgregarCable.setDisable(false);
+                btnAgregarLed.setDisable(false);
+                btnAgregarSwitch.setDisable(false);
+                btnEliminarObj.setDisable(false);
+                btnAgregarOctoSwitch.setDisable(false);
+                btnAgregarResistencia.setDisable(false);
+                btnAgregarChip.setDisable(false);
+                btnAgregarDisplay.setDisable(false);
+                btnResetearProtoboard.setDisable(false);
+                agrega_led=false;
+                JOptionPane.showMessageDialog(null, "Ingrese bien el color");
+            } else{
             try {
                 color_led =comboBox1.getValue();
 
 
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Ingrese bien los valores");
+                JOptionPane.showMessageDialog(null, "Ingrese bien el color");
 
             }
 
@@ -1593,7 +1604,7 @@ public class Controlador_Protoboard implements Initializable {
 
             agrega_led=false;
             led_puesto=true;
-            patita_led_1=false;
+            patita_led_1=false;}
 
         } else if (patita_led_1 && led_puesto &&  cantidad_patitas<2){ // aca arreglar verificacion para que no se pongan las patitas en cualquier lado
             Color color_click = getColor(event.getX(), event.getY());
