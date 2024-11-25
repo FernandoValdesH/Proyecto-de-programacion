@@ -64,7 +64,21 @@ public class OctoSwitch extends Switch {
                 if (_protoboard.protoboard[fila][i]._resistencia != null && _protoboard.protoboard[fila][i]._resistencia.posicion1.coordenadax != -1) {
                     Resistencia _resistencia = _protoboard.protoboard[fila][i]._resistencia;
                     _resistencia.pasarCorriente(_protoboard, _resistencia.posicion1.coordenadax, _resistencia.posicion1.coordenaday, _resistencia.posicion2.coordenadax, _resistencia.posicion2.coordenaday, _resistencia);
+                }
+                if (_protoboard.protoboard[fila][i]._chip != null && _protoboard.protoboard[fila][i]._chip.posicion1.coordenadax != -1) {
+                    Chip _chip = _protoboard.protoboard[fila][i]._chip;
+                    if (_chip.tipo_chip.equals("AND")){
+                        _chip.pasarCorrienteAND(_protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("OR")){
+                        _chip.pasarCorrienteOR(_protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("NOT")){
+                        _chip.pasarCorrienteNOT(_protoboard, _chip);
+                    }
 
+                }
+                if (_protoboard.protoboard[fila][i]._display!=null && _protoboard.protoboard[fila][i]._display.posicion1.coordenadax != -1){
+                    Display _display = _protoboard.protoboard[fila][i]._display;
+                    _display.activarLinea(_protoboard, _display);
                 }
             }
         }
@@ -84,6 +98,21 @@ public class OctoSwitch extends Switch {
                     _resistencia.pasarCorriente(_protoboard, _resistencia.posicion1.coordenadax, _resistencia.posicion1.coordenaday, _resistencia.posicion2.coordenadax, _resistencia.posicion2.coordenaday, _resistencia);
 
                 }
+                if (_protoboard.protoboard[fila][i]._chip != null && _protoboard.protoboard[fila][i]._chip.posicion1.coordenadax != -1) {
+                    Chip _chip = _protoboard.protoboard[fila][i]._chip;
+                    if (_chip.tipo_chip.equals("AND")){
+                        _chip.pasarCorrienteAND(_protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("OR")){
+                        _chip.pasarCorrienteOR(_protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("NOT")){
+                        _chip.pasarCorrienteNOT(_protoboard, _chip);
+                    }
+
+                }
+                if (_protoboard.protoboard[fila][i]._display!=null && _protoboard.protoboard[fila][i]._display.posicion1.coordenadax != -1){
+                    Display _display = _protoboard.protoboard[fila][i]._display;
+                    _display.activarLinea(_protoboard, _display);
+                }
             }
         }} else{
          if (columna < 8 && columna > 2) {
@@ -100,6 +129,21 @@ public class OctoSwitch extends Switch {
                 if (_protoboard.protoboard[fila][i]._resistencia != null && _protoboard.protoboard[fila][i]._resistencia.posicion1.coordenadax != -1) {
                     Resistencia _resistencia = _protoboard.protoboard[fila][i]._resistencia;
                     _resistencia.pasarCorriente(_protoboard, _resistencia.posicion1.coordenadax, _resistencia.posicion1.coordenaday, _resistencia.posicion2.coordenadax, _resistencia.posicion2.coordenaday, _resistencia);
+
+                }
+                if (_protoboard.protoboard[fila][i]._display!=null && _protoboard.protoboard[fila][i]._display.posicion1.coordenadax != -1){
+                    Display _display = _protoboard.protoboard[fila][i]._display;
+                    _display.activarLinea(_protoboard, _display);
+                }
+                if (_protoboard.protoboard[fila][i]._chip != null && _protoboard.protoboard[fila][i]._chip.posicion1.coordenadax != -1) {
+                    Chip _chip = _protoboard.protoboard[fila][i]._chip;
+                    if (_chip.tipo_chip.equals("AND")){
+                        _chip.pasarCorrienteAND(_protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("OR")){
+                        _chip.pasarCorrienteOR(_protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("NOT")){
+                        _chip.pasarCorrienteNOT(_protoboard, _chip);
+                    }
 
                 }
             }
@@ -119,6 +163,21 @@ public class OctoSwitch extends Switch {
                     Resistencia _resistencia = _protoboard.protoboard[fila][i]._resistencia;
                     _resistencia.pasarCorriente(_protoboard, _resistencia.posicion1.coordenadax, _resistencia.posicion1.coordenaday, _resistencia.posicion2.coordenadax, _resistencia.posicion2.coordenaday, _resistencia);
 
+                }
+                if (_protoboard.protoboard[fila][i]._chip != null && _protoboard.protoboard[fila][i]._chip.posicion1.coordenadax != -1) {
+                    Chip _chip = _protoboard.protoboard[fila][i]._chip;
+                    if (_chip.tipo_chip.equals("AND")){
+                        _chip.pasarCorrienteAND(_protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("OR")){
+                        _chip.pasarCorrienteOR(_protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("NOT")){
+                        _chip.pasarCorrienteNOT(_protoboard, _chip);
+                    }
+
+                }
+                if (_protoboard.protoboard[fila][i]._display!=null && _protoboard.protoboard[fila][i]._display.posicion1.coordenadax != -1){
+                    Display _display = _protoboard.protoboard[fila][i]._display;
+                    _display.activarLinea(_protoboard, _display);
                 }
             }
         }}
@@ -1106,6 +1165,21 @@ public class OctoSwitch extends Switch {
                     _resistencia.pasarCorriente(_protoboard, _resistencia.posicion1.coordenadax, _resistencia.posicion1.coordenaday, _resistencia.posicion2.coordenadax, _resistencia.posicion2.coordenaday, _resistencia);
 
                 }
+                if (_protoboard.protoboard[pos_x][l]._display!=null && _protoboard.protoboard[pos_x][l]._display.posicion1.coordenadax != -1){
+                    Display _display = _protoboard.protoboard[pos_x][l]._display;
+                    _display.activarLinea(_protoboard, _display);
+                }
+                if (_protoboard.protoboard[pos_x][l]._chip != null && _protoboard.protoboard[pos_x][l]._chip.posicion1.coordenadax != -1) {
+                    Chip _chip = _protoboard.protoboard[pos_x][l]._chip;
+                    if (_chip.tipo_chip.equals("AND")){
+                        _chip.pasarCorrienteAND(_protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("OR")){
+                        _chip.pasarCorrienteOR(_protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("NOT")){
+                        _chip.pasarCorrienteNOT(_protoboard, _chip);
+                    }
+
+                }
             }
         }
         else if (pos_y == 14){
@@ -1125,6 +1199,21 @@ public class OctoSwitch extends Switch {
                 if (_protoboard.protoboard[pos_x][l]._resistencia != null && _protoboard.protoboard[pos_x][l]._resistencia.posicion1.coordenadax != -1) {
                     Resistencia _resistencia = _protoboard.protoboard[pos_x][l]._resistencia;
                     _resistencia.pasarCorriente(_protoboard, _resistencia.posicion1.coordenadax, _resistencia.posicion1.coordenaday, _resistencia.posicion2.coordenadax, _resistencia.posicion2.coordenaday, _resistencia);
+
+                }
+                if (_protoboard.protoboard[pos_x][l]._display!=null && _protoboard.protoboard[pos_x][l]._display.posicion1.coordenadax != -1){
+                    Display _display = _protoboard.protoboard[pos_x][l]._display;
+                    _display.activarLinea(_protoboard, _display);
+                }
+                if (_protoboard.protoboard[pos_x][l]._chip != null && _protoboard.protoboard[pos_x][l]._chip.posicion1.coordenadax != -1) {
+                    Chip _chip = _protoboard.protoboard[pos_x][l]._chip;
+                    if (_chip.tipo_chip.equals("AND")){
+                        _chip.pasarCorrienteAND(_protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("OR")){
+                        _chip.pasarCorrienteOR(_protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("NOT")){
+                        _chip.pasarCorrienteNOT(_protoboard, _chip);
+                    }
 
                 }
             }
@@ -1192,6 +1281,36 @@ public class OctoSwitch extends Switch {
                 if (_protoboard.protoboard[pos_x][l]._resistencia != null && _protoboard.protoboard[pos_x][l]._resistencia.posicion1.coordenadax != -1) {
                     Resistencia _resistencia = _protoboard.protoboard[pos_x][l]._resistencia;
                     _resistencia.eliminarCorriente(_protoboard, _resistencia.posicion1.coordenadax, _resistencia.posicion1.coordenaday, _resistencia.posicion2.coordenadax, _resistencia.posicion2.coordenaday);
+
+                }
+                if (_protoboard.protoboard[pos_x][l]._display!=null && _protoboard.protoboard[pos_x][l]._display.posicion1.coordenadax != -1){
+                    Display _display = _protoboard.protoboard[pos_x][l]._display;
+                    _display.apagarLinea(_protoboard, _display);
+                }
+                if (_protoboard.protoboard[pos_x][l]._chip != null && _protoboard.protoboard[pos_x][l]._chip.posicion1.coordenadax != -1) {
+                    Chip _chip = _protoboard.protoboard[pos_x][l]._chip;
+                    if (_chip.tipo_chip.equals("AND")){
+                        _chip.eliminarCorrienteAND(_protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("OR")){
+                        _chip.eliminarCorrienteOR(_protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("NOT")){
+                        _chip.eliminarCorrienteNOT(_protoboard, _chip);
+                    }
+
+                }
+                if (_protoboard.protoboard[pos_x][l]._display!=null && _protoboard.protoboard[pos_x][l]._display.posicion1.coordenadax != -1){
+                    Display _display = _protoboard.protoboard[pos_x][l]._display;
+                    _display.apagarLinea(_protoboard, _display);
+                }
+                if (_protoboard.protoboard[pos_x][l]._chip != null && _protoboard.protoboard[pos_x][l]._chip.posicion1.coordenadax != -1) {
+                    Chip _chip = _protoboard.protoboard[pos_x][l]._chip;
+                    if (_chip.tipo_chip.equals("AND")){
+                        _chip.eliminarCorrienteAND(_protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("OR")){
+                        _chip.eliminarCorrienteOR(_protoboard, _chip);
+                    } else if (_chip.tipo_chip.equals("NOT")){
+                        _chip.eliminarCorrienteNOT(_protoboard, _chip);
+                    }
 
                 }
             }
