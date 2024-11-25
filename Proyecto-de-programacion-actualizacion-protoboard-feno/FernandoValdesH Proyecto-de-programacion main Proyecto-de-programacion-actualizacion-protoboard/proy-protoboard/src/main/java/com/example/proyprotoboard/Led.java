@@ -21,6 +21,7 @@ public class Led extends Indicador{
         int pos_2_y_led = _led.posicion2.coordenaday;
         if (_Protoboard.protoboard[pos_1_x_led][pos_1_y_led]._posicion.corriente && _led.posicion1.polaridad != _Protoboard.protoboard[pos_1_x_led][pos_1_y_led]._posicion.polaridad ||_Protoboard.protoboard[pos_2_x_led][pos_2_y_led]._posicion.corriente && _led.posicion2.polaridad != _Protoboard.protoboard[pos_2_x_led][pos_2_y_led]._posicion.polaridad){
             _led.quemado = true;
+            _led.color="negro";
         }
     }
 }

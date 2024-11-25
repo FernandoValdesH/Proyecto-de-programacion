@@ -202,7 +202,6 @@ public class Dibujador {
     public void dibujarLed(GraphicsContext gc, double x_led, double y_led, String color,protoboard _protoboard) {
         switch(color){
             case "rojo":
-
                 gc.setFill(Color.RED);
                 gc.fillOval(x_led, y_led, 30, 30);
                 break;
@@ -234,19 +233,17 @@ public class Dibujador {
                 gc.setFill(Color.DARKGREEN);
                 gc.fillOval(x_led, y_led, 30, 30);
                 break;
-            case "amarillo_oscuro":
-                gc.setFill(Color.rgb(255, 187, 0));
-                gc.fillOval(x_led, y_led, 30, 30);
-                break;
             case "violeta_oscuro":
                 gc.setFill(Color.DARKVIOLET);
+                gc.fillOval(x_led, y_led, 30, 30);
+                break;
+            case "amarillo_oscuro":
+                gc.setFill(Color.rgb(255, 187, 0));
                 gc.fillOval(x_led, y_led, 30, 30);
                 break;
             case "negro":
                 gc.setFill(Color.rgb(0, 0, 0));
                 gc.fillOval(x_led, y_led, 30, 30);
-                break;
-
         }
 
     }
@@ -302,7 +299,7 @@ public class Dibujador {
                 case 0:
                     if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_1.encendido){
                         gc.setLineWidth(2);
-                        gc.setFill(Color.WHITE);
+                        gc.setFill(Color.rgb(255,255,254));
                         gc.fillRect(x+5, y+10, 12, 25);
                         gc.setFill(Color.DARKBLUE);
                         gc.fillRect(x+5, y+21, 12, 14);
@@ -311,14 +308,14 @@ public class Dibujador {
                         gc.setLineWidth(2);
                         gc.setFill(Color.DARKBLUE);
                         gc.fillRect(x+5, y+10, 12, 20);
-                        gc.setFill(Color.WHITE);
+                        gc.setFill(Color.rgb(255,255,254));
                         gc.fillRect(x+5, y+21, 12, 14);
                     } x+=19;
                     break;
                 case 1:
                     if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_2.encendido){
                         gc.setLineWidth(2);
-                        gc.setFill(Color.WHITE);
+                        gc.setFill(Color.rgb(255,255,254));
                         gc.fillRect(x+5, y+10, 12, 25);
                         gc.setFill(Color.DARKBLUE);
                         gc.fillRect(x+5, y+21, 12, 14);
@@ -326,14 +323,14 @@ public class Dibujador {
                         gc.setLineWidth(2);
                         gc.setFill(Color.DARKBLUE);
                         gc.fillRect(x+5, y+10, 12, 20);
-                        gc.setFill(Color.WHITE);
+                        gc.setFill(Color.rgb(255,255,254));
                         gc.fillRect(x+5, y+21, 12, 14);
                     } x+=19;
                     break;
                 case 2:
                     if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_3.encendido){
                         gc.setLineWidth(2);
-                        gc.setFill(Color.WHITE);
+                        gc.setFill(Color.rgb(255,255,254));
                         gc.fillRect(x+5, y+10, 12, 25);
                         gc.setFill(Color.DARKBLUE);
                         gc.fillRect(x+5, y+21, 12, 14);
@@ -341,14 +338,14 @@ public class Dibujador {
                         gc.setLineWidth(2);
                         gc.setFill(Color.DARKBLUE);
                         gc.fillRect(x+5, y+10, 12, 20);
-                        gc.setFill(Color.WHITE);
+                        gc.setFill(Color.rgb(255,255,254));
                         gc.fillRect(x+5, y+21, 12, 14);
                     } x+=19;
                     break;
                 case 3:
                     if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_4.encendido){
                         gc.setLineWidth(2);
-                        gc.setFill(Color.WHITE);
+                        gc.setFill(Color.rgb(255,255,254));
                         gc.fillRect(x+5, y+10, 12, 25);
                         gc.setFill(Color.DARKBLUE);
                         gc.fillRect(x+5, y+21, 12, 14);
@@ -356,14 +353,14 @@ public class Dibujador {
                         gc.setLineWidth(2);
                         gc.setFill(Color.DARKBLUE);
                         gc.fillRect(x+5, y+10, 12, 20);
-                        gc.setFill(Color.WHITE);
+                        gc.setFill(Color.rgb(255,255,254));
                         gc.fillRect(x+5, y+21, 12, 14);
                     } x+=19;
                     break;
                 case 4:
                     if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_5.encendido){
                         gc.setLineWidth(2);
-                        gc.setFill(Color.WHITE);
+                        gc.setFill(Color.rgb(255,255,254));
                         gc.fillRect(x+5, y+10, 12, 25);
                         gc.setFill(Color.DARKBLUE);
                         gc.fillRect(x+5, y+21, 12, 14);
@@ -371,14 +368,14 @@ public class Dibujador {
                         gc.setLineWidth(2);
                         gc.setFill(Color.DARKBLUE);
                         gc.fillRect(x+5, y+10, 12, 20);
-                        gc.setFill(Color.WHITE);
+                        gc.setFill(Color.rgb(255,255,254));
                         gc.fillRect(x+5, y+21, 12, 14);
                     } x+=19;
                     break;
                 case 5:
                     if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_6.encendido){
                         gc.setLineWidth(2);
-                        gc.setFill(Color.WHITE);
+                        gc.setFill(Color.rgb(255,255,254));
                         gc.fillRect(x+5, y+10, 12, 25);
                         gc.setFill(Color.DARKBLUE);
                         gc.fillRect(x+5, y+21, 12, 14);
@@ -386,14 +383,14 @@ public class Dibujador {
                         gc.setLineWidth(2);
                         gc.setFill(Color.DARKBLUE);
                         gc.fillRect(x+5, y+10, 12, 20);
-                        gc.setFill(Color.WHITE);
+                        gc.setFill(Color.rgb(255,255,254));
                         gc.fillRect(x+5, y+21, 12, 14);
                     } x+=19;
                     break;
                 case 6:
                     if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_7.encendido){
                         gc.setLineWidth(2);
-                        gc.setFill(Color.WHITE);
+                        gc.setFill(Color.rgb(255,255,254));
                         gc.fillRect(x+5, y+10, 12, 25);
                         gc.setFill(Color.DARKBLUE);
                         gc.fillRect(x+5, y+21, 12, 14);
@@ -401,14 +398,14 @@ public class Dibujador {
                         gc.setLineWidth(2);
                         gc.setFill(Color.DARKBLUE);
                         gc.fillRect(x+5, y+10, 12, 20);
-                        gc.setFill(Color.WHITE);
+                        gc.setFill(Color.rgb(255,255,254));
                         gc.fillRect(x+5, y+21, 12, 14);
                     } x+=19;
                     break;
                 case 7:
                     if (_protoboard.protoboard[transformacion_del_x][transformacion_del_y]._octoSwitch.mini_switch_8.encendido){
                         gc.setLineWidth(2);
-                        gc.setFill(Color.WHITE);
+                        gc.setFill(Color.rgb(255,255,254));
                         gc.fillRect(x+5, y+10, 12, 25);
                         gc.setFill(Color.DARKBLUE);
                         gc.fillRect(x+5, y+21, 12, 14);
@@ -416,7 +413,7 @@ public class Dibujador {
                         gc.setLineWidth(2);
                         gc.setFill(Color.DARKBLUE);
                         gc.fillRect(x+5, y+10, 12, 20);
-                        gc.setFill(Color.WHITE);
+                        gc.setFill(Color.rgb(255,255,254));
                         gc.fillRect(x+5, y+21, 12, 14);
                     } x+=19;
                     break;
@@ -763,5 +760,9 @@ public class Dibujador {
             gc.setFill(Color.DARKGRAY);
             gc.fillOval(x+80, y+87, 8, 8);
         }
+
+
+
+
     }
 }
