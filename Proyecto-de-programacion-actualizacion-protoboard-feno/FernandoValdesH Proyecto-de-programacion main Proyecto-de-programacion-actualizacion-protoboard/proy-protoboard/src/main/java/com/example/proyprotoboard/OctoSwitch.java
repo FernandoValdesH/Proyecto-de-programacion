@@ -636,7 +636,7 @@ public class OctoSwitch extends Switch {
                 int j = 3;
                 for (int i = _octoSwitch.posicion1.coordenadax ; i < _octoSwitch.posicion2.coordenadax ; i++){
                 for (j = 3; j < 8; j++) {
-                    if (_protoboard.protoboard[i][j]._posicion.corriente && _protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.coordenadax != -1 && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday > 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday > 15))) {
+                    if (_protoboard.protoboard[i][j]._posicion.corriente && _protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.coordenadax != -1 && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday >= 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday >= 15))) {
                         _octoSwitch.mini_switch_1.fuente_corriente="arriba";
                         break;
                     }
@@ -646,7 +646,7 @@ public class OctoSwitch extends Switch {
                 } else {
                     for (int i = _octoSwitch.posicion1.coordenadax ; i < _octoSwitch.posicion2.coordenadax ; i++){
                     for (j = 9; j < 14; j++) {
-                        if (_protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.corriente && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday > 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday > 15))) {
+                        if (_protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.corriente && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday >= 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday >= 15))) {
                             _octoSwitch.mini_switch_1.fuente_corriente="abajo";
                             break;
                         }
@@ -694,7 +694,7 @@ public class OctoSwitch extends Switch {
                 int j = 3;
                 for (int i = _octoSwitch.posicion1.coordenadax ; i < _octoSwitch.posicion2.coordenadax ; i++){
                     for (j = 3; j < 8; j++) {
-                        if (_protoboard.protoboard[i][j]._posicion.corriente && _protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.coordenadax != -1 && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday > 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday > 15))) {
+                        if (_protoboard.protoboard[i][j]._posicion.corriente && _protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.coordenadax != -1 && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday >= 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday >= 15))) {
                             _octoSwitch.mini_switch_2.fuente_corriente="arriba";
                             break;
                         }
@@ -704,7 +704,7 @@ public class OctoSwitch extends Switch {
                 } else {
                     for (int i = _octoSwitch.posicion1.coordenadax ; i < _octoSwitch.posicion2.coordenadax ; i++){
                         for (j = 9; j < 14; j++) {
-                            if (_protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.corriente && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday > 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday > 15))) {
+                            if (_protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.corriente && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday >= 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday >= 15))) {
                                 _octoSwitch.mini_switch_2.fuente_corriente="abajo";
                                 break;
                             }
@@ -751,7 +751,7 @@ public class OctoSwitch extends Switch {
                 int j = 3;
                 for (int i = _octoSwitch.posicion1.coordenadax ; i < _octoSwitch.posicion2.coordenadax ; i++){
                     for (j = 3; j < 8; j++) {
-                        if (_protoboard.protoboard[i][j]._posicion.corriente && _protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.coordenadax != -1 && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday > 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday > 15))) {
+                        if (_protoboard.protoboard[i][j]._posicion.corriente && _protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.coordenadax != -1 && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday >= 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday >= 15))) {
                             _octoSwitch.mini_switch_3.fuente_corriente="arriba";
                             break;
                         }
@@ -761,7 +761,7 @@ public class OctoSwitch extends Switch {
                 } else {
                     for (int i = _octoSwitch.posicion1.coordenadax ; i < _octoSwitch.posicion2.coordenadax ; i++){
                         for (j = 9; j < 14; j++) {
-                            if (_protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.corriente && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday > 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday > 15))) {
+                            if (_protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.corriente && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday >= 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday >= 15))) {
                                 _octoSwitch.mini_switch_3.fuente_corriente="abajo";
                                 break;
                             }
@@ -808,7 +808,7 @@ public class OctoSwitch extends Switch {
                 int j = 3;
                 for (int i = _octoSwitch.posicion1.coordenadax ; i < _octoSwitch.posicion2.coordenadax ; i++){
                     for (j = 3; j < 8; j++) {
-                        if (_protoboard.protoboard[i][j]._posicion.corriente && _protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.coordenadax != -1 && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday > 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday > 15))) {
+                        if (_protoboard.protoboard[i][j]._posicion.corriente && _protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.coordenadax != -1 && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday >= 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday >= 15))) {
                             _octoSwitch.mini_switch_4.fuente_corriente="arriba";
                             break;
                         }
@@ -818,7 +818,7 @@ public class OctoSwitch extends Switch {
                 } else {
                     for (int i = _octoSwitch.posicion1.coordenadax ; i < _octoSwitch.posicion2.coordenadax ; i++){
                         for (j = 9; j < 14; j++) {
-                            if (_protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.corriente && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday > 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday > 15))) {
+                            if (_protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.corriente && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday >= 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday >= 15))) {
                                 _octoSwitch.mini_switch_4.fuente_corriente="abajo";
                                 break;
                             }
@@ -865,7 +865,7 @@ public class OctoSwitch extends Switch {
                 int j = 3;
                 for (int i = _octoSwitch.posicion1.coordenadax ; i < _octoSwitch.posicion2.coordenadax ; i++){
                     for (j = 3; j < 8; j++) {
-                        if (_protoboard.protoboard[i][j]._posicion.corriente && _protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.coordenadax != -1 && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday > 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday > 15))) {
+                        if (_protoboard.protoboard[i][j]._posicion.corriente && _protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.coordenadax != -1 && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday >= 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday >= 15))) {
                             _octoSwitch.mini_switch_5.fuente_corriente="arriba";
                             break;
                         }
@@ -875,7 +875,7 @@ public class OctoSwitch extends Switch {
                 } else {
                     for (int i = _octoSwitch.posicion1.coordenadax ; i < _octoSwitch.posicion2.coordenadax ; i++){
                         for (j = 9; j < 14; j++) {
-                            if (_protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.corriente && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday > 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday > 15))) {
+                            if (_protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.corriente && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday >= 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday >= 15))) {
                                 _octoSwitch.mini_switch_5.fuente_corriente="abajo";
                                 break;
                             }
@@ -922,7 +922,7 @@ public class OctoSwitch extends Switch {
                 int j = 3;
                 for (int i = _octoSwitch.posicion1.coordenadax ; i < _octoSwitch.posicion2.coordenadax ; i++){
                     for (j = 3; j < 8; j++) {
-                        if (_protoboard.protoboard[i][j]._posicion.corriente && _protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.coordenadax != -1 && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday > 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday > 15))) {
+                        if (_protoboard.protoboard[i][j]._posicion.corriente && _protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.coordenadax != -1 && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday >= 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday >= 15))) {
                             _octoSwitch.mini_switch_6.fuente_corriente="arriba";
                             break;
                         }
@@ -932,7 +932,7 @@ public class OctoSwitch extends Switch {
                 } else {
                     for (int i = _octoSwitch.posicion1.coordenadax ; i < _octoSwitch.posicion2.coordenadax ; i++){
                         for (j = 9; j < 14; j++) {
-                            if (_protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.corriente && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday > 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday > 15))) {
+                            if (_protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.corriente && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday >= 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday >= 15))) {
                                 _octoSwitch.mini_switch_6.fuente_corriente="abajo";
                                 break;
                             }
@@ -980,7 +980,7 @@ public class OctoSwitch extends Switch {
                 int j = 3;
                 for (int i = _octoSwitch.posicion1.coordenadax ; i < _octoSwitch.posicion2.coordenadax ; i++){
                     for (j = 3; j < 8; j++) {
-                        if (_protoboard.protoboard[i][j]._posicion.corriente && _protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.coordenadax != -1 && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday > 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday > 15))) {
+                        if (_protoboard.protoboard[i][j]._posicion.corriente && _protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.coordenadax != -1 && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday >= 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday >= 15))) {
                             _octoSwitch.mini_switch_7.fuente_corriente="arriba";
                             break;
                         }
@@ -990,7 +990,7 @@ public class OctoSwitch extends Switch {
                 } else {
                     for (int i = _octoSwitch.posicion1.coordenadax ; i < _octoSwitch.posicion2.coordenadax ; i++){
                         for (j = 9; j < 14; j++) {
-                            if (_protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.corriente && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday > 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday > 15))) {
+                            if (_protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.corriente && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday >= 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday >= 15))) {
                                 _octoSwitch.mini_switch_7.fuente_corriente="abajo";
                                 break;
                             }
@@ -1037,7 +1037,7 @@ public class OctoSwitch extends Switch {
                 int j = 3;
                 for (int i = _octoSwitch.posicion1.coordenadax ; i < _octoSwitch.posicion2.coordenadax ; i++){
                     for (j = 3; j < 8; j++) {
-                        if (_protoboard.protoboard[i][j]._posicion.corriente && _protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.coordenadax != -1 && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday > 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday > 15))) {
+                        if (_protoboard.protoboard[i][j]._posicion.corriente && _protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.coordenadax != -1 && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday >= 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday >= 15))) {
                             _octoSwitch.mini_switch_8.fuente_corriente="arriba";
                             break;
                         }
@@ -1047,7 +1047,7 @@ public class OctoSwitch extends Switch {
                 } else {
                     for (int i = _octoSwitch.posicion1.coordenadax ; i < _octoSwitch.posicion2.coordenadax ; i++){
                         for (j = 9; j < 14; j++) {
-                            if (_protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.corriente && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday > 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday > 15))) {
+                            if (_protoboard.protoboard[i][j]._cable != null && _protoboard.protoboard[i][j]._cable.posicion1.corriente && ((_protoboard.protoboard[i][j]._cable.posicion1.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion1.coordenaday >= 15) || (_protoboard.protoboard[i][j]._cable.posicion2.coordenaday < 2 || _protoboard.protoboard[i][j]._cable.posicion2.coordenaday >= 15))) {
                                 _octoSwitch.mini_switch_8.fuente_corriente="abajo";
                                 break;
                             }
@@ -1172,11 +1172,9 @@ public class OctoSwitch extends Switch {
     }
 
     public void eliminarCorrienteAlEncontrar(protoboard _protoboard, int pos_x, int pos_y, boolean switch_bateria) {
-        System.out.println("entra a la func");
         if (pos_y==0){
             pos_y=2;
         }
-        System.out.println("pos_y: "+pos_y);
         if (pos_y == 2){
             for (int l = 3; l < 8; l++) {
                 _protoboard.protoboard[pos_x][l]._posicion.corriente = false;
@@ -1219,7 +1217,7 @@ public class OctoSwitch extends Switch {
                 }
             }
         }
-        if (pos_y > 8 && pos_y < 14) {
+        if (pos_y >= 8 && pos_y < 14) {
             for (int l = 3; l < 8; l++) {
                 _protoboard.protoboard[pos_x][l]._posicion.corriente = false;
                 if (_protoboard.protoboard[pos_x][l]._led != null && _protoboard.protoboard[pos_x][l]._led.posicion1.coordenadax != -1) {
