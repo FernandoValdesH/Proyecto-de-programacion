@@ -60,7 +60,7 @@ public class Chip extends Indicador{
 
         _chip.pos_14.corriente = _Protoboard.protoboard[_chip.pos_14.coordenadax][_chip.pos_14.coordenaday]._posicion.corriente;
 
-        if (!_chip.pos_14.corriente){
+        if (!_chip.pos_14.corriente || _chip.pos_14.voltaje==0){
         if (_chip.posicion2.corriente && _chip.pos_3.corriente ){
             // pasar corriente a pos 4
             // _chip.pos_4.corriente = true;
@@ -577,5 +577,67 @@ public class Chip extends Indicador{
             }
         }
 
+    }
+    public void eliminarCorrienteAlEliminar(protoboard _Protoboard, String tipo_chip, Chip _chip) {
+        if (tipo_chip.equals("AND")) {
+            for (int i = 3; i < 8; i++) {
+                _Protoboard.protoboard[_chip.pos_4.coordenadax][i]._posicion.corriente = false;
+                _Protoboard.protoboard[_chip.pos_4.coordenadax][i]._posicion.polaridad = false;
+            }
+            for (int i = 3; i < 8; i++) {
+                _Protoboard.protoboard[_chip.pos_7.coordenadax][i]._posicion.corriente = false;
+                _Protoboard.protoboard[_chip.pos_7.coordenadax][i]._posicion.polaridad = false;
+            }
+            for (int i = 9; i < 14; i++) {
+                _Protoboard.protoboard[_chip.pos_10.coordenadax][i]._posicion.corriente = false;
+                _Protoboard.protoboard[_chip.pos_10.coordenadax][i]._posicion.polaridad = false;
+            }
+            for (int i = 9; i < 14; i++) {
+                _Protoboard.protoboard[_chip.pos_13.coordenadax][i]._posicion.corriente = false;
+                _Protoboard.protoboard[_chip.pos_13.coordenadax][i]._posicion.polaridad = false;
+            }
+        } else if (tipo_chip.equals("OR")) {
+            for (int i = 3; i < 8; i++) {
+                _Protoboard.protoboard[_chip.pos_4.coordenadax][i]._posicion.corriente = false;
+                _Protoboard.protoboard[_chip.pos_4.coordenadax][i]._posicion.polaridad = false;
+            }
+            for (int i = 3; i < 8; i++) {
+                _Protoboard.protoboard[_chip.pos_7.coordenadax][i]._posicion.corriente = false;
+                _Protoboard.protoboard[_chip.pos_7.coordenadax][i]._posicion.polaridad = false;
+            }
+            for (int i = 9; i < 14; i++) {
+                _Protoboard.protoboard[_chip.pos_10.coordenadax][i]._posicion.corriente = false;
+                _Protoboard.protoboard[_chip.pos_10.coordenadax][i]._posicion.polaridad = false;
+            }
+            for (int i = 9; i < 14; i++) {
+                _Protoboard.protoboard[_chip.pos_13.coordenadax][i]._posicion.corriente = false;
+                _Protoboard.protoboard[_chip.pos_13.coordenadax][i]._posicion.polaridad = false;
+            }
+        } else if (tipo_chip.equals("NOT")) {
+            for (int i = 3 ; i < 8 ; i++){
+                _Protoboard.protoboard[_chip.pos_3.coordenadax][i]._posicion.corriente = false;
+                _Protoboard.protoboard[_chip.pos_3.coordenadax][i]._posicion.polaridad = !_chip.posicion1.polaridad;
+            }
+            for (int i = 3 ; i < 8 ; i++){
+                _Protoboard.protoboard[_chip.pos_5.coordenadax][i]._posicion.corriente = false;
+                _Protoboard.protoboard[_chip.pos_5.coordenadax][i]._posicion.polaridad = !_chip.pos_4.polaridad;
+            }
+            for (int i = 3 ; i < 8 ; i++){
+                _Protoboard.protoboard[_chip.pos_7.coordenadax][i]._posicion.corriente = false;
+                _Protoboard.protoboard[_chip.pos_7.coordenadax][i]._posicion.polaridad = !_chip.pos_6.polaridad;
+            }
+            for (int i = 9 ; i < 14 ; i++){
+                _Protoboard.protoboard[_chip.pos_9.coordenadax][i]._posicion.corriente = false;
+                _Protoboard.protoboard[_chip.pos_9.coordenadax][i]._posicion.polaridad = !_chip.pos_8.polaridad;
+            }
+            for (int i = 9 ; i < 14 ; i++){
+                _Protoboard.protoboard[_chip.pos_11.coordenadax][i]._posicion.corriente = false;
+                _Protoboard.protoboard[_chip.pos_11.coordenadax][i]._posicion.polaridad = !_chip.pos_10.polaridad;
+            }
+            for (int i = 9 ; i < 14 ; i++){
+                _Protoboard.protoboard[_chip.pos_13.coordenadax][i]._posicion.corriente = false;
+                _Protoboard.protoboard[_chip.pos_13.coordenadax][i]._posicion.polaridad = !_chip.pos_12.polaridad;
+            }
+        }
     }
 }
