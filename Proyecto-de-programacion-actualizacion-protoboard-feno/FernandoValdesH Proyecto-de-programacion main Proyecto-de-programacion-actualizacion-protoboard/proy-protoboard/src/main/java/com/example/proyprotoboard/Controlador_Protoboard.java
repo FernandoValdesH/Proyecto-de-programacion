@@ -946,6 +946,12 @@ public class Controlador_Protoboard implements Initializable {
                         if (color_led.equals("verde")) {
                             dibujador.dibujarLed(gc, x_led, y_led, "verde",_Protoboard_Funcional);
                         }
+                        if (color_led.equals("amarillo")) {
+                            dibujador.dibujarLed(gc, x_led, y_led, "amarillo",_Protoboard_Funcional);
+                        }
+                        if (color_led.equals("violeta")) {
+                            dibujador.dibujarLed(gc, x_led, y_led, "violeta",_Protoboard_Funcional);
+                        }
                     } else {
                         if (color_led.equals("rojo")) {
                             dibujador.dibujarLed(gc, x_led, y_led, "rojo_oscuro",_Protoboard_Funcional);
@@ -955,6 +961,12 @@ public class Controlador_Protoboard implements Initializable {
                         }
                         if (color_led.equals("verde")) {
                             dibujador.dibujarLed(gc, x_led, y_led, "verde_oscuro",_Protoboard_Funcional);
+                        }
+                        if (color_led.equals("amarillo")) {
+                            dibujador.dibujarLed(gc, x_led, y_led, "amarillo_oscuro",_Protoboard_Funcional);
+                        }
+                        if (color_led.equals("violeta")) {
+                            dibujador.dibujarLed(gc, x_led, y_led, "violeta_oscuro",_Protoboard_Funcional);
                         }
                     }
                     if (led.quemado){
