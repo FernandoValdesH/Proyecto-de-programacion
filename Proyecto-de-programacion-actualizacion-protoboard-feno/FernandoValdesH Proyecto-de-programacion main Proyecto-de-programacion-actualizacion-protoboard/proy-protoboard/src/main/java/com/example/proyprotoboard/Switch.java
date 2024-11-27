@@ -29,11 +29,11 @@ public class Switch extends Indicador {
             int guarda_fil_cable = 0;
             // se llenaria la columna de 2 mas adelante pero dependenderia de donde hay corriente, osea comprobar la posicion anterior o siguiente
             for (int k = 3; k < 8; k++) {
-                if (_Protoboard.protoboard[pos_1_x][k]._cable != null && _Protoboard.protoboard[pos_1_x][k]._cable.posicion1.coordenadax != -1) {
+                if (_Protoboard.protoboard[pos_1_x][k]._cable != null && _Protoboard.protoboard[pos_1_x][k]._cable.posicion1.coordenadax != -1 && (_Protoboard.protoboard[pos_1_x][k]._cable.posicion1.corriente || _Protoboard.protoboard[pos_1_x][k]._cable.posicion2.corriente)) {
                     encuentra_cable_arriba = true;
                     guarda_col_cable = k;
                     guarda_fil_cable = pos_1_x;
-                } else if (_Protoboard.protoboard[pos_2_x][k]._cable != null && _Protoboard.protoboard[pos_2_x][k]._cable.posicion1.coordenadax != -1) {
+                } else if (_Protoboard.protoboard[pos_2_x][k]._cable != null && _Protoboard.protoboard[pos_2_x][k]._cable.posicion1.coordenadax != -1 && (_Protoboard.protoboard[pos_2_x][k]._cable.posicion1.corriente || _Protoboard.protoboard[pos_2_x][k]._cable.posicion2.corriente)) {
                     encuentra_cable_arriba = true;
                     guarda_col_cable = k;
                     guarda_fil_cable = pos_2_x;
@@ -58,11 +58,11 @@ public class Switch extends Indicador {
             } else {
                 boolean encuentra_cable_abajo = false;
                 for (int k = 9; k < 14; k++) {
-                    if (_Protoboard.protoboard[pos_1_x][k]._cable != null && _Protoboard.protoboard[pos_1_x][k]._cable.posicion1.coordenadax != -1) {
+                    if (_Protoboard.protoboard[pos_1_x][k]._cable != null && _Protoboard.protoboard[pos_1_x][k]._cable.posicion1.coordenadax != -1 && (_Protoboard.protoboard[pos_1_x][k]._cable.posicion1.corriente || _Protoboard.protoboard[pos_1_x][k]._cable.posicion2.corriente)) {
                         guarda_col_cable = k;
                         guarda_fil_cable = pos_1_x;
                         encuentra_cable_abajo = true;
-                    } else if (_Protoboard.protoboard[pos_4_x][k]._cable != null && _Protoboard.protoboard[pos_2_x][k]._cable.posicion1.coordenadax != -1) {
+                    } else if (_Protoboard.protoboard[pos_4_x][k]._cable != null && _Protoboard.protoboard[pos_2_x][k]._cable.posicion1.coordenadax != -1 && (_Protoboard.protoboard[pos_2_x][k]._cable.posicion1.corriente || _Protoboard.protoboard[pos_2_x][k]._cable.posicion2.corriente)) {
                         guarda_col_cable = k;
                         guarda_fil_cable = pos_4_x;
                         encuentra_cable_abajo = true;
