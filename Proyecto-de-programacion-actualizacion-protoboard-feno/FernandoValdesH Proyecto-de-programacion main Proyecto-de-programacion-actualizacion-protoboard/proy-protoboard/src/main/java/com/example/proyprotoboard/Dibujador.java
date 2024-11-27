@@ -668,7 +668,7 @@ public class Dibujador {
         gc.fillRect(x+84, y+35, 5, 10);
         gc.fillRect(x+104, y+35, 5, 10);
         gc.fillRect(x+124, y+35, 5, 10);
-
+        gc.setFont(new Font("Arial", 20));
         if (tipo_chip.equals("AND")){
             // set fill color blanco pero usando rgb
             gc.setFill(Color.rgb(255,255,254));
