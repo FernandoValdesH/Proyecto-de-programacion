@@ -56,9 +56,11 @@ public class Dibujador {
                     }
 
                     if (protoboard.protoboard[i][j]._posicion.polaridad && transformacion_inversa_y!=0) {
+                        protoboard.protoboard[i][j]._posicion.voltaje = 9;
                         gc.setFill(Color.RED);
                         gc.fillOval(transformacion_inversa_x, transformacion_inversa_y, 8, 8);
                     } else {
+                        protoboard.protoboard[i][j]._posicion.voltaje = 0;
                         gc.setFill(Color.BLUE);
                         gc.fillOval(transformacion_inversa_x, transformacion_inversa_y, 8, 8);
                     }
