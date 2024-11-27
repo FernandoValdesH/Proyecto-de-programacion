@@ -1502,10 +1502,16 @@ public class Controlador_Protoboard implements Initializable {
 
             if (transformacion_x_switch == 0 || transformacion_x_switch == 29){
                 JOptionPane.showMessageDialog(null,"No se puede poner un switch en los extremos del protoboard.");
-            } else if (transformacion_y_switch < 2 || transformacion_y_switch > 12){
+                arreglo_coordenadas_switch.removeLast();
+                arreglo_coordenadas_switch.removeLast();
+            } else if (transformacion_y_switch < 2 || transformacion_y_switch > 14){
                 JOptionPane.showMessageDialog(null,"No se puede poner un switch en los buses del protoboard.");
-            } else if (transformacion_y_switch == 3 || transformacion_y_switch == 13 || transformacion_y_switch == 7 || transformacion_y_switch == 9){
+                arreglo_coordenadas_switch.removeLast();
+                arreglo_coordenadas_switch.removeLast();
+            } else if (transformacion_y_switch == 4 || transformacion_y_switch == 13 || transformacion_y_switch == 7 || transformacion_y_switch == 9){
                 JOptionPane.showMessageDialog(null,"No se puede poner un switch en los extremos del protoboard.");
+                arreglo_coordenadas_switch.removeLast();
+                arreglo_coordenadas_switch.removeLast();
             } else {
                 _Protoboard_Funcional.switchSet(_Protoboard_Funcional, transformacion_x_switch,transformacion_y_switch, false);
                 x_switch-=24;
