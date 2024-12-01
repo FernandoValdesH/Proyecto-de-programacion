@@ -440,12 +440,6 @@ public class Chip extends Indicador{
             for (int i = 3 ; i < 8 ; i++){
                 _Protoboard.protoboard[_chip.pos_4.coordenadax][i]._posicion.corriente = false;
                 _Protoboard.protoboard[_chip.pos_4.coordenadax][i]._posicion.polaridad = false;
-//                if (_Protoboard.protoboard[_chip.pos_4.coordenadax][i]._cable.posicion1.coordenadax!=-1){
-//                    cable _cable = _Protoboard.protoboard[_chip.pos_4.coordenadax][i]._cable;
-//                    int pos_x = _cable.posicion2.coordenadax;
-//                    int pos_y = _cable.posicion2.coordenaday;
-//                    _Protoboard.eliminarCorriente(_Protoboard, pos_x, pos_y, false);
-//                }
             } encontrarElementosColumna2(_Protoboard,_chip.pos_4.coordenadax, 3 );
         }
         if (!_chip.pos_5.corriente || !_chip.pos_6.corriente){
@@ -453,12 +447,6 @@ public class Chip extends Indicador{
             for (int i = 3 ; i < 8 ; i++){
                 _Protoboard.protoboard[_chip.pos_7.coordenadax][i]._posicion.corriente = false;
                 _Protoboard.protoboard[_chip.pos_7.coordenadax][i]._posicion.polaridad = false;
-//                if (_Protoboard.protoboard[_chip.pos_7.coordenadax][i]._cable.posicion1.coordenadax!=-1){
-//                    cable _cable = _Protoboard.protoboard[_chip.pos_7.coordenadax][i]._cable;
-//                    int pos_x = _cable.posicion2.coordenadax;
-//                    int pos_y = _cable.posicion2.coordenaday;
-//                    _Protoboard.eliminarCorriente(_Protoboard, pos_x, pos_y, false);
-//                }
             } encontrarElementosColumna2(_Protoboard,_chip.pos_7.coordenadax, 3 );
         }
         if (!_chip.pos_8.corriente || !_chip.pos_9.corriente){
@@ -466,12 +454,6 @@ public class Chip extends Indicador{
             for (int i = 9 ; i < 14 ; i++){
                 _Protoboard.protoboard[_chip.pos_10.coordenadax][i]._posicion.corriente = false;
                 _Protoboard.protoboard[_chip.pos_10.coordenadax][i]._posicion.polaridad = false;
-//                if (_Protoboard.protoboard[_chip.pos_10.coordenadax][i]._cable.posicion1.coordenadax!=-1){
-//                    cable _cable = _Protoboard.protoboard[_chip.pos_10.coordenadax][i]._cable;
-//                    int pos_x = _cable.posicion2.coordenadax;
-//                    int pos_y = _cable.posicion2.coordenaday;
-//                    _Protoboard.eliminarCorriente(_Protoboard, pos_x, pos_y, false);
-//                }
             } encontrarElementosColumna2(_Protoboard,_chip.pos_10.coordenadax, 9 );
         }
         if (!_chip.pos_11.corriente || !_chip.pos_12.corriente){
@@ -479,12 +461,6 @@ public class Chip extends Indicador{
             for (int i = 9 ; i < 14 ; i++){
                 _Protoboard.protoboard[_chip.pos_13.coordenadax][i]._posicion.corriente = false;
                 _Protoboard.protoboard[_chip.pos_13.coordenadax][i]._posicion.polaridad = false;
-//                if (_Protoboard.protoboard[_chip.pos_13.coordenadax][i]._cable.posicion1.coordenadax!=-1){
-//                    cable _cable = _Protoboard.protoboard[_chip.pos_13.coordenadax][i]._cable;
-//                    int pos_x = _cable.posicion2.coordenadax;
-//                    int pos_y = _cable.posicion2.coordenaday;
-//                    _Protoboard.eliminarCorriente(_Protoboard, pos_x, pos_y, false);
-//                }
             } encontrarElementosColumna2(_Protoboard,_chip.pos_13.coordenadax, 9 );
         }
     }
@@ -586,18 +562,12 @@ public class Chip extends Indicador{
 
         _chip.pos_14.corriente = _Protoboard.protoboard[_chip.pos_14.coordenadax][_chip.pos_14.coordenaday]._posicion.corriente;
 
-        if (!_chip.pos_14.corriente){
+        if (!_chip.pos_14.corriente || _chip.pos_14.voltaje==0){
             if (!_chip.posicion2.corriente){
                 // pasar corriente a pos 2 y la polaridad contraria
                 for (int i = 3 ; i < 8 ; i++){
                     _Protoboard.protoboard[_chip.pos_3.coordenadax][i]._posicion.corriente = false;
                     _Protoboard.protoboard[_chip.pos_3.coordenadax][i]._posicion.polaridad = !_chip.posicion1.polaridad;
-//                    if (_Protoboard.protoboard[_chip.pos_3.coordenadax][i]._cable.posicion1.coordenadax!=-1){
-//                        cable _cable = _Protoboard.protoboard[_chip.pos_3.coordenadax][i]._cable;
-//                        int pos_x = _cable.posicion2.coordenadax;
-//                        int pos_y = _cable.posicion2.coordenaday;
-//                        _Protoboard.eliminarCorriente(_Protoboard, pos_x, pos_y, false);
-//                    }
                 } encontrarElementosColumna2(_Protoboard,_chip.pos_3.coordenadax, 3 );
             }
             if (!_chip.pos_4.corriente){
@@ -605,12 +575,6 @@ public class Chip extends Indicador{
                 for (int i = 3 ; i < 8 ; i++){
                     _Protoboard.protoboard[_chip.pos_5.coordenadax][i]._posicion.corriente = false;
                     _Protoboard.protoboard[_chip.pos_5.coordenadax][i]._posicion.polaridad = !_chip.pos_4.polaridad;
-//                    if (_Protoboard.protoboard[_chip.pos_5.coordenadax][i]._cable.posicion1.coordenadax!=-1){
-//                        cable _cable = _Protoboard.protoboard[_chip.pos_5.coordenadax][i]._cable;
-//                        int pos_x = _cable.posicion2.coordenadax;
-//                        int pos_y = _cable.posicion2.coordenaday;
-//                        _Protoboard.eliminarCorriente(_Protoboard, pos_x, pos_y, false);
-//                    }
                 } encontrarElementosColumna2(_Protoboard,_chip.pos_5.coordenadax, 3 );
             }
             if (!_chip.pos_6.corriente){
@@ -618,12 +582,6 @@ public class Chip extends Indicador{
                 for (int i = 3 ; i < 8 ; i++){
                     _Protoboard.protoboard[_chip.pos_7.coordenadax][i]._posicion.corriente = false;
                     _Protoboard.protoboard[_chip.pos_7.coordenadax][i]._posicion.polaridad = !_chip.pos_6.polaridad;
-//                    if (_Protoboard.protoboard[_chip.pos_7.coordenadax][i]._cable.posicion1.coordenadax!=-1){
-//                        cable _cable = _Protoboard.protoboard[_chip.pos_7.coordenadax][i]._cable;
-//                        int pos_x = _cable.posicion2.coordenadax;
-//                        int pos_y = _cable.posicion2.coordenaday;
-//                        _Protoboard.eliminarCorriente(_Protoboard, pos_x, pos_y, false);
-//                    }
                 } encontrarElementosColumna2(_Protoboard,_chip.pos_7.coordenadax, 3 );
             }
             if (!_chip.pos_8.corriente){
@@ -631,12 +589,6 @@ public class Chip extends Indicador{
                 for (int i = 9 ; i < 14 ; i++){
                     _Protoboard.protoboard[_chip.pos_9.coordenadax][i]._posicion.corriente = false;
                     _Protoboard.protoboard[_chip.pos_9.coordenadax][i]._posicion.polaridad = !_chip.pos_8.polaridad;
-//                    if (_Protoboard.protoboard[_chip.pos_9.coordenadax][i]._cable.posicion1.coordenadax!=-1){
-//                        cable _cable = _Protoboard.protoboard[_chip.pos_9.coordenadax][i]._cable;
-//                        int pos_x = _cable.posicion2.coordenadax;
-//                        int pos_y = _cable.posicion2.coordenaday;
-//                        _Protoboard.eliminarCorriente(_Protoboard, pos_x, pos_y, false);
-//                    }
                 } encontrarElementosColumna2(_Protoboard,_chip.pos_9.coordenadax, 9 );
             }
             if (!_chip.pos_10.corriente){
@@ -644,12 +596,6 @@ public class Chip extends Indicador{
                 for (int i = 9 ; i < 14 ; i++){
                     _Protoboard.protoboard[_chip.pos_11.coordenadax][i]._posicion.corriente = false;
                     _Protoboard.protoboard[_chip.pos_11.coordenadax][i]._posicion.polaridad = !_chip.pos_10.polaridad;
-//                    if (_Protoboard.protoboard[_chip.pos_11.coordenadax][i]._cable.posicion1.coordenadax!=-1){
-//                        cable _cable = _Protoboard.protoboard[_chip.pos_11.coordenadax][i]._cable;
-//                        int pos_x = _cable.posicion2.coordenadax;
-//                        int pos_y = _cable.posicion2.coordenaday;
-//                        _Protoboard.eliminarCorriente(_Protoboard, pos_x, pos_y, false);
-//                    }
                 } encontrarElementosColumna2(_Protoboard,_chip.pos_11.coordenadax, 9 );
             }
             if (!_chip.pos_12.corriente){
@@ -657,12 +603,6 @@ public class Chip extends Indicador{
                 for (int i = 9 ; i < 14 ; i++){
                     _Protoboard.protoboard[_chip.pos_13.coordenadax][i]._posicion.corriente = false;
                     _Protoboard.protoboard[_chip.pos_13.coordenadax][i]._posicion.polaridad = !_chip.pos_12.polaridad;
-//                    if (_Protoboard.protoboard[_chip.pos_13.coordenadax][i]._cable.posicion1.coordenadax!=-1){
-//                        cable _cable = _Protoboard.protoboard[_chip.pos_13.coordenadax][i]._cable;
-//                        int pos_x = _cable.posicion2.coordenadax;
-//                        int pos_y = _cable.posicion2.coordenaday;
-//                        _Protoboard.eliminarCorriente(_Protoboard, pos_x, pos_y, false);
-//                    }
                 } encontrarElementosColumna2(_Protoboard,_chip.pos_13.coordenadax, 9 );
             }
         }
@@ -935,18 +875,6 @@ public class Chip extends Indicador{
                     _resistencia.pasarCorriente(_Protoboard, _resistencia.posicion1.coordenadax, _resistencia.posicion1.coordenaday, _resistencia.posicion2.coordenadax, _resistencia.posicion2.coordenaday, _resistencia);
 
                 }
-                // si encuentra un chip
-//                if (_Protoboard.protoboard[pos_x][j]._chip != null && _Protoboard.protoboard[pos_x][j]._chip.posicion1.coordenadax != -1) {
-//                    Chip _chip = _Protoboard.protoboard[pos_x][j]._chip;
-//                    if (_chip.tipo_chip.equals("AND")){
-//                        _chip.pasarCorrienteAND(_Protoboard, _chip);
-//                    } else if (_chip.tipo_chip.equals("OR")){
-//                        _chip.pasarCorrienteOR(_Protoboard, _chip);
-//                    } else if (_chip.tipo_chip.equals("NOT")){
-//                        _chip.pasarCorrienteNOT(_Protoboard, _chip);
-//                    }
-//
-//                }
                 if (_Protoboard.protoboard[pos_x][j]._display!=null && _Protoboard.protoboard[pos_x][j]._display.posicion1.coordenadax != -1){
                     Display _display = _Protoboard.protoboard[pos_x][j]._display;
                     _display.activarLinea(_Protoboard, _display);
@@ -1033,19 +961,6 @@ public class Chip extends Indicador{
                     _resistencia.pasarCorriente(_Protoboard, _resistencia.posicion1.coordenadax, _resistencia.posicion1.coordenaday, _resistencia.posicion2.coordenadax, _resistencia.posicion2.coordenaday, _resistencia);
 
                 }
-//                if (_Protoboard.protoboard[pos_x][j]._chip != null && _Protoboard.protoboard[pos_x][j]._chip.posicion1.coordenadax != -1) {
-//                    Chip _chip = _Protoboard.protoboard[pos_x][j]._chip;
-//                    // prender la corriente de la posicion del switch y asignarle polaridad
-//
-//                    if (_chip.tipo_chip.equals("AND")){
-//                        _chip.pasarCorrienteAND(_Protoboard, _chip);
-//                    } else if (_chip.tipo_chip.equals("OR")){
-//                        _chip.pasarCorrienteOR(_Protoboard, _chip);
-//                    } else if (_chip.tipo_chip.equals("NOT")){
-//                        _chip.pasarCorrienteNOT(_Protoboard, _chip);
-//                    }
-//
-//                }
                 if (_Protoboard.protoboard[pos_x][j]._display!=null && _Protoboard.protoboard[pos_x][j]._display.posicion1.coordenadax != -1){
                     Display _display = _Protoboard.protoboard[pos_x][j]._display;
                     _display.activarLinea(_Protoboard, _display);
