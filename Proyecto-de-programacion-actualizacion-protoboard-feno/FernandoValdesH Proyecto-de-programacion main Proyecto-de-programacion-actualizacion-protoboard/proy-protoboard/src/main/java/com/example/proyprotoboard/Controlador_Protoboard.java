@@ -1218,18 +1218,17 @@ public class Controlador_Protoboard implements Initializable {
 
             patitas_x_resistencia = (int) event.getX();
             patitas_y_resistencia = (int) event.getY();
+            double[] puntoCercano = alcanzarPuntoCercano(patitas_x_resistencia,patitas_y_resistencia);
+            if (puntoCercano != null) {
 
-            int transformar_x_resistencia = (int) ((patitas_x_resistencia - 15) / 20);
+                patitas_x_resistencia = (int) (puntoCercano[0] - 15);
+                patitas_y_resistencia = (int) (puntoCercano[1] - 15);
+
+            }
+            int transformar_x_resistencia = (int) ((patitas_x_resistencia) / 20);
             int transformar_y_resistencia = transformacionY_coordA_Matriz(patitas_y_resistencia+15);
             if(!_Protoboard_Funcional.protoboard[(int)transformar_x_resistencia][(int)transformar_y_resistencia].conexion){
-                double[] puntoCercano = alcanzarPuntoCercano(patitas_x_resistencia,patitas_y_resistencia);
 
-                if (puntoCercano != null) {
-
-                    patitas_x_resistencia = (int) (puntoCercano[0] - 15);
-                    patitas_y_resistencia = (int) (puntoCercano[1] - 15);
-
-                }
                 arreglo_coordenadas_resistencias_patitas.add(patitas_x_resistencia);
                 arreglo_coordenadas_resistencias_patitas.add(patitas_y_resistencia);
                 PauseTransition pause = new PauseTransition(Duration.seconds(0.1));
@@ -1247,14 +1246,17 @@ public class Controlador_Protoboard implements Initializable {
 
             patitas_x_resistencia_2 = (int) event.getX();
             patitas_y_resistencia_2 = (int) event.getY();
-            int transformar_x_patita = (int) ((patitas_x_resistencia_2 - 15) / 20);
+            double[] puntoCercano = alcanzarPuntoCercano(patitas_x_resistencia_2,patitas_y_resistencia_2);
+            if (puntoCercano != null) {
+                patitas_x_resistencia_2 = (int) (puntoCercano[0] - 15);
+                patitas_y_resistencia_2 = (int) (puntoCercano[1] - 15);
+            }
+            int transformar_x_patita = (int) ((patitas_x_resistencia_2) / 20);
             int transformar_y_patita = transformacionY_coordA_Matriz(patitas_y_resistencia_2+15);
             if(!_Protoboard_Funcional.protoboard[(int)transformar_x_patita][(int)transformar_y_patita].conexion){
-                double[] puntoCercano = alcanzarPuntoCercano(patitas_x_resistencia_2,patitas_y_resistencia_2);
-                if (puntoCercano != null) {
-                    patitas_x_resistencia_2 = (int) (puntoCercano[0] - 15);
-                    patitas_y_resistencia_2 = (int) (puntoCercano[1] - 15);
-                } arreglo_coordenadas_resistencias_patitas.add(patitas_x_resistencia_2); arreglo_coordenadas_resistencias_patitas.add(patitas_y_resistencia_2);
+
+                arreglo_coordenadas_resistencias_patitas.add(patitas_x_resistencia_2);
+                arreglo_coordenadas_resistencias_patitas.add(patitas_y_resistencia_2);
 
                 click_count=0;
                 int tamaño = arreglo_coordenadas_resistencias.size();
