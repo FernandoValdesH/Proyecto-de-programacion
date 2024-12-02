@@ -56,9 +56,11 @@ public class Dibujador {
                     }
 
                     if (protoboard.protoboard[i][j]._posicion.polaridad && transformacion_inversa_y!=0) {
+                        protoboard.protoboard[i][j]._posicion.voltaje = 9;
                         gc.setFill(Color.RED);
                         gc.fillOval(transformacion_inversa_x, transformacion_inversa_y, 8, 8);
                     } else {
+                        protoboard.protoboard[i][j]._posicion.voltaje = 0;
                         gc.setFill(Color.BLUE);
                         gc.fillOval(transformacion_inversa_x, transformacion_inversa_y, 8, 8);
                     }
@@ -668,7 +670,7 @@ public class Dibujador {
         gc.fillRect(x+84, y+35, 5, 10);
         gc.fillRect(x+104, y+35, 5, 10);
         gc.fillRect(x+124, y+35, 5, 10);
-
+        gc.setFont(new Font("Arial", 20));
         if (tipo_chip.equals("AND")){
             // set fill color blanco pero usando rgb
             gc.setFill(Color.rgb(255,255,254));

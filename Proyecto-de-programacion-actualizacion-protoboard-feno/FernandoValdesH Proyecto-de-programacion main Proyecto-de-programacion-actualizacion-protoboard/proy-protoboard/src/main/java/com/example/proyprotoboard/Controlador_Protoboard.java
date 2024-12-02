@@ -10,6 +10,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.PixelReader;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -100,6 +101,11 @@ public class Controlador_Protoboard implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tablero.setOnMousePressed(this::click);
         tablero.setOnMouseReleased(this::soltarMouse);
+        tablero.setOnMouseMoved(event -> {
+            hoverPause.stop();
+            tooltip.hide();
+            mostrarVoltaje(event);
+        });
 
         dibujador.dibujarProtoboard(tablero.getGraphicsContext2D(), 0, 0, _Protoboard_Funcional);
         dibujador.dibujarBateria(tablero.getGraphicsContext2D(), 660, 0, switch_bateria);
@@ -446,41 +452,41 @@ public class Controlador_Protoboard implements Initializable {
             dibujador.dibujarOctoSwitch(x_Octo_switch, y_Octo_switch, gc, _Protoboard_Funcional);
         }
         if (arreglo_coordenadas_resistencias.size()>=1){
-        for (int i = 0 ; i < arreglo_coordenadas_resistencias.size(); i+=2){
+            for (int i = 0 ; i < arreglo_coordenadas_resistencias.size(); i+=2){
 
-            // transformar las coordenadas a coordenadas de matriz para ver cual resistencia es y poder recuperar su banda1, banda2, multiplicador y tolerancia
+                // transformar las coordenadas a coordenadas de matriz para ver cual resistencia es y poder recuperar su banda1, banda2, multiplicador y tolerancia
 
 //            int transformacion_x_2 = (int) (patita_x2) / 20;
 //            int transformacion_y_2 = transformacionY_coordA_Matriz((int) patita_y2+15);
-            int banda1=0, banda2=0, multiplicador=0, tolerancia=0;
+                int banda1=0, banda2=0, multiplicador=0, tolerancia=0;
 
 
-            double patita_x1=0, patita_y1=0, patita_x2=0, patita_y2=0;
-            double x_resistencia = 0, y_resistencia = 0;
-            x_resistencia = arreglo_coordenadas_resistencias.get(i);
-            y_resistencia = arreglo_coordenadas_resistencias.get(i + 1);
+                double patita_x1=0, patita_y1=0, patita_x2=0, patita_y2=0;
+                double x_resistencia = 0, y_resistencia = 0;
+                x_resistencia = arreglo_coordenadas_resistencias.get(i);
+                y_resistencia = arreglo_coordenadas_resistencias.get(i + 1);
 
-            patita_x1 = arreglo_coordenadas_resistencias_patitas.get((i*2));
-            patita_y1 = arreglo_coordenadas_resistencias_patitas.get(((i*2)+1));
-            patita_x2 = arreglo_coordenadas_resistencias_patitas.get(((i*2)+2));
-            patita_y2 = arreglo_coordenadas_resistencias_patitas.get(((i*2)+3));
-            int transformacion_x_1 = (int) (patita_x1) / 20;
-            int transformacion_y_1 = transformacionY_coordA_Matriz((int) patita_y1 + 15);
-            if (_Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia != null && _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.posicion1.coordenadax != -1) {
-                banda1 = _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.banda_1;
-                banda2 = _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.banda_2;
-                multiplicador = _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.multiplicador;
-                tolerancia = _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.tolerancia;
+                patita_x1 = arreglo_coordenadas_resistencias_patitas.get((i*2));
+                patita_y1 = arreglo_coordenadas_resistencias_patitas.get(((i*2)+1));
+                patita_x2 = arreglo_coordenadas_resistencias_patitas.get(((i*2)+2));
+                patita_y2 = arreglo_coordenadas_resistencias_patitas.get(((i*2)+3));
+                int transformacion_x_1 = (int) (patita_x1) / 20;
+                int transformacion_y_1 = transformacionY_coordA_Matriz((int) patita_y1 + 15);
+                if (_Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia != null && _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.posicion1.coordenadax != -1) {
+                    banda1 = _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.banda_1;
+                    banda2 = _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.banda_2;
+                    multiplicador = _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.multiplicador;
+                    tolerancia = _Protoboard_Funcional.protoboard[transformacion_x_1][transformacion_y_1]._resistencia.tolerancia;
 
-            }
-
-
-            dibujador.dibujarResistencia(gc, x_resistencia, y_resistencia, patita_x1, patita_y1, patita_x2, patita_y2, banda1, banda2, multiplicador, tolerancia);
+                }
 
 
+                dibujador.dibujarResistencia(gc, x_resistencia, y_resistencia, patita_x1, patita_y1, patita_x2, patita_y2, banda1, banda2, multiplicador, tolerancia);
 
 
-        }}
+
+
+            }}
         for (int i = 0 ; i < arreglo_coordenadas_chip.size(); i+=2){
             double x_chip = arreglo_coordenadas_chip.get(i);
             double y_chip = arreglo_coordenadas_chip.get(i+1);
@@ -1212,18 +1218,17 @@ public class Controlador_Protoboard implements Initializable {
 
             patitas_x_resistencia = (int) event.getX();
             patitas_y_resistencia = (int) event.getY();
+            double[] puntoCercano = alcanzarPuntoCercano(patitas_x_resistencia,patitas_y_resistencia);
+            if (puntoCercano != null) {
 
-            int transformar_x_resistencia = (int) ((patitas_x_resistencia - 15) / 20);
+                patitas_x_resistencia = (int) (puntoCercano[0] - 15);
+                patitas_y_resistencia = (int) (puntoCercano[1] - 15);
+
+            }
+            int transformar_x_resistencia = (int) ((patitas_x_resistencia) / 20);
             int transformar_y_resistencia = transformacionY_coordA_Matriz(patitas_y_resistencia+15);
             if(!_Protoboard_Funcional.protoboard[(int)transformar_x_resistencia][(int)transformar_y_resistencia].conexion){
-                double[] puntoCercano = alcanzarPuntoCercano(patitas_x_resistencia,patitas_y_resistencia);
 
-                if (puntoCercano != null) {
-
-                    patitas_x_resistencia = (int) (puntoCercano[0] - 15);
-                    patitas_y_resistencia = (int) (puntoCercano[1] - 15);
-
-                }
                 arreglo_coordenadas_resistencias_patitas.add(patitas_x_resistencia);
                 arreglo_coordenadas_resistencias_patitas.add(patitas_y_resistencia);
                 PauseTransition pause = new PauseTransition(Duration.seconds(0.1));
@@ -1241,14 +1246,17 @@ public class Controlador_Protoboard implements Initializable {
 
             patitas_x_resistencia_2 = (int) event.getX();
             patitas_y_resistencia_2 = (int) event.getY();
-            int transformar_x_patita = (int) ((patitas_x_resistencia_2 - 15) / 20);
+            double[] puntoCercano = alcanzarPuntoCercano(patitas_x_resistencia_2,patitas_y_resistencia_2);
+            if (puntoCercano != null) {
+                patitas_x_resistencia_2 = (int) (puntoCercano[0] - 15);
+                patitas_y_resistencia_2 = (int) (puntoCercano[1] - 15);
+            }
+            int transformar_x_patita = (int) ((patitas_x_resistencia_2) / 20);
             int transformar_y_patita = transformacionY_coordA_Matriz(patitas_y_resistencia_2+15);
             if(!_Protoboard_Funcional.protoboard[(int)transformar_x_patita][(int)transformar_y_patita].conexion){
-                double[] puntoCercano = alcanzarPuntoCercano(patitas_x_resistencia_2,patitas_y_resistencia_2);
-                if (puntoCercano != null) {
-                    patitas_x_resistencia_2 = (int) (puntoCercano[0] - 15);
-                    patitas_y_resistencia_2 = (int) (puntoCercano[1] - 15);
-                } arreglo_coordenadas_resistencias_patitas.add(patitas_x_resistencia_2); arreglo_coordenadas_resistencias_patitas.add(patitas_y_resistencia_2);
+
+                arreglo_coordenadas_resistencias_patitas.add(patitas_x_resistencia_2);
+                arreglo_coordenadas_resistencias_patitas.add(patitas_y_resistencia_2);
 
                 click_count=0;
                 int tamaño = arreglo_coordenadas_resistencias.size();
@@ -1303,7 +1311,7 @@ public class Controlador_Protoboard implements Initializable {
                     if (dialogButton == ButtonType.OK) {
                         if (comboBox1.getValue() == null || comboBox2.getValue() == null || comboBox3.getValue() == null || ComboBox4.getValue() == null) {
                             JOptionPane.showMessageDialog(null, "Ingrese los valores");
-                           return null;
+                            return null;
                         }
                         {
                             List<Pair<String, String>> result = new ArrayList<>();
@@ -1339,34 +1347,34 @@ public class Controlador_Protoboard implements Initializable {
                     btnAgregarDisplay.setDisable(false);
                     btnResetearProtoboard.setDisable(false);
                 } else{
-                try {
-                    banda1 = Integer.parseInt(comboBox1.getValue());
-                    banda2 = Integer.parseInt(comboBox2.getValue());
-                    multiplicador = Integer.parseInt(comboBox3.getValue());
-                    tolerancia = Integer.parseInt(ComboBox4.getValue());
+                    try {
+                        banda1 = Integer.parseInt(comboBox1.getValue());
+                        banda2 = Integer.parseInt(comboBox2.getValue());
+                        multiplicador = Integer.parseInt(comboBox3.getValue());
+                        tolerancia = Integer.parseInt(ComboBox4.getValue());
 
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Ingrese bien los valores");
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, "Ingrese bien los valores");
 
-                }
+                    }
 
-                int transformacion_pos_1_x = (int) ((patitas_x_resistencia ) / 20);
-                int transformacion_pos_1_y = transformacionY_coordA_Matriz(patitas_y_resistencia+15);
-                int transformacion_pos_2_x = (int) ((patitas_x_resistencia_2) / 20);
-                int transformacion_pos_2_y = transformacionY_coordA_Matriz(patitas_y_resistencia_2+15);
-                _Protoboard_Funcional.resistenciaSet(_Protoboard_Funcional, transformacion_pos_1_x, transformacion_pos_1_y, transformacion_pos_2_x, transformacion_pos_2_y, banda1, banda2, multiplicador, tolerancia);
-                dibujador.dibujarResistencia(gc, x_resistencia,y_resistencia,patitas_x_resistencia,patitas_y_resistencia,patitas_x_resistencia_2,patitas_y_resistencia_2, banda1, banda2, multiplicador, tolerancia);
-                gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
-                dibujarTodo();
-                btnAgregarCable.setDisable(false);
-                btnAgregarLed.setDisable(false);
-                btnAgregarSwitch.setDisable(false);
-                btnAgregarOctoSwitch.setDisable(false);
-                btnEliminarObj.setDisable(false);
-                btnAgregarResistencia.setDisable(false);
-                btnAgregarChip.setDisable(false);
-                btnAgregarDisplay.setDisable(false);
-                btnResetearProtoboard.setDisable(false);}
+                    int transformacion_pos_1_x = (int) ((patitas_x_resistencia ) / 20);
+                    int transformacion_pos_1_y = transformacionY_coordA_Matriz(patitas_y_resistencia+15);
+                    int transformacion_pos_2_x = (int) ((patitas_x_resistencia_2) / 20);
+                    int transformacion_pos_2_y = transformacionY_coordA_Matriz(patitas_y_resistencia_2+15);
+                    _Protoboard_Funcional.resistenciaSet(_Protoboard_Funcional, transformacion_pos_1_x, transformacion_pos_1_y, transformacion_pos_2_x, transformacion_pos_2_y, banda1, banda2, multiplicador, tolerancia);
+                    dibujador.dibujarResistencia(gc, x_resistencia,y_resistencia,patitas_x_resistencia,patitas_y_resistencia,patitas_x_resistencia_2,patitas_y_resistencia_2, banda1, banda2, multiplicador, tolerancia);
+                    gc.clearRect(0,0,tablero.getWidth(),tablero.getHeight());
+                    dibujarTodo();
+                    btnAgregarCable.setDisable(false);
+                    btnAgregarLed.setDisable(false);
+                    btnAgregarSwitch.setDisable(false);
+                    btnAgregarOctoSwitch.setDisable(false);
+                    btnEliminarObj.setDisable(false);
+                    btnAgregarResistencia.setDisable(false);
+                    btnAgregarChip.setDisable(false);
+                    btnAgregarDisplay.setDisable(false);
+                    btnResetearProtoboard.setDisable(false);}
             }
         }
 
@@ -1496,10 +1504,16 @@ public class Controlador_Protoboard implements Initializable {
 
             if (transformacion_x_switch == 0 || transformacion_x_switch == 29){
                 JOptionPane.showMessageDialog(null,"No se puede poner un switch en los extremos del protoboard.");
-            } else if (transformacion_y_switch < 2 || transformacion_y_switch > 12){
+                arreglo_coordenadas_switch.removeLast();
+                arreglo_coordenadas_switch.removeLast();
+            } else if (transformacion_y_switch < 2 || transformacion_y_switch > 14){
                 JOptionPane.showMessageDialog(null,"No se puede poner un switch en los buses del protoboard.");
-            } else if (transformacion_y_switch == 3 || transformacion_y_switch == 13 || transformacion_y_switch == 7 || transformacion_y_switch == 9){
+                arreglo_coordenadas_switch.removeLast();
+                arreglo_coordenadas_switch.removeLast();
+            } else if (transformacion_y_switch == 4 || transformacion_y_switch == 13 || transformacion_y_switch == 7 || transformacion_y_switch == 9){
                 JOptionPane.showMessageDialog(null,"No se puede poner un switch en los extremos del protoboard.");
+                arreglo_coordenadas_switch.removeLast();
+                arreglo_coordenadas_switch.removeLast();
             } else {
                 _Protoboard_Funcional.switchSet(_Protoboard_Funcional, transformacion_x_switch,transformacion_y_switch, false);
                 x_switch-=24;
@@ -1580,43 +1594,43 @@ public class Controlador_Protoboard implements Initializable {
                 agrega_led=false;
                 JOptionPane.showMessageDialog(null, "Ingrese bien el color");
             } else{
-            try {
-                color_led =comboBox1.getValue();
+                try {
+                    color_led =comboBox1.getValue();
 
 
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Ingrese bien el color");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Ingrese bien el color");
 
-            }
+                }
 
-            if (color_led.equals("rojo")) {
-                dibujador.dibujarLed(gc, x_led, y_led, "rojo_oscuro",_Protoboard_Funcional);
-            }
-            if (color_led.equals("azul")) {
-                dibujador.dibujarLed(gc, x_led, y_led, "azul_oscuro",_Protoboard_Funcional);
-            }
-            if (color_led.equals("verde")) {
-                dibujador.dibujarLed(gc, x_led, y_led, "verde_oscuro",_Protoboard_Funcional);
-            }
-            if (color_led.equals("amarillo")) {
-                dibujador.dibujarLed(gc, x_led, y_led, "amarillo_oscuro",_Protoboard_Funcional);
-            }
-            if (color_led.equals("violeta")) {
-                dibujador.dibujarLed(gc, x_led, y_led, "violeta_oscuro",_Protoboard_Funcional);
-            }
-            btnAgregarCable.setDisable(true);
-            btnAgregarLed.setDisable(true);
-            btnAgregarSwitch.setDisable(true);
-            btnEliminarObj.setDisable(true);
-            btnAgregarOctoSwitch.setDisable(true);
-            btnAgregarResistencia.setDisable(true);
-            btnAgregarChip.setDisable(true);
-            btnAgregarDisplay.setDisable(true);
-            btnResetearProtoboard.setDisable(true);
+                if (color_led.equals("rojo")) {
+                    dibujador.dibujarLed(gc, x_led, y_led, "rojo_oscuro",_Protoboard_Funcional);
+                }
+                if (color_led.equals("azul")) {
+                    dibujador.dibujarLed(gc, x_led, y_led, "azul_oscuro",_Protoboard_Funcional);
+                }
+                if (color_led.equals("verde")) {
+                    dibujador.dibujarLed(gc, x_led, y_led, "verde_oscuro",_Protoboard_Funcional);
+                }
+                if (color_led.equals("amarillo")) {
+                    dibujador.dibujarLed(gc, x_led, y_led, "amarillo_oscuro",_Protoboard_Funcional);
+                }
+                if (color_led.equals("violeta")) {
+                    dibujador.dibujarLed(gc, x_led, y_led, "violeta_oscuro",_Protoboard_Funcional);
+                }
+                btnAgregarCable.setDisable(true);
+                btnAgregarLed.setDisable(true);
+                btnAgregarSwitch.setDisable(true);
+                btnEliminarObj.setDisable(true);
+                btnAgregarOctoSwitch.setDisable(true);
+                btnAgregarResistencia.setDisable(true);
+                btnAgregarChip.setDisable(true);
+                btnAgregarDisplay.setDisable(true);
+                btnResetearProtoboard.setDisable(true);
 
-            agrega_led=false;
-            led_puesto=true;
-            patita_led_1=false;}
+                agrega_led=false;
+                led_puesto=true;
+                patita_led_1=false;}
 
         } else if (patita_led_1 && led_puesto &&  cantidad_patitas<2){ // aca arreglar verificacion para que no se pongan las patitas en cualquier lado
             Color color_click = getColor(event.getX(), event.getY());
@@ -1757,5 +1771,33 @@ public class Controlador_Protoboard implements Initializable {
 
         tablero.getGraphicsContext2D().clearRect(0,0,tablero.getWidth(),tablero.getHeight());
         dibujarTodo();
+    }
+    private Tooltip tooltip = new Tooltip();
+    private PauseTransition hoverPause = new PauseTransition(Duration.seconds(1));
+
+    private void mostrarVoltaje(MouseEvent event) {
+        hoverPause.setOnFinished(e -> {
+            if (event.getX() < 595 && event.getY() < 280) {
+                double x = event.getX();
+                double y = event.getY();
+                double[] puntoCercano = alcanzarPuntoCercano(x, y);
+                if (puntoCercano != null) {
+                    x = puntoCercano[0];
+                    y = puntoCercano[1];
+                }
+                int transformacion_x = (int) ((x - 15) / 20);
+                int transformacion_y = transformacionY_coordA_Matriz(y);
+                double voltaje = (_Protoboard_Funcional.protoboard[transformacion_x][transformacion_y]._posicion.voltaje);
+
+                tooltip.setText("Voltaje: " + voltaje);
+                tooltip.show(tablero, event.getScreenX(), event.getScreenY());
+
+                PauseTransition hidePause = new PauseTransition(Duration.seconds(2));
+                hidePause.setOnFinished(ev -> tooltip.hide());
+                hidePause.play();
+            }
+        });
+
+        hoverPause.playFromStart();
     }
 }
